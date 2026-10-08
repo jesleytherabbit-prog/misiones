@@ -481,7 +481,7 @@ async function decodeParty(code){
 const FB={ apiKey:"AIzaSyCK40yLbR9jEi4LSb3UNipmuD-ExXKfPwI", projectId:"appsavada" };
 const FB_URL=`https://firestore.googleapis.com/v1/projects/${FB.projectId}/databases/(default)/documents/partidas`;
 const SHORT_ABC='ABCDEFGHJKMNPQRSTUVWXYZ23456789'; // sin 0/O, 1/I/L para que no se confundan
-function shortId(len=6){ const a=new Uint32Array(len); crypto.getRandomValues(a); return Array.from(a,x=>SHORT_ABC[x%SHORT_ABC.length]).join(''); }
+function shortId(len=6){ let id; do{ const a=new Uint32Array(len); crypto.getRandomValues(a); id=Array.from(a,x=>SHORT_ABC[x%SHORT_ABC.length]).join(''); }while(/^AK/.test(id)); return id; } // AK… queda reservado para fichas
 const isShort=c=>/^[A-Za-z0-9]{4,10}$/.test(c) && !/^AVK1/i.test(c);
 async function fbSave(longCode){
   for(let tries=0;tries<5;tries++){
@@ -504,7 +504,7 @@ async function fbLoad(id){
 async function loadAny(input){
   let c=String(input||'').replace(/\s+/g,'');
   const h=c.match(/#([pc])=(.+)$/); if(h) c=h[2];
-  if(/^AVK1\./.test(c)) throw new Error('Eso es un código de ficha: usalo en el panel de master → 📥 Importar ficha');
+  if(/^AVK[01]\./.test(c)||/^AK\d{5}$/i.test(c)) throw new Error('Eso es un código de ficha: usalo en el panel de master → 📥 Importar ficha');
   if(isShort(c)){ const long=await fbLoad(c); return {party:await decodeParty(long), code:c.toUpperCase(), long}; }
   return {party:await decodeParty(c), code:c, long:c};
 }
@@ -512,13 +512,25 @@ const linkFor=code=>baseURL()+(isShort(code)?'#p=':'#c=')+code;
 
 
 /* ════════════════ IMPORTAR FICHA (código del Lector de Fichas: AVK1.xxxx) ════════════════ */
+/* Base de datos del Lector de Fichas (códigos cortos AK12345) */
+const FICHAS_DB={ apiKey:"AIzaSyCzTfW6c4OltResFNP6FJ5-MV36Bz7iI74", projectId:"trackerdefichas" };
+async function fetchFichaCorta(id){
+  const r=await fetch(`https://firestore.googleapis.com/v1/projects/${FICHAS_DB.projectId}/databases/(default)/documents/fichas/${id}?key=${FICHAS_DB.apiKey}`);
+  if(r.status===404) throw new Error('No hay ninguna ficha con el código '+id);
+  if(!r.ok) throw new Error('No se pudo leer la ficha (error '+r.status+')');
+  const j=await r.json(); return j.fields.ficha.stringValue;
+}
 async function decodeFicha(code){
   code=String(code||'').trim();
-  if(code.startsWith('{')) return JSON.parse(code);
+  if(code.startsWith('{')||code.startsWith('[')) return JSON.parse(code);
   code=code.replace(/\s+/g,'');
-  const m=code.match(/^AVK1\.([A-Za-z0-9_-]+)$/);
-  if(!m) throw new Error(/^AVK1[zp]\./.test(code)?'Eso es un código de partida, no de ficha':'Código de ficha no válido');
-  const bytes=await pipe(b64u.dec(m[1]),DecompressionStream,'deflate-raw');
+  if(/^AVK1[zp]\./.test(code)) throw new Error('Eso es un código de partida, no de ficha');
+  const corto=code.toUpperCase().replace(/[^A-Z0-9]/g,'');
+  if(/^AK\d{5}$/.test(corto)) code=await fetchFichaCorta(corto);
+  const m=code.match(/^AVK([01])\.([A-Za-z0-9_-]+)$/);
+  if(!m) throw new Error('Código de ficha no válido (tiene que ser como AK48213 o AVK1.…)');
+  let bytes=b64u.dec(m[2]);
+  if(m[1]==='1') bytes=await pipe(bytes,DecompressionStream,'deflate-raw');
   return JSON.parse(new TextDecoder().decode(bytes));
 }
 const cap=t=>String(t||'').replace(/_/g,' ').replace(/^\w/,c=>c.toUpperCase());
@@ -529,7 +541,7 @@ function fichaToChar(f,base){
   const P=f.puntos||{}, C=f.combate||{};
   c.n=f.personaje||c.n||'';
   const esp=Object.entries(f.especializaciones||{}).map(([k,v])=>cap(k)+(v?' '+v:'')).join(', ');
-  c.s=[f.raza?.nombre,esp].filter(Boolean).join(' · ')||c.s;
+  c.s=[f.raza?.nombre,esp,f.datos?.casa].filter(Boolean).join(' · ')||c.s;
   if(P.pociones!=null) c.pp=[0,n(P.pociones)];
   if(P.rituales!=null) c.pr=[0,n(P.rituales)];
   if(P.destino!=null)  c.pd=[0,n(P.destino)];
@@ -563,8 +575,8 @@ function fichaToChar(f,base){
 function importModal(ti,ci){
   const tgt=ci===undefined?null:S.party.tb[ti].ch[ci];
   modal(`<h3>Importar ficha</h3><div class="script">${tgt?'actualizar a '+esc(tgt.n||'este personaje'):'cargar un personaje nuevo'}</div>
-    <label class="f">Código de ficha (AVK1.…)</label>
-    <textarea class="in code-box" id="fichaCode" placeholder="Pegá el código que te dio el Lector de Fichas"></textarea>
+    <label class="f">Código de ficha</label>
+    <textarea class="in code-box" id="fichaCode" style="min-height:70px" placeholder="Código corto (ej. AK48213) o código largo (AVK1.…) del Lector de Fichas"></textarea>
     <div class="tip">Se cargan: nombre, raza y especializaciones, puntos de Poción/Rituales/Destino, Heridas, Umbral, PAs, Ventajas, Trasfondos, Objetos y los stats de combate (en Notas).
       ${tgt?'<br><b>Se conservan</b> la imagen, el jugador y los turnos de este personaje.':''}</div>
     <div class="row"><button class="btn prime" data-doimport="${ti}" data-ci="${ci===undefined?'':ci}">📥 Importar</button></div>`);
@@ -1031,12 +1043,15 @@ document.addEventListener('click',async e=>{
   if(d.metal){ setTheme({m:d.metal}); return; }
   if(d.import!==undefined){ importModal(+d.import, d.ci===undefined||d.ci===''?undefined:+d.ci); return; }
   if(d.doimport!==undefined){
-    try{ const f=await decodeFicha(document.getElementById('fichaCode').value);
+    b.disabled=true;
+    try{ const raw=await decodeFicha(document.getElementById('fichaCode').value);
+      const list=Array.isArray(raw)?raw:[raw];
       const tb=p.tb[+d.doimport], ci=d.ci===''?undefined:+d.ci;
-      if(ci===undefined){ const c=fichaToChar(f); c.id=uid(); c.t=fromT([],tb.nt); tb.ch.push(c); }
-      else { const old=tb.ch[ci]; const c=fichaToChar(f,old); c.img=old.img; c.p=old.p; c.t=old.t; tb.ch[ci]=c; }
-      markDirty(); closeModal(); render(); toast('✦ Ficha de '+(f.personaje||'personaje')+' cargada');
-    }catch(err){ toast(err.message||'Código de ficha no válido'); }
+      if(ci===undefined){ list.forEach(f=>{ const c=fichaToChar(f); c.id=uid(); c.t=fromT([],tb.nt); tb.ch.push(c); }); }
+      else { const f=list[0], old=tb.ch[ci]; const c=fichaToChar(f,old); c.img=old.img; c.p=old.p; c.t=old.t; tb.ch[ci]=c; }
+      markDirty(); closeModal(); render();
+      toast(list.length>1?`✦ ${list.length} fichas cargadas`:'✦ Ficha de '+(list[0].personaje||'personaje')+' cargada');
+    }catch(err){ b.disabled=false; toast(err.message||'Código de ficha no válido'); }
     return; }
   if(d.addtab){ p.tb.push(newTab(p.tb.length+1)); S.tab=p.tb.length-1; markDirty(); render(); return; }
   if(d.deltab!==undefined){ if(p.tb.length<2){toast('Tiene que quedar al menos una tablilla');return;} if(confirmInline(b,'¿Eliminar? Toca otra vez')){ p.tb.splice(+d.deltab,1); S.tab=0; markDirty(); render(); } return; }
