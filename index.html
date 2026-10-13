@@ -679,7 +679,12 @@ function sealOf(code){ let h=2166136261; for(let i=0;i<code.length;i++){h^=code.
 /* ════════════════ ESTADO ════════════════ */
 let S={ mode:'home', party:null, view:null, tab:0, vtab:0, filter:'', lastCode:'' };
 const ls={ get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}}, set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}} };
-function draftSave(){ if(S.party) ls.set(LS_DRAFT,{party:compact(S.party),lastCode:S.lastCode}); }
+function draftSave(){ if(S.party) ls.set(LS_DRAFT,{party:S.party,lastCode:S.lastCode}); } // borrador completo (con ids) para no perder nada al recargar
+/* recuerda qué secciones (Ventajas/Trasfondos/Inventario/Notas) dejaste abiertas o cerradas */
+const LS_FOLDS='avk_tracker_folds';
+S.folds=ls.get(LS_FOLDS,{});
+function foldAttr(key,def){ const v=S.folds[key]; return (v===undefined?def:v)?'open':''; }
+document.addEventListener('toggle',e=>{ const k=e.target.dataset&&e.target.dataset.fold; if(!k) return; S.folds[k]=e.target.open; ls.set(LS_FOLDS,S.folds); },true);
 let dirty=false;
 function markDirty(){ dirty=true; draftSave(); const st=document.getElementById('saveSt'); if(st) st.textContent='Cambios sin guardar ✎'; }
 
@@ -808,13 +813,13 @@ function charCard(ch,tb,ti,ci,edit){
           ${statRow(edit,'🔥 PAs (Aguante)',ch.pa,P+'.pa','pa','cur')}
         </div>
       </div>
-      <details class="fold" ${edit||cnt(ch.v)?'open':''}><summary>💎 Ventajas <span class="cnt">${cnt(ch.v)}</span></summary><div class="fold-in">
+      <details class="fold" data-fold="${edit?'m':'v'}:${ch.id}:v" ${foldAttr(`${edit?'m':'v'}:${ch.id}:v`,edit||cnt(ch.v)>0)}><summary>💎 Ventajas <span class="cnt">${cnt(ch.v)}</span></summary><div class="fold-in">
         ${tbl(vHead,vRows,'Sin ventajas.')}${edit?`<button class="btn sm addrow" data-add="v" data-p="${P}">+ Ventaja</button>`:''}</div></details>
-      <details class="fold" ${cnt(ch.tr)&&cnt(ch.tr)<=8?'open':''}><summary>🌿 Trasfondos <span class="cnt">${cnt(ch.tr)}</span></summary><div class="fold-in">
+      <details class="fold" data-fold="${edit?'m':'v'}:${ch.id}:tr" ${foldAttr(`${edit?'m':'v'}:${ch.id}:tr`,edit||(cnt(ch.tr)>0&&cnt(ch.tr)<=8))}><summary>🌿 Trasfondos <span class="cnt">${cnt(ch.tr)}</span></summary><div class="fold-in">
         ${tbl(trHead,trRows,'Sin trasfondos.')}${edit?`<button class="btn sm addrow" data-add="tr" data-p="${P}">+ Trasfondo</button>`:''}</div></details>
-      <details class="fold" ${(edit&&ch.inv.length<=8)||(cnt(ch.inv)&&cnt(ch.inv)<=12)?'open':''}><summary>🗝️ Inventario <span class="cnt">${cnt(ch.inv)}</span></summary><div class="fold-in">
+      <details class="fold" data-fold="${edit?'m':'v'}:${ch.id}:inv" ${foldAttr(`${edit?'m':'v'}:${ch.id}:inv`,edit||(cnt(ch.inv)>0&&cnt(ch.inv)<=12))}><summary>🗝️ Inventario <span class="cnt">${cnt(ch.inv)}</span></summary><div class="fold-in">
         ${tbl(invHead,invRows,'Inventario vacío.')}${edit?`<button class="btn sm addrow" data-add="inv" data-p="${P}">+ Objeto</button><div class="muted" style="margin-top:6px">Usos ilimitados: escribí ∞ en Máx.</div>`:''}</div></details>
-      ${edit?`<details class="fold" ${ch.no?'open':''}><summary>🎀 Notas</summary><div class="fold-in">${fld(1,ch.no,P+'.no',{area:1,ph:'Notas del master sobre este personaje…'})}</div></details>`
+      ${edit?`<details class="fold" data-fold="m:${ch.id}:no" ${foldAttr(`m:${ch.id}:no`,!!ch.no)}><summary>🎀 Notas</summary><div class="fold-in">${fld(1,ch.no,P+'.no',{area:1,ph:'Notas del master sobre este personaje…'})}</div></details>`
             :(ch.no?`<details class="fold" open><summary>🎀 Notas</summary><div class="fold-in notes">${esc(ch.no)}</div></details>`:'')}
     </div>
     ${edit?`<div class="card-foot"><button class="btn sm ghost" data-import="${ti}" data-ci="${ci}">📥 Cargar ficha</button><button class="btn sm ghost" data-dup="${ti}.${ci}">Duplicar</button><button class="btn sm ghost" data-delch="${ti}.${ci}" style="color:var(--ciruela)">Eliminar personaje</button></div>`:''}
@@ -1060,7 +1065,12 @@ document.addEventListener('click',async e=>{
   if(d.dup){ const [ti,ci]=d.dup.split('.').map(Number); const c=JSON.parse(JSON.stringify(p.tb[ti].ch[ci])); c.id=uid(); c.n=(c.n||'Personaje')+' (copia)'; p.tb[ti].ch.splice(ci+1,0,c); markDirty(); render(); return; }
   if(d.add){ const arr=getPath(p,d.p+'.'+d.add);
     arr.push(d.add==='inv'?{c:arr.length?arr[arr.length-1].c:'Básico',o:'',u:'',m:'',d:''}:d.add==='tr'?{n:'',c:'',l:'',u:'',m:'',d:''}:{n:'',l:'',u:'',m:'',d:''});
-    markDirty(); render(); return; }
+    const ch=getPath(p,d.p); S.folds[`m:${ch.id}:${d.add}`]=true; ls.set(LS_FOLDS,S.folds);
+    markDirty(); render();
+    // enfoca la fila nueva para escribir directo
+    const k=`${d.p}.${d.add}.${arr.length-1}.${d.add==='inv'?'o':'n'}`, el=document.querySelector(`[data-k="${k}"]`);
+    if(el){ el.focus(); el.scrollIntoView({block:'center',behavior:'smooth'}); }
+    return; }
   if(d.del){ getPath(p,d.del).splice(+d.i,1); markDirty(); render(); return; }
 });
 function confirmInline(btn,msg){ if(btn.dataset.armed){ return true; } btn.dataset.armed='1'; const o=btn.textContent; btn.textContent=msg; setTimeout(()=>{ if(btn.isConnected){btn.textContent=o; delete btn.dataset.armed;} },2500); return false; }
