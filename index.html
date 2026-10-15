@@ -321,7 +321,8 @@ table.t .c-x{width:26px}
 .dark .hist li,.dark .preset,.dark .seg{background:rgba(255,255,255,.06)}
 .dark details.fold .cnt{background:rgba(255,255,255,.1);color:var(--rosa)}
 .dark .tip{background:rgba(var(--champagne-rgb),.1)}
-.dark .segs i,.dark .fillbar,.dark .prog{background:rgba(255,255,255,.08)}
+.dark .segs i:not(.f),.dark .fillbar,.dark .prog{background:rgba(255,255,255,.08)}
+.dark .segs i.f{box-shadow:0 0 6px rgba(var(--rosa-rgb),.35)}
 .dark .bigcode{background:rgba(255,255,255,.06)}
 .dark .hero{background:radial-gradient(500px 200px at 20% 0%,rgba(var(--amatista-rgb),.45),transparent 70%),radial-gradient(500px 220px at 85% 100%,rgba(var(--rosapolvo-rgb),.3),transparent 70%),linear-gradient(135deg,var(--bg-deep),var(--ciruela) 55%,var(--lila))}
 .dark .wheel .core{box-shadow:0 0 0 4px var(--bg-mid),0 0 0 6px var(--champagne)}
