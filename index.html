@@ -6,7 +6,7 @@
 <title>Tracker de Misiones · Turnos &amp; Recursos</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Allura&family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Allura&family=Cinzel:wght@500;600;700&family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Pinyon+Script&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
   --lila:#60507B; --amatista:#6B62AE; --lavanda:#AD9CBC; --rosapolvo:#C59FB3;
@@ -327,6 +327,113 @@ table.t .c-x{width:26px}
 .dark .hero{background:radial-gradient(500px 200px at 20% 0%,rgba(var(--amatista-rgb),.45),transparent 70%),radial-gradient(500px 220px at 85% 100%,rgba(var(--rosapolvo-rgb),.3),transparent 70%),linear-gradient(135deg,var(--bg-deep),var(--ciruela) 55%,var(--lila))}
 .dark .wheel .core{box-shadow:0 0 0 4px var(--bg-mid),0 0 0 6px var(--champagne)}
 
+
+/* ════════ SKIN · MAGIC CHEF ════════ */
+.skin-deco{display:none}
+:root.skin-chef{--f-title:'Cinzel',serif;--f-name:'Cormorant Garamond',serif;--f-script:'Pinyon Script',cursive;--f-body:'Cormorant Garamond',serif;
+  --glass:rgba(251,247,239,.94);--radius:12px}
+:root.skin-chef body{font-size:16.5px;color:var(--ink);background:
+  repeating-linear-gradient(92deg,rgba(69,55,43,.035) 0 2px,transparent 2px 9px,rgba(69,55,43,.02) 9px 10px,transparent 10px 23px),
+  repeating-linear-gradient(88deg,transparent 0 40px,rgba(255,255,255,.12) 40px 42px,transparent 42px 97px),
+  linear-gradient(180deg,#E7D5B8,#D9C19C);background-attachment:fixed}
+.skin-chef .bfly,.skin-chef .moon,.skin-chef .card-top .bfly,.skin-chef .portrait .ph svg{display:none}
+.skin-chef .in,.skin-chef .btn,.skin-chef .pill,.skin-chef .preset,.skin-chef .seg button,.skin-chef label.f,.skin-chef .chip,.skin-chef .fcnt{font-family:'Cormorant Garamond',serif;font-weight:600}
+.skin-chef .in{font-size:15.5px;background:#fff;box-shadow:inset 0 0 0 1px var(--line)}
+.skin-chef .in:focus{box-shadow:inset 0 0 0 1.5px var(--lila)}
+.skin-chef label.f,.skin-chef table.t th{font-family:'Cinzel',serif;font-size:10px;letter-spacing:.2em;color:var(--salvia)}
+/* paneles: hoja de marfil con línea fina */
+.skin-chef .panel{border-radius:12px;box-shadow:0 18px 40px -26px rgba(69,55,43,.55),inset 0 0 0 1px var(--line);backdrop-filter:none}
+.skin-chef .block,.skin-chef details.fold{background:#F5EDDD;box-shadow:inset 0 0 0 1px var(--line);border-radius:10px}
+.skin-chef table.t.view td{background:#FBF7EF;border-bottom:1px dashed var(--line)}
+.skin-chef .sec-title,.skin-chef .block h4,.skin-chef details.fold>summary{font-family:'Cinzel',serif;font-weight:600;text-transform:uppercase;letter-spacing:.24em;font-size:11px;color:var(--lila)}
+.skin-chef .block h4::before,.skin-chef details.fold>summary::before{content:"";width:6px;height:6px;background:var(--oro);transform:rotate(45deg);flex:none;animation:titilar 3.5s ease-in-out infinite}
+.skin-chef details.fold>summary::after{content:"";width:7px;height:7px;border-right:1.5px solid var(--oro);border-bottom:1.5px solid var(--oro);transform:rotate(-45deg);margin-right:4px}
+.skin-chef details.fold[open]>summary::after{transform:rotate(45deg)}
+.skin-chef details.fold .cnt{background:transparent;box-shadow:inset 0 0 0 1px var(--line);color:var(--salvia);font-family:'Cormorant Garamond',serif;font-weight:700}
+.skin-chef .sec-title::before,.skin-chef .sec-title::after{background:linear-gradient(90deg,transparent,var(--oro),transparent);background-size:200% 100%;animation:brillo 6s linear infinite}
+@keyframes brillo{from{background-position:200% 0}to{background-position:-200% 0}}
+@keyframes titilar{0%,100%{opacity:.45}50%{opacity:1}}
+/* cabecera: tabla de madera con hoja de marfil */
+.skin-chef .hero{background:linear-gradient(180deg,#FBF7EF,#F5EDDD);color:var(--ink);
+  box-shadow:0 0 0 8px #D9C19C,0 0 0 9px rgba(69,55,43,.18),0 22px 44px -24px rgba(58,42,31,.7)}
+.skin-chef .hero::before{display:none}
+.skin-chef .hero h1{font-family:'Cinzel',serif;font-weight:700;letter-spacing:.32em;text-transform:uppercase;font-size:clamp(20px,3.4vw,30px);
+  background:none;-webkit-background-clip:initial;background-clip:initial;color:var(--lila);animation:flotar 6s ease-in-out infinite}
+@keyframes flotar{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+.skin-chef .hero .script{font-family:'Pinyon Script',cursive;color:var(--salvia);font-size:clamp(26px,3.4vw,36px)}
+.skin-chef .hero .chip{background:transparent;color:var(--muted);box-shadow:inset 0 0 0 1px var(--line);font-size:13px}
+.skin-chef .hero .btn{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1px var(--line)}
+.skin-chef .hero .btn.on{background:var(--lila);color:#FBF7EF;box-shadow:none}
+.skin-chef .skin-deco{display:block;position:absolute;inset:0;pointer-events:none}
+.skin-chef .skin-deco i{position:absolute;bottom:14%;width:5px;height:5px;background:var(--oro);transform:rotate(45deg);opacity:0;animation:destello 7s ease-in infinite}
+.skin-chef .skin-deco i:nth-child(1){left:10%;animation-delay:0s}
+.skin-chef .skin-deco i:nth-child(2){left:22%;animation-delay:2.4s;width:4px;height:4px}
+.skin-chef .skin-deco i:nth-child(3){left:35%;animation-delay:4.8s}
+.skin-chef .skin-deco i:nth-child(4){left:64%;animation-delay:1.2s;width:4px;height:4px}
+.skin-chef .skin-deco i:nth-child(5){left:76%;animation-delay:3.6s}
+.skin-chef .skin-deco i:nth-child(6){left:88%;animation-delay:6s;width:3px;height:3px}
+.skin-chef .skin-deco i:nth-child(7){left:50%;top:18px;bottom:auto;width:7px;height:7px;opacity:1;animation:titilar 3s ease-in-out infinite}
+@keyframes destello{0%{opacity:0;transform:translateY(0) rotate(45deg)}20%{opacity:.9}100%{opacity:0;transform:translateY(-90px) rotate(45deg)}}
+/* botones */
+.skin-chef .btn{background:#FBF7EF;color:var(--lila);box-shadow:inset 0 0 0 1px var(--line);border-radius:10px;letter-spacing:.04em}
+.skin-chef .btn:hover{background:#fff}
+.skin-chef .btn.prime{background:var(--lila);color:#FBF7EF;box-shadow:0 8px 18px -10px rgba(142,74,48,.9)}
+.skin-chef .btn.prime:hover{background:var(--amatista)}
+.skin-chef .btn.dark{background:var(--salvia);color:#FBF7EF;box-shadow:none}
+.skin-chef .btn.ghost{background:transparent;color:var(--muted);box-shadow:inset 0 0 0 1px var(--line)}
+.skin-chef .savebar{background:rgba(58,42,31,.92);border-radius:14px;box-shadow:0 14px 34px -12px rgba(58,42,31,.7),inset 0 0 0 1px rgba(196,160,90,.5)}
+/* pestañas */
+.skin-chef .tab{font-family:'Cinzel',serif;font-size:12px;letter-spacing:.18em;text-transform:uppercase;background:rgba(251,247,239,.55);color:var(--muted);border-radius:10px 10px 3px 3px}
+.skin-chef .tab.act{background:#FBF7EF;color:var(--lila);box-shadow:inset 0 -2px 0 var(--lila)}
+.skin-chef .tab .dot{display:inline-block;width:5px;height:5px;background:var(--oro);transform:rotate(45deg);font-size:0;margin:0 8px 2px 0}
+/* master: terracota */
+.skin-chef .master{background:linear-gradient(135deg,#8E4A30,#B05E3E);box-shadow:0 18px 40px -24px rgba(142,74,48,.9),inset 0 0 0 1px rgba(227,201,142,.45)}
+.skin-chef .master .sec-title{color:#E3C98E}
+.skin-chef .master .mname{font-family:'Pinyon Script',cursive;font-weight:400;font-size:34px;color:#FBF7EF}
+/* tarjeta de personaje */
+.skin-chef .card{transition:transform .35s ease,box-shadow .35s ease}
+.skin-chef .card:hover{transform:translateY(-3px);box-shadow:0 26px 44px -26px rgba(69,55,43,.6),inset 0 0 0 1px var(--line)}
+.skin-chef .card-top{background:linear-gradient(180deg,#F5EDDD,#FBF7EF);border-bottom:1px dashed var(--line)}
+.skin-chef .portrait{border-radius:10px;background:linear-gradient(160deg,#E7D5B8,#D9C19C);box-shadow:0 0 0 4px #FBF7EF,0 0 0 5px var(--oro),0 14px 26px -16px rgba(69,55,43,.7)}
+.skin-chef .portrait .ph{color:var(--muted);font-family:'Cinzel',serif;letter-spacing:.15em;font-size:10px}
+.skin-chef .who .cname{font-family:'Cormorant Garamond',serif;font-weight:700;color:var(--lila);font-size:32px}
+.skin-chef .who .csub{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:18px;color:var(--muted)}
+.skin-chef .who .cplayer{font-family:'Pinyon Script',cursive;font-weight:400;font-size:22px;color:var(--salvia)}
+.skin-chef .who .in.name{font-family:'Cormorant Garamond',serif;font-size:22px}
+.skin-chef .who .in.sub{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:17px}
+.skin-chef .pill{background:#FBF7EF;box-shadow:inset 0 0 0 1px var(--line);color:var(--ink);font-size:14px}
+.skin-chef .pill.gold{background:linear-gradient(135deg,#E3C98E,#F5EDDD);box-shadow:inset 0 0 0 1px var(--oro)}
+.skin-chef .vstat b{font-family:'Cormorant Garamond',serif;color:var(--lila);font-size:20px}
+.skin-chef .stat .lbl,.skin-chef .vstat>span:first-child{font-size:15px}
+.skin-chef .segs i{border-radius:2px;background:rgba(69,55,43,.08)}
+.skin-chef .segs i.f{background:linear-gradient(180deg,#CF7E5E,#B05E3E)}
+.skin-chef .bar.heal .segs i.f,.skin-chef .bar.heal .fillbar b{background:linear-gradient(180deg,#8E4A30,#6E3820)}
+.skin-chef .bar.pa .segs i.f,.skin-chef .bar.pa .fillbar b{background:linear-gradient(180deg,#8FA382,#657F59)}
+.skin-chef .fillbar,.skin-chef .prog{background:rgba(69,55,43,.08)}
+.skin-chef .prog>b{background:linear-gradient(90deg,var(--salvia),var(--oro),var(--lila))}
+.skin-chef .catrow td{font-family:'Pinyon Script',cursive;font-weight:400;font-size:22px;color:var(--lila)}
+.skin-chef .tcell small{font-family:'Cinzel',serif;letter-spacing:.06em}
+.skin-chef .tsel{border-radius:7px;font-family:'Cormorant Garamond',serif;font-weight:700;font-size:14px}
+.skin-chef .st-_{background:#FBF7EF;color:rgba(69,55,43,.35);box-shadow:inset 0 0 0 1px var(--line)}
+.skin-chef .st-R{background:#657F59;color:#FBF7EF}
+.skin-chef .st-N{background:#B05E3E;color:#FBF7EF}
+.skin-chef .st-L{background:#E7D5B8;color:#45372B;box-shadow:inset 0 0 0 1px #D9C19C}
+.skin-chef .st-J{background:#E3C98E;color:#45372B}
+.skin-chef .st-I{background:#45372B;color:#E3C98E}
+.skin-chef .st-S{background:transparent;color:#7E6C5C;box-shadow:none;outline:1px dashed rgba(69,55,43,.4);outline-offset:-1px}
+.skin-chef .master .st-_{background:rgba(251,247,239,.12);color:rgba(251,247,239,.55);box-shadow:inset 0 0 0 1px rgba(227,201,142,.35)}
+.skin-chef .st-Y{background:#E3C98E;color:#45372B}
+.skin-chef .st-X{background:#E3C98E;color:#45372B;box-shadow:inset 0 -4px 0 #657F59}
+.skin-chef .st-F{background:#45372B;color:#E3C98E}
+.skin-chef .legend,.skin-chef .mlegend{font-size:14px}
+.skin-chef .tip{background:#F5EDDD;border:1px dashed rgba(69,55,43,.3);box-shadow:none}
+.skin-chef .bigcode{font-family:'Cinzel',serif;color:var(--lila);background:#F5EDDD;box-shadow:inset 0 0 0 1px var(--oro)}
+.skin-chef .modal h3,.skin-chef .home .panel h2{font-family:'Cormorant Garamond',serif;color:var(--lila)}
+.skin-chef .modal .script,.skin-chef .home .panel .script{font-family:'Pinyon Script',cursive;color:var(--salvia)}
+.skin-chef footer{font-family:'Pinyon Script',cursive;color:var(--amatista)}
+.skin-chef .theme-panel>summary,.skin-chef .rules summary{font-family:'Cinzel',serif;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--lila)}
+@media (prefers-reduced-motion:reduce){.skin-chef *{animation:none!important;transition:none!important}}
+
 footer{text-align:center;font-family:var(--f-script);font-size:22px;color:var(--lila);opacity:.8;margin-top:30px}
 
 @media (max-width:640px){
@@ -369,6 +476,7 @@ footer{text-align:center;font-family:var(--f-script);font-size:22px;color:var(--
 
 <div class="wrap">
   <header class="hero">
+    <div class="skin-deco" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
     <svg class="moon"><use href="#moon"/></svg>
     <svg class="bfly a"><use href="#bfly"/></svg>
     <svg class="bfly b"><use href="#bfly"/></svg>
@@ -601,7 +709,7 @@ function hsl2rgb(h,s,l){h=(((h%360)+360)%360)/360;if(s===0){const v=Math.round(l
   return [f(h+1/3),f(h),f(h-1/3)].map(x=>Math.round(x*255));}
 const rgb2hex=a=>'#'+a.map(x=>x.toString(16).padStart(2,'0')).join('');
 const BASE_H=Math.round(rgb2hsl(hex2rgb(BASE.lila))[0]);
-const DEF_THEME={h:BASE_H,k:1,m:'oro',d:0};
+const DEF_THEME={h:BASE_H,k:1,m:'oro',d:0,s:''};
 const PRESETS=[
   {n:'Crepúsculo',h:BASE_H,k:1,m:'oro'},
   {n:'Jardín encantado',h:135,k:.85,m:'oro'},
@@ -613,9 +721,19 @@ const PRESETS=[
   {n:'Veneno',h:95,k:1.2,m:'plata'},
   {n:'Misión oscura',h:352,k:.85,m:'bronce',d:1},
   {n:'Abismo',h:262,k:.8,m:'plata',d:1},
+  {n:'Magic Chef',s:'chef',h:18,k:1,m:'oro',d:0},
 ];
+/* Skins de misión: paletas fijas + fuentes + decoración propia */
+const SKINS={
+  chef:{ name:'Magic Chef', noEmoji:true, pal:{
+    lila:'#B05E3E', amatista:'#8E4A30', ciruela:'#7A3F28', lavanda:'#D9C19C', rosapolvo:'#C98B6B', rosa:'#CF7E5E',
+    melocoton:'#E7D5B8', perla:'#FBF7EF', cristal:'#B05E3E', salvia:'#657F59',
+    champagne:'#E3C98E', oro:'#C4A05A', carbon:'#45372B', ink:'#45372B', 'bg-deep':'#3A2A1F', 'bg-mid':'#4A3729', _soft:'#F5EDDD' },
+    muted:'#7E6C5C', line:'rgba(69,55,43,.14)', modal:'rgba(251,247,239,.98)' }
+};
 function genTheme(th){
-  th=Object.assign({},DEF_THEME,th||{}); const dh=th.h-BASE_H, out={};
+  th=Object.assign({},DEF_THEME,th||{});
+  if(th.s&&SKINS[th.s]) return Object.assign({},SKINS[th.s].pal); const dh=th.h-BASE_H, out={};
   for(const k in BASE){ const [h,s,l]=rgb2hsl(hex2rgb(BASE[k])); out[k]=rgb2hex(hsl2rgb(h+dh,Math.min(1,s*th.k),l)); }
   const mt=METALS[th.m]||METALS.oro; out.champagne=mt.champagne; out.oro=mt.oro; out.carbon=mt.carbon; out._soft=mt.soft;
   const H=BASE_H+dh;
@@ -628,14 +746,17 @@ function applyTheme(th){
   const t=genTheme(th), st=document.documentElement.style;
   for(const k in t){ if(k[0]==='_') continue; st.setProperty('--'+k,t[k]); st.setProperty('--'+k+'-rgb',hex2rgb(t[k]).join(',')); }
   const pr=hex2rgb(t.perla), dark=!!(th&&th.d), lh=rgb2hsl(hex2rgb(t.lila))[0];
-  document.documentElement.classList.toggle('dark',dark);
+  const sk=th&&th.s&&SKINS[th.s];
+  document.documentElement.classList.toggle('dark',dark&&!sk);
+  Object.keys(SKINS).forEach(k=>document.documentElement.classList.toggle('skin-'+k,!!sk&&th.s===k));
+  if(sk){ st.setProperty('--muted',sk.muted); st.setProperty('--champagne-soft',t._soft); st.setProperty('--modal-bg',sk.modal); st.setProperty('--line',sk.line); return; }
   st.setProperty('--muted',rgb2hex(hsl2rgb(lh,.12*Math.min(1,th?.k??1),dark?.68:.45)));
   st.setProperty('--champagne-soft',t._soft);
   st.setProperty('--modal-bg',dark?`rgba(${hex2rgb(t['bg-mid']).join(',')},.97)`:`rgba(${pr.map(x=>Math.min(255,x+10)).join(',')},.97)`);
   st.setProperty('--line',`rgba(${hex2rgb(t.lila).join(',')},.18)`);
 }
-const swatch=th=>{const t=genTheme(th);return th&&th.d?`linear-gradient(135deg,${t['bg-deep']} 30%,${t.ciruela} 60%,${t.lila} 80%,${t.champagne})`:`linear-gradient(135deg,${t.ciruela},${t.amatista} 45%,${t.rosa} 75%,${t.champagne})`;};
-const sameTheme=(a,b)=>a.h===b.h&&Math.abs(a.k-b.k)<.001&&a.m===b.m&&(a.d||0)===(b.d||0);
+const swatch=th=>{const t=genTheme(th);if(th&&th.s) return `linear-gradient(135deg,${t.amatista} 0 30%,${t.lila} 30% 55%,${t.salvia} 55% 75%,${t.oro} 75% 88%,${t.perla} 88%)`;return th&&th.d?`linear-gradient(135deg,${t['bg-deep']} 30%,${t.ciruela} 60%,${t.lila} 80%,${t.champagne})`:`linear-gradient(135deg,${t.ciruela},${t.amatista} 45%,${t.rosa} 75%,${t.champagne})`;};
+const sameTheme=(a,b)=>(a.s||'')===(b.s||'')&&(a.s?true:a.h===b.h&&Math.abs(a.k-b.k)<.001&&a.m===b.m&&(a.d||0)===(b.d||0));
 function knobPos(h){ const a=(h-90)*Math.PI/180; return [80+Math.cos(a)*68, 80+Math.sin(a)*68]; }
 function themePanel(p){
   const th=Object.assign({},DEF_THEME,p.th||{}); const [kx,ky]=knobPos(th.h);
@@ -644,8 +765,10 @@ function themePanel(p){
     <div class="theme-grid">
       <div class="wheel" id="wheel" title="Girá para elegir el tono"><div class="core"></div><div class="knob" id="knob" style="left:${kx}px;top:${ky}px"></div></div>
       <div>
+        <label class="f">Skins de misión</label>
+        <div class="presets" style="margin-bottom:12px">${PRESETS.map((x,i)=>x.s?`<button class="preset ${sameTheme(x,th)?'on':''}" data-preset="${i}"><i style="background:${swatch(x)}"></i>${x.n}</button>`:'').join('')}</div>
         <label class="f">Temas listos</label>
-        <div class="presets">${PRESETS.map((x,i)=>`<button class="preset ${sameTheme(x,th)?'on':''}" data-preset="${i}"><i style="background:${swatch(x)}"></i>${x.n}</button>`).join('')}</div>
+        <div class="presets">${PRESETS.map((x,i)=>x.s?'':`<button class="preset ${sameTheme(x,th)?'on':''}" data-preset="${i}"><i style="background:${swatch(x)}"></i>${x.n}</button>`).join('')}</div>
         <div class="trow">
           <div><label class="f">Intensidad del color</label><input type="range" id="themeK" min="0.2" max="1.4" step="0.05" value="${th.k}"></div>
           <div><label class="f">Ambiente</label><div class="seg"><button data-dark="0" class="${th.d?'':'on'}">☀ Claro</button><button data-dark="1" class="${th.d?'on':''}">🌙 Oscuro</button></div></div>
@@ -657,7 +780,10 @@ function themePanel(p){
   </details>`;
 }
 function setTheme(patch){
+  const prevS=(S.party.th&&S.party.th.s)||'';
+  if(patch.s===undefined) patch.s='';
   const th=S.party.th=Object.assign({},DEF_THEME,S.party.th||{},patch);
+  if(prevS!==th.s){ applyTheme(th); markDirty(); render(); return; }
   applyTheme(th); markDirty();
   const [kx,ky]=knobPos(th.h), k=document.getElementById('knob'); if(k){k.style.left=kx+'px';k.style.top=ky+'px';}
   const sw=document.querySelector('#themePanel .sw'); if(sw) sw.style.background=swatch(th);
@@ -889,7 +1015,7 @@ function render(){
   if(S.mode==='home'){ heroMeta(null); app.innerHTML=homeView(); }
   else if(S.mode==='view'){ heroMeta(S.view); app.innerHTML=viewView(); }
   else { if(!S.party) S.party=newParty(); heroMeta(S.party); app.innerHTML=masterView(); }
-  window.scrollTo(0,y);
+  skinClean(); window.scrollTo(0,y);
 }
 function homeView(){
   return `<div class="home">
@@ -941,6 +1067,13 @@ function masterView(){
 }
 
 /* actualiza solo los cálculos sin re-renderizar (mantiene el foco) */
+const EMOJI_RE=/[\p{Extended_Pictographic}\u2600-\u27BF\uFE0F\u200D]+\s*/gu;
+function skinClean(root){
+  if(!document.documentElement.className.match(/skin-chef/)) return;
+  (root||document).querySelectorAll('.block h4, details.fold>summary, .sec-title, .stat .lbl, .vstat>span:first-child, .pill, .nav .btn, .btn, .mbar label, .hero .chip, .legend span, .mlegend span, .cplayer, .theme-panel>summary, .rules summary, table.t.view td b, .notes, .tab').forEach(el=>{
+    el.childNodes.forEach(n=>{ if(n.nodeType===3) n.nodeValue=n.nodeValue.replace(EMOJI_RE,'').replace(/^\s*✦\s*/,''); });
+  });
+}
 function refreshCalcs(){
   const p=S.party; if(!p) return;
   document.querySelectorAll('[data-calc]').forEach(el=>{
@@ -950,6 +1083,7 @@ function refreshCalcs(){
     else if(k==='prog'){ const tb=p.tb[el.dataset.tb]; el.style.width=charStats(tb.ch[el.dataset.ch],tb).pct+'%'; }
     else if(k==='msum'){ el.innerHTML=masterPills(p.tb[el.dataset.tb]); }
   });
+  skinClean();
 }
 
 /* ════════════════ MODALES ════════════════ */
@@ -1044,7 +1178,7 @@ document.addEventListener('click',async e=>{
   if(d.newparty){ if(confirmInline(b,'¿Seguro? Toca otra vez')){ S.party=newParty(); S.tab=0; dirty=false; draftSave(); render(); } return; }
   if(S.mode!=='master') return;
   const p=S.party;
-  if(d.preset!==undefined){ const x=PRESETS[d.preset]; setTheme({h:x.h,k:x.k,m:x.m,d:x.d||0}); return; }
+  if(d.preset!==undefined){ const x=PRESETS[d.preset]; setTheme({h:x.h,k:x.k,m:x.m,d:x.d||0,s:x.s||''}); return; }
   if(d.dark!==undefined){ setTheme({d:+d.dark}); return; }
   if(d.metal){ setTheme({m:d.metal}); return; }
   if(d.import!==undefined){ importModal(+d.import, d.ci===undefined||d.ci===''?undefined:+d.ci); return; }
