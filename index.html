@@ -434,6 +434,157 @@ table.t .c-x{width:26px}
 .skin-chef .theme-panel>summary,.skin-chef .rules summary{font-family:'Cinzel',serif;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--lila)}
 @media (prefers-reduced-motion:reduce){.skin-chef *{animation:none!important;transition:none!important}}
 
+/* ════════ SKINS OSCUROS (base común) ════════ */
+.skin-tag{display:none}
+:root.skin-dk{--glass:var(--sk-panel);--radius:10px}
+:root.skin-dk body{font-family:var(--f-body);font-size:15.5px;color:var(--sk-text);background:var(--sk-bgimg),var(--sk-bg);background-attachment:fixed}
+.skin-dk .bfly,.skin-dk .moon,.skin-dk .portrait .ph svg,.skin-dk .hero::before{display:none}
+.skin-dk ::selection{background:var(--sk-accent);color:var(--sk-bg)}
+.skin-dk .panel{background:var(--sk-panel);backdrop-filter:none;border-radius:10px;box-shadow:0 0 0 1px var(--sk-border),0 22px 46px -28px #000}
+.skin-dk .hero{background:var(--sk-panel);color:var(--sk-text);border-radius:12px;box-shadow:0 0 0 1px var(--sk-border),0 0 0 6px var(--sk-bg),0 0 0 7px var(--sk-border2),0 26px 50px -26px #000}
+.skin-dk .hero h1{background:none;-webkit-background-clip:initial;background-clip:initial;color:var(--sk-title);font-family:var(--f-title);font-weight:400;text-transform:uppercase;letter-spacing:.3em;font-size:clamp(19px,3.2vw,28px)}
+.skin-dk .hero .script{font-family:var(--f-name);font-style:italic;color:var(--sk-name);font-size:clamp(20px,2.6vw,26px);letter-spacing:.02em}
+.skin-dk .skin-tag{display:block;font-family:var(--f-body);font-style:italic;font-size:14px;color:var(--sk-sub);margin-top:6px;opacity:.85}
+.skin-dk .hero .chip{background:transparent;color:var(--sk-name);box-shadow:inset 0 0 0 1px var(--sk-border);font-family:var(--f-label);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:400}
+.skin-dk .btn,.skin-dk .preset,.skin-dk .seg button,.skin-dk .pill,.skin-dk .in,.skin-dk .chip{font-family:var(--f-body)}
+.skin-dk .btn{background:transparent;color:var(--sk-text);box-shadow:inset 0 0 0 1px var(--sk-border);border-radius:6px;font-weight:400;letter-spacing:.06em}
+.skin-dk .btn:hover{background:rgba(255,255,255,.04);box-shadow:inset 0 0 0 1px var(--sk-accent)}
+.skin-dk .btn.on,.skin-dk .btn.prime{background:var(--sk-accent);color:var(--sk-bg);box-shadow:none}
+.skin-dk .btn.prime:hover{filter:brightness(1.08);background:var(--sk-accent)}
+.skin-dk .btn.dark{background:var(--sk-panel2);color:var(--sk-title);box-shadow:inset 0 0 0 1px var(--sk-accent)}
+.skin-dk .btn.ghost,.skin-dk .btn.ghost[style]{background:transparent;color:var(--sk-sub)!important}
+.skin-dk .x{color:var(--sk-sub)}
+.skin-dk .in{background:var(--sk-meta);color:var(--sk-text);box-shadow:inset 0 0 0 1px var(--sk-border2);border-radius:5px}
+.skin-dk .in:focus{background:var(--sk-meta);box-shadow:inset 0 0 0 1px var(--sk-accent)}
+.skin-dk .in::placeholder{color:rgba(var(--perla-rgb),.3)}
+.skin-dk select option{background:var(--sk-panel);color:var(--sk-text)}
+.skin-dk label.f,.skin-dk table.t th,.skin-dk .tcell small{font-family:var(--f-label);font-weight:400;font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--sk-sub)}
+.skin-dk .muted{color:var(--sk-sub)}
+.skin-dk .sec-title,.skin-dk .block h4,.skin-dk details.fold>summary,.skin-dk .rules summary,.skin-dk .theme-panel>summary{font-family:var(--f-title);font-weight:400;text-transform:uppercase;letter-spacing:.26em;font-size:11px;color:var(--sk-accent)}
+.skin-dk .sec-title::before,.skin-dk .sec-title::after{background:linear-gradient(90deg,transparent,var(--sk-border),transparent)}
+.skin-dk .block,.skin-dk details.fold{background:var(--sk-meta);border-radius:6px;box-shadow:inset 0 1px 0 var(--sk-border),inset 0 0 0 1px var(--sk-border2)}
+.skin-dk details.fold>summary::after{content:"";width:6px;height:6px;border-right:1px solid var(--sk-accent);border-bottom:1px solid var(--sk-accent);transform:rotate(-45deg);margin-right:4px}
+.skin-dk details.fold[open]>summary::after{transform:rotate(45deg)}
+.skin-dk details.fold .cnt{background:transparent;color:var(--sk-name);box-shadow:inset 0 0 0 1px var(--sk-border2);font-family:var(--f-label)}
+.skin-dk table.t.view td{background:transparent;border-bottom:1px solid var(--sk-border2);border-radius:0!important;color:var(--sk-text)}
+.skin-dk table.t.view td b{font-weight:400;color:var(--sk-text)}
+.skin-dk .catrow td{font-family:var(--f-name);font-style:italic;font-weight:400;color:var(--sk-name);border-bottom:0!important}
+.skin-dk .tabs .tab{font-family:var(--f-title);font-weight:400;font-size:12px;letter-spacing:.18em;text-transform:uppercase;background:transparent;color:var(--sk-sub);box-shadow:inset 0 -1px 0 var(--sk-border2);border-radius:4px 4px 0 0}
+.skin-dk .tabs .tab.act{background:var(--sk-panel);color:var(--sk-title);box-shadow:inset 0 -2px 0 var(--sk-accent),0 0 0 1px var(--sk-border2)}
+.skin-dk .tab .dot{display:none}
+.skin-dk .master{background:var(--sk-panel2);box-shadow:0 0 0 1px var(--sk-border),inset 0 2px 0 var(--sk-accent),0 22px 46px -28px #000}
+.skin-dk .master .sec-title{color:var(--sk-accent)}
+.skin-dk .master .mname{font-family:var(--f-name);font-weight:400;color:var(--sk-title);letter-spacing:.12em;text-transform:uppercase;font-size:18px}
+.skin-dk .master .in{background:rgba(0,0,0,.18);box-shadow:inset 0 0 0 1px var(--sk-border);color:var(--sk-text)}
+.skin-dk .master .pill,.skin-dk .pill{background:transparent;color:var(--sk-text);box-shadow:inset 0 0 0 1px var(--sk-border2);font-weight:400;font-family:var(--f-label);font-size:11px;letter-spacing:.06em}
+.skin-dk .pill.gold,.skin-dk .master .pill.gold{background:var(--sk-accent);color:var(--sk-bg);box-shadow:none}
+.skin-dk .card{background:var(--sk-panel)}
+.skin-dk .card-top{background:linear-gradient(180deg,var(--sk-panel2),var(--sk-panel));border-bottom:1px solid var(--sk-border)}
+.skin-dk .who .cname{font-family:var(--f-name);font-weight:400;color:var(--sk-name);text-transform:uppercase;letter-spacing:.14em;font-size:24px}
+.skin-dk .who .csub{font-family:var(--f-body);font-style:italic;color:var(--sk-sub);font-size:15px}
+.skin-dk .who .cplayer{font-family:var(--f-label);font-weight:400;font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--sk-accent)}
+.skin-dk .who .in.name{font-family:var(--f-name);text-transform:uppercase;letter-spacing:.1em;font-size:18px}
+.skin-dk .who .in.sub{font-family:var(--f-body);font-style:italic;font-size:15px}
+.skin-dk .portrait{background:linear-gradient(160deg,var(--sk-panel2),var(--sk-bg));box-shadow:0 0 0 1px var(--sk-accent),0 0 0 5px var(--sk-panel),0 0 0 6px var(--sk-border),0 16px 30px -14px #000}
+.skin-dk .portrait .ph{color:var(--sk-sub);font-family:var(--f-label);letter-spacing:.16em;font-size:9.5px;text-transform:uppercase}
+.skin-dk .vstat b{font-family:var(--f-body);font-weight:400;color:var(--sk-title);font-size:18px}
+.skin-dk .stat .lbl,.skin-dk .vstat>span:first-child{font-weight:400}
+.skin-dk .rest{color:var(--sk-sub);font-family:var(--f-label);font-size:9.5px;letter-spacing:.08em}
+.skin-dk .segs i{background:rgba(255,255,255,.05);border-radius:1px;box-shadow:inset 0 0 0 1px var(--sk-border2)}
+.skin-dk .segs i.f{background:var(--sk-bar);box-shadow:none}
+.skin-dk .bar.heal .segs i.f,.skin-dk .bar.heal .fillbar b{background:var(--sk-alert)}
+.skin-dk .bar.pa .segs i.f,.skin-dk .bar.pa .fillbar b{background:var(--sk-accent)}
+.skin-dk .fillbar,.skin-dk .prog{background:rgba(255,255,255,.05)}
+.skin-dk .fillbar b{background:var(--sk-bar)}
+.skin-dk .prog>b{background:linear-gradient(90deg,var(--sk-border),var(--sk-accent))}
+.skin-dk .tsel{border-radius:3px;font-family:var(--f-label);font-weight:400;font-size:11px}
+.skin-dk .st-_,.skin-dk .master .st-_{background:transparent;color:rgba(var(--perla-rgb),.25);box-shadow:inset 0 0 0 1px var(--sk-border2)}
+.skin-dk .st-S{background:transparent;color:var(--sk-sub);box-shadow:none;outline:1px dashed var(--sk-border);outline-offset:-1px}
+.skin-dk .fcnt{background:var(--sk-meta);color:var(--sk-text);box-shadow:inset 0 0 0 1px var(--sk-border)}
+.skin-dk .tip{background:var(--sk-meta);color:var(--sk-text);box-shadow:inset 3px 0 0 var(--sk-accent),inset 0 0 0 1px var(--sk-border2);border-radius:4px}
+.skin-dk .hist li,.skin-dk .preset,.skin-dk .seg{background:var(--sk-meta);color:var(--sk-text);box-shadow:inset 0 0 0 1px var(--sk-border2)}
+.skin-dk .seg button{color:var(--sk-text)}
+.skin-dk .seg button.on{background:var(--sk-accent);color:var(--sk-bg)}
+.skin-dk .preset.on{box-shadow:inset 0 0 0 1px var(--sk-accent)}
+.skin-dk .bigcode{font-family:var(--f-title);color:var(--sk-title);background:var(--sk-meta);box-shadow:inset 0 0 0 1px var(--sk-accent)}
+.skin-dk .modal .panel{background:var(--modal-bg)}
+.skin-dk .modal h3,.skin-dk .home .panel h2{font-family:var(--f-name);font-weight:400;color:var(--sk-title);letter-spacing:.06em}
+.skin-dk .modal .script,.skin-dk .home .panel .script{font-family:var(--f-body);font-style:italic;color:var(--sk-sub);font-size:17px}
+.skin-dk .savebar{background:var(--sk-panel2);box-shadow:0 0 0 1px var(--sk-accent),0 16px 34px -12px #000;border-radius:8px}
+.skin-dk footer{font-family:var(--f-body);font-style:italic;font-size:15px;color:var(--sk-sub)}
+.skin-dk .wheel .core{box-shadow:0 0 0 4px var(--sk-panel),0 0 0 5px var(--sk-accent)}
+.skin-dk .legend,.skin-dk .mlegend{font-family:var(--f-label);font-size:10.5px;letter-spacing:.06em;color:var(--sk-sub)}
+.skin-dk .notes{font-family:var(--f-body);color:var(--sk-text)}
+
+/* ════════ SKIN · VICTORIAN VANITY ════════ */
+:root.skin-vanity{--sk-bg:#171114;--sk-panel:#1E1519;--sk-panel2:#321D27;--sk-meta:#21161B;--sk-border:#70404E;--sk-border2:#493238;
+  --sk-accent:#D1A56B;--sk-title:#D1A56B;--sk-name:#E4B4BE;--sk-text:#DDD2D4;--sk-sub:#A38C92;--sk-alert:#70404E;
+  --sk-bar:linear-gradient(180deg,#E4B4BE,#B98590);
+  --sk-bgimg:radial-gradient(900px 520px at 50% -10%,rgba(209,165,107,.07),transparent 70%),radial-gradient(700px 600px at 100% 100%,rgba(112,64,78,.18),transparent 70%);
+  --f-title:Georgia,'Times New Roman',serif;--f-name:Georgia,'Times New Roman',serif;--f-body:Georgia,'Times New Roman',serif;--f-label:Verdana,Geneva,sans-serif}
+.skin-vanity .skin-tag::before{content:"\201C Beauty was never left to chance.\201D"}
+.skin-vanity .hero h1{font-size:clamp(18px,3vw,26px)}
+/* el espejo de tocador: retrato ovalado con marco dorado y un reflejo que pasa despacio */
+.skin-vanity .portrait{border-radius:50%/50%;overflow:hidden}
+.skin-vanity .portrait::after{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 35%,rgba(255,240,235,.13) 48%,transparent 60%);background-size:250% 100%;animation:reflejo 9s ease-in-out infinite;pointer-events:none}
+@keyframes reflejo{0%,55%{background-position:120% 0}100%{background-position:-120% 0}}
+.skin-vanity .portrait img{filter:saturate(.85) sepia(.08)}
+.skin-vanity .sec-title::before,.skin-vanity .sec-title::after{max-width:none}
+.skin-vanity .block h4::before,.skin-vanity details.fold>summary::before{content:"";width:5px;height:5px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#fff,#DDD2D4 45%,#A38C92);flex:none}
+.skin-vanity .hero .skin-deco{display:block;position:absolute;inset:10px;pointer-events:none;border:1px solid rgba(112,64,78,.6);border-radius:8px}
+.skin-vanity .hero .skin-deco i{display:none}
+.skin-vanity .hero .skin-deco::before,.skin-vanity .hero .skin-deco::after{content:"";position:absolute;top:50%;width:6px;height:6px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#fff,#DDD2D4 45%,#A38C92);transform:translateY(-50%)}
+.skin-vanity .hero .skin-deco::before{left:-4px}.skin-vanity .hero .skin-deco::after{right:-4px}
+.skin-vanity .st-R{background:#E4B4BE;color:#171114}
+.skin-vanity .st-N{background:#70404E;color:#DDD2D4}
+.skin-vanity .st-L{background:#A38C92;color:#171114}
+.skin-vanity .st-J,.skin-vanity .st-Y{background:#D1A56B;color:#171114}
+.skin-vanity .st-X{background:#D1A56B;color:#171114;box-shadow:inset 0 -3px 0 #70404E}
+.skin-vanity .st-I{background:#321D27;color:#E4B4BE;box-shadow:inset 0 0 0 1px #70404E}
+.skin-vanity .st-F{background:#70404E;color:#E4B4BE}
+/* una inquietud apenas perceptible: los nombres "respiran" muy lento */
+.skin-vanity .who .cname{animation:velo 11s ease-in-out infinite}
+@keyframes velo{0%,88%,100%{opacity:1}93%{opacity:.82}}
+
+/* ════════ SKIN · GOTHIC MEDICAL MYSTERY ════════ */
+:root.skin-medical{--sk-bg:#172522;--sk-panel:#1D2D29;--sk-panel2:#293B38;--sk-meta:#1A2926;--sk-border:#52675D;--sk-border2:#2F433E;
+  --sk-accent:#C49A55;--sk-title:#D9D8CC;--sk-name:#A7C5AE;--sk-text:#D9D8CC;--sk-sub:#B7C8C5;--sk-alert:#7D4549;
+  --sk-bar:linear-gradient(180deg,#A7C5AE,#7FA38A);
+  --sk-bgimg:linear-gradient(rgba(82,103,93,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(82,103,93,.07) 1px,transparent 1px),radial-gradient(900px 600px at 50% 0%,rgba(167,197,174,.08),transparent 70%);
+  --f-title:'Cinzel',serif;--f-name:'Cormorant Garamond',serif;--f-body:Georgia,'Times New Roman',serif;--f-label:'Courier New',Courier,monospace}
+:root.skin-medical body{background-size:46px 46px,46px 46px,auto,auto}
+.skin-medical .skin-tag::before{content:"\00AB Cada paciente tiene un expediente. Cada ingreso deja un rastro. \00BB"}
+.skin-medical .hero h1{font-weight:600;letter-spacing:.34em}
+.skin-medical .hero .script{font-family:'Cinzel',serif;font-style:normal;text-transform:uppercase;letter-spacing:.2em;font-size:clamp(14px,2vw,18px);color:var(--sk-name)}
+/* neblina que se mueve en la cabecera */
+.skin-medical .hero .skin-deco{display:block;position:absolute;inset:0;pointer-events:none;overflow:hidden;border-radius:12px}
+.skin-medical .hero .skin-deco i{display:none}
+.skin-medical .hero .skin-deco::before{content:"";position:absolute;inset:-20% -40%;background:radial-gradient(40% 30% at 30% 70%,rgba(183,200,197,.10),transparent 70%),radial-gradient(35% 25% at 70% 40%,rgba(167,197,174,.08),transparent 70%);animation:niebla 24s ease-in-out infinite alternate}
+@keyframes niebla{from{transform:translateX(-6%)}to{transform:translateX(6%)}}
+/* cada personaje es un expediente numerado */
+.skin-medical .grid{counter-reset:exp}
+.skin-medical .card{counter-increment:exp}
+.skin-medical .card-top::before{content:"EXP. N.\00BA  " counter(exp,decimal-leading-zero);position:absolute;top:10px;right:14px;font-family:'Courier New',monospace;font-size:10px;letter-spacing:.18em;color:#C49A55;padding:2px 8px;box-shadow:inset 0 0 0 1px rgba(196,154,85,.55);border-radius:2px}
+.skin-medical .who{padding-top:14px}
+/* el jugador como pulsera de ingreso */
+.skin-medical .who .cplayer{display:inline-block;background:#D9D8CC;color:#172522;padding:3px 12px;border-radius:999px;letter-spacing:.16em;box-shadow:inset 0 0 0 1px #A7C5AE}
+.skin-medical .portrait{border-radius:4px;filter:none}
+.skin-medical .portrait img{filter:saturate(.7) contrast(.95)}
+.skin-medical .block h4::before,.skin-medical details.fold>summary::before{content:"";width:8px;height:8px;flex:none;background:
+  linear-gradient(#A7C5AE,#A7C5AE) center/2px 8px no-repeat,linear-gradient(#A7C5AE,#A7C5AE) center/8px 2px no-repeat}
+.skin-medical table.t.view td{border-bottom:1px dashed var(--sk-border2)}
+.skin-medical .vstat b{font-family:'Courier New',monospace;font-size:16px}
+.skin-medical .st-R{background:#A7C5AE;color:#172522}
+.skin-medical .st-N{background:#52675D;color:#D9D8CC}
+.skin-medical .st-L{background:#B7C8C5;color:#172522}
+.skin-medical .st-J,.skin-medical .st-Y{background:#C49A55;color:#172522}
+.skin-medical .st-X{background:#C49A55;color:#172522;box-shadow:inset 0 -3px 0 #7D4549}
+.skin-medical .st-I,.skin-medical .st-F{background:#7D4549;color:#D9D8CC}
+/* la anomalía: de vez en cuando un nombre se desdibuja, como si el registro fallara */
+.skin-medical .who .cname{animation:borrado 13s steps(1) infinite}
+@keyframes borrado{0%,94%,100%{opacity:1;filter:none}95%{opacity:.35;filter:blur(1px)}96%{opacity:1;filter:none}97%{opacity:.55}}
+@media (prefers-reduced-motion:reduce){.skin-dk *,.skin-dk *::before,.skin-dk *::after{animation:none!important}}
+
 footer{text-align:center;font-family:var(--f-script);font-size:22px;color:var(--lila);opacity:.8;margin-top:30px}
 
 @media (max-width:640px){
@@ -476,6 +627,7 @@ footer{text-align:center;font-family:var(--f-script);font-size:22px;color:var(--
 
 <div class="wrap">
   <header class="hero">
+    <div class="skin-tag" aria-hidden="true"></div>
     <div class="skin-deco" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
     <svg class="moon"><use href="#moon"/></svg>
     <svg class="bfly a"><use href="#bfly"/></svg>
@@ -722,6 +874,8 @@ const PRESETS=[
   {n:'Misión oscura',h:352,k:.85,m:'bronce',d:1},
   {n:'Abismo',h:262,k:.8,m:'plata',d:1},
   {n:'Magic Chef',s:'chef',h:18,k:1,m:'oro',d:0},
+  {n:'Victorian Vanity',s:'vanity',h:340,k:1,m:'oro',d:0},
+  {n:'Gothic Medical Mystery',s:'medical',h:160,k:1,m:'oro',d:0},
 ];
 /* Skins de misión: paletas fijas + fuentes + decoración propia */
 const SKINS={
@@ -729,7 +883,17 @@ const SKINS={
     lila:'#B05E3E', amatista:'#8E4A30', ciruela:'#7A3F28', lavanda:'#D9C19C', rosapolvo:'#C98B6B', rosa:'#CF7E5E',
     melocoton:'#E7D5B8', perla:'#FBF7EF', cristal:'#B05E3E', salvia:'#657F59',
     champagne:'#E3C98E', oro:'#C4A05A', carbon:'#45372B', ink:'#45372B', 'bg-deep':'#3A2A1F', 'bg-mid':'#4A3729', _soft:'#F5EDDD' },
-    muted:'#7E6C5C', line:'rgba(69,55,43,.14)', modal:'rgba(251,247,239,.98)' }
+    muted:'#7E6C5C', line:'rgba(69,55,43,.14)', modal:'rgba(251,247,239,.98)' },
+  vanity:{ name:'Victorian Vanity', noEmoji:true, dk:true, pal:{
+    lila:'#70404E', amatista:'#8A5060', ciruela:'#321D27', lavanda:'#A38C92', rosapolvo:'#B98590', rosa:'#E4B4BE',
+    melocoton:'#C9A2A8', perla:'#DDD2D4', cristal:'#A38C92', salvia:'#7E6A70',
+    champagne:'#D1A56B', oro:'#B88A50', carbon:'#171114', ink:'#DDD2D4', 'bg-deep':'#171114', 'bg-mid':'#1E1519', _soft:'#E3C391' },
+    muted:'#A38C92', line:'rgba(112,64,78,.55)', modal:'rgba(30,21,25,.98)' },
+  medical:{ name:'Gothic Medical Mystery', noEmoji:true, dk:true, pal:{
+    lila:'#52675D', amatista:'#3E5A50', ciruela:'#1D2D29', lavanda:'#B7C8C5', rosapolvo:'#7D4549', rosa:'#A7C5AE',
+    melocoton:'#8FA89A', perla:'#D9D8CC', cristal:'#A7C5AE', salvia:'#A7C5AE',
+    champagne:'#C49A55', oro:'#A9803F', carbon:'#172522', ink:'#D9D8CC', 'bg-deep':'#172522', 'bg-mid':'#1D2D29', _soft:'#D8B677' },
+    muted:'#B7C8C5', line:'rgba(82,103,93,.7)', modal:'rgba(29,45,41,.98)' }
 };
 function genTheme(th){
   th=Object.assign({},DEF_THEME,th||{});
@@ -749,13 +913,15 @@ function applyTheme(th){
   const sk=th&&th.s&&SKINS[th.s];
   document.documentElement.classList.toggle('dark',dark&&!sk);
   Object.keys(SKINS).forEach(k=>document.documentElement.classList.toggle('skin-'+k,!!sk&&th.s===k));
+  document.documentElement.classList.toggle('skin-dk',!!(sk&&sk.dk));
   if(sk){ st.setProperty('--muted',sk.muted); st.setProperty('--champagne-soft',t._soft); st.setProperty('--modal-bg',sk.modal); st.setProperty('--line',sk.line); return; }
   st.setProperty('--muted',rgb2hex(hsl2rgb(lh,.12*Math.min(1,th?.k??1),dark?.68:.45)));
   st.setProperty('--champagne-soft',t._soft);
   st.setProperty('--modal-bg',dark?`rgba(${hex2rgb(t['bg-mid']).join(',')},.97)`:`rgba(${pr.map(x=>Math.min(255,x+10)).join(',')},.97)`);
   st.setProperty('--line',`rgba(${hex2rgb(t.lila).join(',')},.18)`);
 }
-const swatch=th=>{const t=genTheme(th);if(th&&th.s) return `linear-gradient(135deg,${t.amatista} 0 30%,${t.lila} 30% 55%,${t.salvia} 55% 75%,${t.oro} 75% 88%,${t.perla} 88%)`;return th&&th.d?`linear-gradient(135deg,${t['bg-deep']} 30%,${t.ciruela} 60%,${t.lila} 80%,${t.champagne})`:`linear-gradient(135deg,${t.ciruela},${t.amatista} 45%,${t.rosa} 75%,${t.champagne})`;};
+const swatch=th=>{const t=genTheme(th);if(th&&th.s==='chef') return `linear-gradient(135deg,${t.amatista} 0 30%,${t.lila} 30% 55%,${t.salvia} 55% 75%,${t.oro} 75% 88%,${t.perla} 88%)`;
+  if(th&&th.s) return `linear-gradient(135deg,${t['bg-deep']} 0 38%,${t.ciruela} 38% 55%,${t.lila} 55% 70%,${t.rosa} 70% 84%,${t.champagne} 84%)`;return th&&th.d?`linear-gradient(135deg,${t['bg-deep']} 30%,${t.ciruela} 60%,${t.lila} 80%,${t.champagne})`:`linear-gradient(135deg,${t.ciruela},${t.amatista} 45%,${t.rosa} 75%,${t.champagne})`;};
 const sameTheme=(a,b)=>(a.s||'')===(b.s||'')&&(a.s?true:a.h===b.h&&Math.abs(a.k-b.k)<.001&&a.m===b.m&&(a.d||0)===(b.d||0));
 function knobPos(h){ const a=(h-90)*Math.PI/180; return [80+Math.cos(a)*68, 80+Math.sin(a)*68]; }
 function themePanel(p){
@@ -1069,7 +1235,7 @@ function masterView(){
 /* actualiza solo los cálculos sin re-renderizar (mantiene el foco) */
 const EMOJI_RE=/[\p{Extended_Pictographic}\u2600-\u27BF\uFE0F\u200D]+\s*/gu;
 function skinClean(root){
-  if(!document.documentElement.className.match(/skin-chef/)) return;
+  if(!/skin-(chef|vanity|medical)/.test(document.documentElement.className)) return;
   (root||document).querySelectorAll('.block h4, details.fold>summary, .sec-title, .stat .lbl, .vstat>span:first-child, .pill, .nav .btn, .btn, .mbar label, .hero .chip, .legend span, .mlegend span, .cplayer, .theme-panel>summary, .rules summary, table.t.view td b, .notes, .tab').forEach(el=>{
     el.childNodes.forEach(n=>{ if(n.nodeType===3) n.nodeValue=n.nodeValue.replace(EMOJI_RE,'').replace(/^\s*✦\s*/,''); });
   });
