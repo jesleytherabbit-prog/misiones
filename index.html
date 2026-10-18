@@ -254,6 +254,26 @@ table.t .c-x{width:26px}
 @keyframes pop{from{opacity:0;transform:translate(-50%,-8px)}}
 .tip{font-size:12px;background:rgba(var(--champagne-rgb),.35);border-radius:12px;padding:8px 12px;margin-top:8px;box-shadow:inset 0 0 0 1px rgba(var(--oro-rgb),.5)}
 
+/* ───── ACONTECIMIENTO ───── */
+.evtoggle{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:4px 0 6px}
+.evtoggle label.f{margin:0}
+label.chk{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;cursor:pointer}
+label.chk input{width:16px;height:16px;accent-color:var(--amatista)}
+.evsum{margin-top:14px;padding:12px 14px;border-radius:12px;background:rgba(255,255,255,.1);box-shadow:inset 0 0 0 1px rgba(var(--champagne-rgb),.35)}
+.evhead{font-family:var(--f-title);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--champagne);margin-bottom:6px}
+.evrow{display:flex;justify-content:space-between;gap:12px;align-items:baseline;padding:5px 0;border-bottom:1px dashed rgba(var(--champagne-rgb),.25);font-size:13px}
+.evrow:last-of-type{border-bottom:0}
+.evrow small{display:block;font-size:11px;opacity:.75;font-weight:400}
+.evrow b{white-space:nowrap;color:var(--champagne)}
+.evwarn{margin-top:8px;font-size:12.5px;font-weight:600;padding:6px 10px;border-radius:8px;background:rgba(var(--rosapolvo-rgb),.35)}
+.evctl{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:flex-end;margin-top:12px;padding-top:10px;border-top:1px dashed var(--line)}
+.evctl select.in{width:auto;min-width:130px}
+.st-Z{background:transparent;color:var(--champagne);box-shadow:inset 0 0 0 1.5px var(--champagne)}
+.skin-chef .evsum{background:rgba(251,247,239,.12)}
+.skin-dk .evsum{background:var(--sk-meta);box-shadow:inset 0 0 0 1px var(--sk-border2)}
+.skin-dk .evhead,.skin-dk .evrow b{color:var(--sk-accent);font-family:var(--f-label)}
+.skin-dk .evrow{border-bottom-color:var(--sk-border2);color:var(--sk-text)}
+
 /* ───── APARIENCIA ───── */
 .theme-panel{margin:-4px 0 16px}
 .theme-panel>summary{list-style:none;cursor:pointer;font-weight:700;color:var(--lila);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
@@ -649,8 +669,8 @@ const LS_DRAFT='avk_tracker_draft', LS_HIST='avk_tracker_hist';
 const DEF_RULES={R:25,N:20,L:15,J:0,I:0,M:85,C:20,D:0};
 const ST={ '':'—', R:'Rápido', N:'Normal', L:'Lento', J:'Falta justificada', I:'Falta injustificada', S:'Sin postear' };
 const ST_SHORT={ '':'·', R:'R', N:'N', L:'L', J:'FJ', I:'FI', S:'SP' };
-const MST={ '':'—', Y:'Posteó', X:'Posteó con faltas', F:'No posteó (falta)' };
-const MST_SHORT={ '':'·', Y:'✓', X:'✓+', F:'F' };
+const MST={ '':'—', Y:'Posteó (con tirada)', Z:'Posteó sin tirada', X:'Posteó con faltas', F:'No posteó (falta)' };
+const MST_SHORT={ '':'·', Y:'✓', Z:'○', X:'✓+', F:'F' };
 const INV_CATS=['Básico','Intermedio','Avanzado','Especial'];
 
 const uid=()=>Math.random().toString(36).slice(2,8);
@@ -666,7 +686,8 @@ function newChar(){
     inv:[ {c:'Básico',o:'',u:'',m:'',d:''} ],
     no:'' };
 }
-function newTab(i){ const c=newChar(); c.t=Array(20).fill(''); return { id:uid(), n:'Tablilla '+i, nt:20, m:{n:'',t:Array(20).fill(''),f:Array(20).fill(0)}, r:{...DEF_RULES}, ch:[c] }; }
+const DEF_EV={vb:0,bt:'comp',md:'top3',ok:0,base:20,p1:50,p2:30,p3:20,np:20};
+function newTab(i){ const c=newChar(); c.t=Array(20).fill(''); return { id:uid(), n:'Tablilla '+i, nt:20, m:{n:'',t:Array(20).fill(''),f:Array(20).fill(0)}, r:{...DEF_RULES}, ev:0, e:{...DEF_EV}, ch:[c] }; }
 function newParty(){ return { v:1, title:'', sv:0, at:0, tb:[newTab(1)] }; }
 
 /* normaliza datos (rellena faltantes tras decodificar) */
@@ -675,7 +696,7 @@ function normParty(p){
   if(!Array.isArray(p.tb)||!p.tb.length) p.tb=[newTab(1)];
   p.tb=p.tb.map((t,i)=>{
     const b=Object.assign(newTab(i+1),t); b.ch=[];
-    b.r=Object.assign({...DEF_RULES},t.r||{});
+    b.r=Object.assign({...DEF_RULES},t.r||{}); b.ev=t.ev?1:0; b.e=Object.assign({...DEF_EV},t.e||{});
     b.nt=Math.max(1,Math.min(60,parseInt(b.nt)||20));
     b.m=Object.assign({n:'',t:[]},t.m||{});
     b.m.t=fromT(b.m.t,b.nt); b.m.f=fromF(b.m.f,b.nt);
@@ -694,16 +715,55 @@ const fromF=(f,len)=>{ let a=Array.isArray(f)?f.map(x=>Math.max(0,parseInt(x)||0
 const toT=a=>a.map(c=>c||'-').join('').replace(/-+$/,'');
 
 /* ════════════════ CÁLCULOS ════════════════ */
+function masterTurns(tb){
+  let posts=0, tirada=0, faltas=0;
+  tb.m.t.forEach((x,i)=>{ if(x==='Y'){posts++;tirada++;} else if(x==='Z') posts++; else if(x==='X'){ posts++; tirada++; faltas+=Math.max(0,parseInt(tb.m.f[i])||0); } else if(x==='F') faltas++; });
+  return {posts,tirada,faltas};
+}
+/* ── ACONTECIMIENTO: cuentas según el reglamento ── */
+const tramo=nj=>nj<=0?0:Math.max(1,Math.ceil((nj-1)/3));          // 2-4 →1, 5-7 →2, 8-10 →3…
+function minTurnos(nt){ return nt<=25?5:nt<=50?10:15; }
+function evStats(tb){
+  const e=tb.e, umbral=minTurnos(tb.nt);
+  const cuenta=tb.ch.map(ch=>{ const t=ch.t.filter(x=>x==='R'||x==='N'||x==='L').length;
+    const medio=ch.est==='A'&&t<umbral; return {id:ch.id,t,peso:medio?0.5:1}; });
+  const crudo=cuenta.reduce((a,x)=>a+x.peso,0), nj=Math.ceil(crudo);
+  const tr=tramo(nj), botePorTurno=5*tr, masterPorTurno=tr?20+10*tr:0;
+  const mt=masterTurns(tb), jugados=mt.posts;
+  const bote=botePorTurno*jugados;
+  const vel=e.vb?(nj<=15?5:10):0;
+  const pjMaster=tb.ch.some(c=>c.mpj);
+  const extraSinPJ=pjMaster?0:n(e.np)*mt.posts;
+  const masterG=Math.max(0,mt.tirada*masterPorTurno+extraSinPJ-mt.faltas*n(tb.r.D));
+  /* reparto del bote */
+  const premio={}, maxGan=Math.floor(tb.ch.length/4); let ganadores=0, aviso='';
+  if(e.bt==='coop'){
+    if(e.ok&&tb.ch.length){ const cada=Math.floor(bote/tb.ch.length); tb.ch.forEach(c=>premio[c.id]=cada); }
+  } else if(e.md==='equipo'){
+    const eq=tb.ch.filter(c=>c.pz); ganadores=eq.length;
+    if(eq.length){ const cada=Math.floor(bote/eq.length); eq.forEach(c=>premio[c.id]=cada); }
+  } else {
+    const pct=e.md==='uno'?{1:100}:{1:n(e.p1),2:n(e.p2),3:n(e.p3)};
+    tb.ch.forEach(c=>{ if(c.pz&&pct[c.pz]){ premio[c.id]=Math.floor(bote*pct[c.pz]/100); ganadores++; } });
+  }
+  if(e.bt!=='coop'&&ganadores>maxGan) aviso=`Hay ${ganadores} premiados y el máximo es ${maxGan} (una cuarta parte de ${tb.ch.length} participantes).`;
+  return {umbral,crudo,nj,tr,botePorTurno,masterPorTurno,jugados,tirada:mt.tirada,sinTirada:mt.posts-mt.tirada,faltas:mt.faltas,bote,vel,pjMaster,extraSinPJ,masterG,premio,ganadores,maxGan,aviso,cuenta};
+}
 function masterStats(tb){
-  let posts=0, faltas=0;
-  tb.m.t.forEach((x,i)=>{ if(x==='Y') posts++; else if(x==='X'){ posts++; faltas+=Math.max(0,parseInt(tb.m.f[i])||0); } else if(x==='F') faltas++; });
-  return { posts, faltas, grageas:Math.max(0,posts*n(tb.r.M)-faltas*n(tb.r.D)) };
+  const mt=masterTurns(tb);
+  if(tb.ev){ const ev=evStats(tb); return {posts:mt.posts,faltas:mt.faltas,tirada:mt.tirada,grageas:ev.masterG}; }
+  return { posts:mt.posts, faltas:mt.faltas, grageas:Math.max(0,mt.posts*n(tb.r.M)-mt.faltas*n(tb.r.D)) };
 }
 function charStats(ch,tb){
   const c=k=>ch.t.filter(x=>x===k).length;
   const R=c('R'),N=c('N'),L=c('L'),J=c('J'),I=c('I');
   const mf=masterStats(tb).faltas, r=tb.r;
   const total=R+N+L;
+  if(tb.ev){
+    const ev=evStats(tb), base=n(tb.e.base), v=ch.mpj?0:ev.vel, pr=ev.premio[ch.id]||0;
+    const turnos=R*(base+v)+N*base+L*Math.max(0,base-v)+J*n(r.J)+I*n(r.I);
+    return { R,N,L,J,I,total,grageas:turnos+pr,turnos,premio:pr,comp:0,pct:Math.min(100,total/tb.nt*100),ev:1 };
+  }
   const grageas=R*n(r.R)+N*n(r.N)+L*n(r.L)+J*n(r.J)+I*n(r.I)+mf*n(r.C);
   return { R,N,L,J,I,total,grageas,comp:mf*n(r.C),pct:Math.min(100,total/tb.nt*100) };
 }
@@ -1026,9 +1086,10 @@ function masterTurn(edit,tb,ti,i){
   return `<div class="tcell"><label class="tsel st-X" title="${tip}"><b>${lbl}</b><select data-k="tb.${ti}.m.t.${i}" data-turn="m">${opts}</select></label>
     <input class="fcnt" type="number" min="0" max="99" value="${nf}" data-k="tb.${ti}.m.f.${i}" data-num="1" data-fcnt="${i}" title="Cantidad de faltas en este turno"><small>T${i+1}</small></div>`;
 }
-const MASTER_LEGEND=`<div class="mlegend"><span><i class="st-Y">✓</i>Posteó</span><span><i class="st-X">✓2</i>Posteó con faltas (anotás cuántas)</span><span><i class="st-F">F</i>No posteó · cuenta 1 falta</span></div>`;
+const MASTER_LEGEND=`<div class="mlegend"><span><i class="st-Y">✓</i>Posteó</span><span><i class="st-Z">○</i>Posteó sin tirada</span><span><i class="st-X">✓2</i>Posteó con faltas (anotás cuántas)</span><span><i class="st-F">F</i>No posteó · cuenta 1 falta</span></div>`;
 function legendHTML(tb){
-  const r=tb.r;
+  let r=tb.r;
+  if(tb.ev){ const v=evStats(tb).vel, b=n(tb.e.base); r=Object.assign({},r,{R:b+v,N:b,L:Math.max(0,b-v)}); }
   const it=(k,txt)=>`<span><i class="st-${k}"></i>${txt}</span>`;
   return `<div class="legend">${it('R',`R · Rápido (primeras 24 h) · ${r.R}`)}${it('N',`N · Normal · ${r.N}`)}${it('L',`L · Lento (últimas 12 h) · ${r.L}`)}${it('J',`FJ · Falta justificada · ${r.J}`)}${it('I',`FI · Falta injustificada · ${r.I}`)}${it('S','SP · Sin postear')}</div>`;
 }
@@ -1091,7 +1152,7 @@ function charCard(ch,tb,ti,ci,edit){
       </div>
     </div>
     <div class="card-body">
-      <div class="block"><h4>🌙 Tracker de turnos</h4><div class="turns">${turns}</div></div>
+      <div class="block"><h4>🌙 Tracker de turnos</h4><div class="turns">${turns}</div>${tb.ev?evCardCtl(ch,tb,P,edit):''}</div>
       <div class="two">
         <div class="block"><h4>🔮 Puntos especiales</h4>
           ${edit?'<div class="stat"><span></span><span class="muted" style="text-align:center">Usados</span><span class="muted" style="text-align:center">Máx</span></div>':''}
@@ -1118,11 +1179,39 @@ function charCard(ch,tb,ti,ci,edit){
     ${edit?`<div class="card-foot"><button class="btn sm ghost" data-import="${ti}" data-ci="${ci}">📥 Cargar ficha</button><button class="btn sm ghost" data-dup="${ti}.${ci}">Duplicar</button><button class="btn sm ghost" data-delch="${ti}.${ci}" style="color:var(--ciruela)">Eliminar personaje</button></div>`:''}
   </article>`;
 }
+function evCardCtl(ch,tb,P,edit){
+  const e=tb.e;
+  if(!edit) return '';
+  let puesto='';
+  if(e.bt!=='coop'){
+    if(e.md==='equipo') puesto=`<label class="chk"><input type="checkbox" data-k="${P}.pz" ${ch.pz?'checked':''}> En el equipo ganador</label>`;
+    else { const ops=e.md==='uno'?[[0,'—'],[1,'Ganador']]:[[0,'—'],[1,'1º'],[2,'2º'],[3,'3º']];
+      puesto=`<div><label class="f">Puesto</label><select class="in" data-k="${P}.pz" data-num="1">${ops.map(([v,l])=>`<option value="${v}" ${(+ch.pz||0)===v?'selected':''}>${l}</option>`).join('')}</select></div>`; }
+  }
+  return `<div class="evctl">
+    <div><label class="f">Estado</label><select class="in" data-k="${P}.est">${[['','Activo'],['A','Se ausentó'],['T','Terminó por trama']].map(([v,l])=>`<option value="${v}" ${(ch.est||'')===v?'selected':''}>${l}</option>`).join('')}</select></div>
+    ${puesto}
+    <label class="chk"><input type="checkbox" data-k="${P}.mpj" ${ch.mpj?'checked':''}> PJ del master</label>
+  </div>`;
+}
 function sumPills(ch,tb){
   const s=charStats(ch,tb);
-  return `<span class="pill gold">🍬 ${s.grageas} grageas</span><span class="pill">✦ ${s.total}/${tb.nt} turnos</span><span class="pill">R ${s.R} · N ${s.N} · L ${s.L}</span><span class="pill">FJ ${s.J} · FI ${s.I}</span>${s.comp?`<span class="pill" title="Compensación por faltas del master">+${s.comp} comp.</span>`:''}`;
+  return `<span class="pill gold">🍬 ${s.grageas} grageas</span><span class="pill">✦ ${s.total}/${tb.nt} turnos</span><span class="pill">R ${s.R} · N ${s.N} · L ${s.L}</span><span class="pill">FJ ${s.J} · FI ${s.I}</span>${s.comp?`<span class="pill" title="Compensación por faltas del master">+${s.comp} comp.</span>`:''}${s.premio?`<span class="pill gold" title="Premio del bote">🏆 +${s.premio} bote</span>`:''}${ch.mpj?`<span class="pill" title="PJ del master: sin bonus de velocidad">PJ del master</span>`:''}${ch.est==='A'?`<span class="pill">Ausente</span>`:ch.est==='T'?`<span class="pill">Terminó por trama</span>`:''}`;
 }
-function masterPills(tb){ const m=masterStats(tb); return `<span class="pill gold">🍬 ${m.grageas} grageas</span><span class="pill">✓ ${m.posts} turnos</span><span class="pill">Faltas ${m.faltas}</span>`; }
+function masterPills(tb){ const m=masterStats(tb); return `<span class="pill gold">🍬 ${m.grageas} grageas</span><span class="pill">✓ ${m.posts} turnos</span>${tb.ev?`<span class="pill">Con tirada ${m.tirada}</span>`:''}<span class="pill">Faltas ${m.faltas}</span>`; }
+/* panel de cuentas del acontecimiento */
+function evSummary(tb){
+  const v=evStats(tb), e=tb.e;
+  const row=(l,x,sub='')=>`<div class="evrow"><span>${l}${sub?`<small>${sub}</small>`:''}</span><b>${x}</b></div>`;
+  return `${row('Jugadores que cuentan',v.nj,v.crudo!==v.nj||v.cuenta.some(c=>c.peso<1)?`${v.crudo} → redondeo hacia arriba · ausentes con menos de ${v.umbral} turnos cuentan como medio`:`mínimo ${v.umbral} turnos para contar entero`)}
+    ${row('Master por turno con tirada',v.masterPorTurno+' grageas',`${v.tirada} turnos con tirada · ${v.sinTirada} sin tirada`)}
+    ${row('Master sin PJ propio',v.pjMaster?'no aplica':`+${n(e.np)} × ${v.jugados} turnos`,v.pjMaster?'el master juega con un PJ (marcado en su tarjeta)':'el master no juega con PJ')}
+    ${row('Bote',`${v.bote} grageas`,`${v.botePorTurno} por turno × ${v.jugados} turnos jugados`)}
+    ${row('Bonus de velocidad',e.vb?`±${v.vel} por turno`:'desactivado',e.vb?(v.nj<=15?'15 jugadores o menos':'16 jugadores o más')+' · no aplica al PJ del master':'')}
+    ${e.bt==='coop'?row('Reparto (cooperativo)',e.ok&&tb.ch.length?`${Math.floor(v.bote/tb.ch.length)} c/u`:'pendiente',e.ok?'objetivos logrados: se reparte entre todos':'se reparte solo si se logran los objetivos')
+      :row('Reparto (competitivo)',`${v.ganadores} / ${v.maxGan} premiados`,{top3:`Top 3 escalonado ${e.p1}/${e.p2}/${e.p3} %`,uno:'Ganador único',equipo:'Equipo a partes iguales'}[e.md])}
+    ${v.aviso?`<div class="evwarn">⚠ ${v.aviso}</div>`:''}`;
+}
 
 /* ════════════════ TABLILLA ════════════════ */
 function tablilla(tb,ti,edit,filter){
@@ -1132,12 +1221,28 @@ function tablilla(tb,ti,edit,filter){
         <div><label class="f">Nombre de la tablilla</label>${fld(1,tb.n,`tb.${ti}.n`,{ph:'Ej: Escena 1 · El bosque'})}</div>
         <div><label class="f">N.º de turnos</label><input class="in num" type="number" min="1" max="60" value="${tb.nt}" data-nt="${ti}"></div>
       </div>
-      <details class="rules"><summary>✦ Reglas de grageas de esta tablilla</summary>
+      <div class="evtoggle"><label class="f">Tipo</label>
+        <div class="seg"><button data-evset="${ti}" data-ev="0" class="${tb.ev?'':'on'}">Misión</button><button data-evset="${ti}" data-ev="1" class="${tb.ev?'on':''}">Acontecimiento</button></div></div>
+      ${tb.ev?`<details class="rules" open><summary>✦ Reglas del acontecimiento</summary>
+        <div class="rules-grid">
+          <div><label class="f">Grageas por turno</label>${fld(1,tb.e.base,`tb.${ti}.e.base`,{num:1})}</div>
+          <div><label class="f">Master sin PJ, por turno</label>${fld(1,tb.e.np,`tb.${ti}.e.np`,{num:1})}</div>
+          <div><label class="f">Descuento al master x falta</label>${fld(1,tb.r.D,`tb.${ti}.r.D`,{num:1})}</div>
+        </div>
+        <div class="trow">
+          <label class="chk"><input type="checkbox" data-k="tb.${ti}.e.vb" ${tb.e.vb?'checked':''}> Dar bonus por posteo rápido / lento</label>
+          <div><label class="f">Bote</label><div class="seg"><button data-eset="${ti}" data-key="bt" data-val="comp" class="${tb.e.bt!=='coop'?'on':''}">Competitivo</button><button data-eset="${ti}" data-key="bt" data-val="coop" class="${tb.e.bt==='coop'?'on':''}">Cooperativo</button></div></div>
+          ${tb.e.bt==='coop'?`<label class="chk"><input type="checkbox" data-k="tb.${ti}.e.ok" ${tb.e.ok?'checked':''}> Objetivos logrados</label>`
+          :`<div><label class="f">Reparto</label><div class="seg">${[['top3','Top 3'],['uno','Ganador único'],['equipo','Equipo']].map(([k,l])=>`<button data-eset="${ti}" data-key="md" data-val="${k}" class="${tb.e.md===k?'on':''}">${l}</button>`).join('')}</div></div>`}
+        </div>
+        ${tb.e.bt!=='coop'&&tb.e.md==='top3'?`<div class="rules-grid" style="margin-top:10px">${['p1','p2','p3'].map((k,i)=>`<div><label class="f">${i+1}º puesto (%)</label>${fld(1,tb.e[k],`tb.${ti}.e.${k}`,{num:1})}</div>`).join('')}</div>`:''}
+        <div class="tip">El master cobra solo los turnos marcados <b>✓ con tirada</b> (los ○ sin tirada no cobran, salvo que los marques ✓, por ejemplo apertura y cierre). Los premios del bote nunca pueden ir a más de una cuarta parte de los participantes. En cada tarjeta marcás si es el PJ del master, si se ausentó y el puesto.</div>
+      </details>`:`<details class="rules"><summary>✦ Reglas de grageas de esta tablilla</summary>
         <div class="rules-grid">
           ${[['R','Rápido'],['N','Normal'],['L','Lento'],['J','Falta justificada'],['I','Falta injustificada'],['M','Master por turno'],['C','Compensación x falta del master'],['D','Descuento al master x falta']].map(([k,l])=>`<div><label class="f">${l}</label>${fld(1,tb.r[k],`tb.${ti}.r.${k}`,{num:1})}</div>`).join('')}
         </div>
         <div class="tip">Cada falta del master suma la compensación a todos los jugadores de la tablilla (como en tu Excel: +20 por falta).</div>
-      </details>
+      </details>`}
       <div class="row"><button class="btn sm ghost" data-deltab="${ti}" style="color:var(--ciruela)">Eliminar esta tablilla</button></div>
     </div>` : '';
   const master=`<section class="panel master">
@@ -1148,11 +1253,12 @@ function tablilla(tb,ti,edit,filter){
         <div class="pills" data-calc="msum" data-tb="${ti}">${masterPills(tb)}</div>
       </div>
       ${MASTER_LEGEND}
+      ${tb.ev?`<div class="evsum"><div class="evhead">Acontecimiento · ${tb.e.bt==='coop'?'cooperativo':'competitivo'}</div><div data-calc="ev" data-tb="${ti}">${evSummary(tb)}</div></div>`:''}
     </section>`;
   let chars=tb.ch.map((c,ci)=>({c,ci}));
   if(filter) chars=chars.filter(x=>x.c.id===filter);
   const cards=chars.map(({c,ci})=>charCard(c,tb,ti,ci,edit)).join('');
-  return head+master+legendHTML(tb)+
+  return head+master+`<div data-calc="leg" data-tb="${ti}">${legendHTML(tb)}</div>`+
     (cards?`<div class="grid">${cards}</div>`:`<div class="panel empty"><div class="script">Aún no hay personajes</div></div>`)+
     (edit?`<div style="text-align:center;margin-top:18px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap"><button class="btn dark" data-addch="${ti}">✦ Añadir personaje</button><button class="btn" data-import="${ti}">📥 Importar ficha</button></div>`:'');
 }
@@ -1248,6 +1354,8 @@ function refreshCalcs(){
     else if(k==='sum'){ const tb=p.tb[el.dataset.tb]; el.innerHTML=sumPills(tb.ch[el.dataset.ch],tb); }
     else if(k==='prog'){ const tb=p.tb[el.dataset.tb]; el.style.width=charStats(tb.ch[el.dataset.ch],tb).pct+'%'; }
     else if(k==='msum'){ el.innerHTML=masterPills(p.tb[el.dataset.tb]); }
+    else if(k==='ev'){ el.innerHTML=evSummary(p.tb[el.dataset.tb]); }
+    else if(k==='leg'){ el.innerHTML=legendHTML(p.tb[el.dataset.tb]); }
   });
   skinClean();
 }
@@ -1305,7 +1413,7 @@ document.addEventListener('input',e=>{
   const el=e.target;
   if(el.id==='themeK'&&S.mode==='master'){ setTheme({k:+el.value}); return; }
   if(S.mode!=='master'||!el.dataset.k) return;
-  let v=el.value; if(el.dataset.num) v=v.trim()===''?'':(isNaN(+v)?v:+v);
+  let v=el.value; if(el.type==='checkbox') v=el.checked?1:0; else if(el.dataset.num) v=v.trim()===''?'':(isNaN(+v)?v:+v);
   setPath(S.party,el.dataset.k,v);
   if(el.dataset.turn==='m'){ const [,ti,,,i]=el.dataset.k.split('.'); const tb=S.party.tb[ti];
     if(v==='X'&&!(tb.m.f[i]>0)) tb.m.f[i]=1; markDirty(); render(); return; }
@@ -1359,6 +1467,8 @@ document.addEventListener('click',async e=>{
       toast(list.length>1?`✦ ${list.length} fichas cargadas`:'✦ Ficha de '+(list[0].personaje||'personaje')+' cargada');
     }catch(err){ b.disabled=false; toast(err.message||'Código de ficha no válido'); }
     return; }
+  if(d.evset!==undefined){ p.tb[+d.evset].ev=+d.ev; markDirty(); render(); return; }
+  if(d.eset!==undefined){ const tb=p.tb[+d.eset]; tb.e[d.key]=d.val; if(d.key==='md') tb.ch.forEach(c=>{ if(d.val==='uno'&&c.pz>1) c.pz=0; }); markDirty(); render(); return; }
   if(d.addtab){ p.tb.push(newTab(p.tb.length+1)); S.tab=p.tb.length-1; markDirty(); render(); return; }
   if(d.deltab!==undefined){ if(p.tb.length<2){toast('Tiene que quedar al menos una tablilla');return;} if(confirmInline(b,'¿Eliminar? Toca otra vez')){ p.tb.splice(+d.deltab,1); S.tab=0; markDirty(); render(); } return; }
   if(d.addch!==undefined){ const tb=p.tb[d.addch]; const c=newChar(); c.t=fromT([],tb.nt); tb.ch.push(c); markDirty(); render(); return; }
