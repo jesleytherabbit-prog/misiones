@@ -998,6 +998,21 @@ async function decodeFicha(code){
 const cap=t=>String(t||'').replace(/_/g,' ').replace(/^\w/,c=>c.toUpperCase());
 const V_EMOJI={'recursos':'💰','fama':'🏆','orden de merlín':'🎖️','orden de merlin':'🎖️','patrón':'🤝','patron':'🤝'};
 const numOr=v=>{const x=parseFloat(v);return isNaN(x)?'':x;};
+/* al recargar la ficha de un personaje que ya estaba, conserva lo gastado en la misión */
+const nk=t=>String(t||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^\p{L}\p{N}]+/gu,' ').trim().toLowerCase();
+function keepSpent(c,base){
+  ['pp','pr','pd'].forEach(k=>{ if(Array.isArray(base[k])&&n(base[k][0])) c[k][0]=n(base[k][0]); });
+  if(Array.isArray(base.h)&&n(base.h[0])) c.h[0]=n(base.h[0]);
+  if(Array.isArray(base.pa)&&base.pa[0]!==''&&n(base.pa[1])) c.pa[0]=Math.min(n(base.pa[0]),n(c.pa[1])||n(base.pa[0]));
+  const carry=(newRows,oldRows,keyFn,label)=>{
+    const used=new Set();
+    newRows.forEach(r=>{ const i=oldRows.findIndex((o,j)=>!used.has(j)&&keyFn(o)===keyFn(r)); if(i>=0){ used.add(i); if(oldRows[i].u!==''&&oldRows[i].u!=null) r.u=oldRows[i].u; } });
+    oldRows.forEach((o,j)=>{ if(!used.has(j)&&n(o.u)>0) newRows.push(Object.assign({},o,{d:[o.d,'(no está en la ficha nueva; se conserva porque tiene usos gastados)'].filter(Boolean).join(' ')})); });
+  };
+  carry(c.v,base.v||[],r=>nk(r.n));
+  carry(c.tr,base.tr||[],r=>nk(r.n)+'|'+nk(r.c));
+  carry(c.inv,base.inv||[],r=>nk(r.o));
+}
 function fichaToChar(f,base){
   const c=base?JSON.parse(JSON.stringify(base)):newChar();
   const P=f.puntos||{}, C=f.combate||{};
@@ -1047,6 +1062,7 @@ function fichaToChar(f,base){
     ATRS.forEach(([k])=>{ if(at[k]==null&&dv[k]!=null){ at[k]=dv[k]; atd[k]=1; } });
     c.at=at; c.atd=atd;
   }
+  if(base) keepSpent(c,base);
   if(f.combate){ c.cb={}; ['iniciativa','ataque_fisico','ataque_magico','defensa','lucha_fisica','lucha_magica'].forEach(k=>{ if(typeof f.combate[k]==='number') c.cb[k]=f.combate[k]; }); }
   return c;
 }
