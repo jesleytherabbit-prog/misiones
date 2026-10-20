@@ -274,6 +274,83 @@ label.chk input{width:16px;height:16px;accent-color:var(--amatista)}
 .skin-dk .evhead,.skin-dk .evrow b{color:var(--sk-accent);font-family:var(--f-label)}
 .skin-dk .evrow{border-bottom-color:var(--sk-border2);color:var(--sk-text)}
 
+/* ───── PESTAÑAS DEL PANEL ───── */
+.mtabs{display:flex;gap:8px;margin:0 0 14px;flex-wrap:wrap}
+.mtab{border:0;cursor:pointer;flex:1;min-width:150px;padding:12px 18px;border-radius:14px;font-family:var(--f-title);font-size:14px;letter-spacing:.14em;
+  background:rgba(255,255,255,.45);color:var(--lila);box-shadow:inset 0 0 0 1px var(--line);transition:.2s}
+.mtab:hover{background:rgba(255,255,255,.7)}
+.mtab.act{background:linear-gradient(135deg,var(--lila),var(--amatista));color:var(--perla);box-shadow:0 10px 22px -14px var(--lila)}
+.dark .mtab{background:rgba(255,255,255,.05);color:var(--lavanda)}
+.dark .mtab.act{background:linear-gradient(135deg,var(--ciruela),var(--lila));color:var(--champagne)}
+.skin-chef .mtab{font-family:'Cinzel',serif;font-size:12px;letter-spacing:.22em;text-transform:uppercase;background:#FBF7EF;color:var(--muted);border-radius:10px}
+.skin-chef .mtab.act{background:var(--lila);color:#FBF7EF}
+.skin-dk .mtab{font-family:var(--f-title);font-size:12px;letter-spacing:.22em;text-transform:uppercase;background:var(--sk-panel);color:var(--sk-sub);box-shadow:inset 0 0 0 1px var(--sk-border2);border-radius:6px}
+.skin-dk .mtab.act{background:var(--sk-panel2);color:var(--sk-accent);box-shadow:inset 0 -2px 0 var(--sk-accent),inset 0 0 0 1px var(--sk-border)}
+
+/* ───── EL DADO ───── */
+.dice{margin:0 0 18px}
+.dice-sum{font-family:var(--f-title);font-size:14px;letter-spacing:.18em;color:var(--lila);display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.dice-sum .muted{font-family:var(--f-body);letter-spacing:0;font-size:12px}
+.dice-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:10px 12px;margin-top:14px;align-items:end}
+.dice-grid .span2{grid-column:span 2}.dice-grid .span3{grid-column:span 3}
+.modrow{display:flex;gap:5px;flex-wrap:wrap;align-items:center}
+.dice-prev{margin-top:12px;padding:10px 12px;border-radius:10px;background:rgba(255,255,255,.55);box-shadow:inset 0 0 0 1px var(--line);font-family:ui-monospace,Menlo,monospace;font-size:12.5px}
+.dice-act{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:12px}
+.die{width:58px;height:58px;display:flex;align-items:center;justify-content:center;font-family:var(--f-name);font-size:30px;font-weight:700;color:#fff;
+  background:linear-gradient(135deg,var(--amatista),var(--lila));clip-path:polygon(50% 0,100% 38%,82% 100%,18% 100%,0 38%);box-shadow:0 8px 18px -8px var(--lila)}
+.die.rolling{animation:shake .12s linear infinite}
+@keyframes shake{0%{transform:rotate(-8deg)}50%{transform:rotate(8deg)}100%{transform:rotate(-8deg)}}
+.dice-res{padding:8px 14px;border-radius:12px;font-weight:700}
+.dice-res b{font-family:var(--f-name);font-size:22px;margin-right:4px}
+.dice-res.ok{background:rgba(104,112,95,.18);color:var(--salvia)}
+.dice-res.ko{background:rgba(var(--rosapolvo-rgb),.25);color:var(--ciruela)}
+.dice-lock{padding:14px 0}
+.lg{max-height:420px;overflow:auto;padding:10px 12px;border-radius:10px;background:rgba(255,255,255,.55);box-shadow:inset 0 0 0 1px var(--line);font-family:ui-monospace,Menlo,monospace;font-size:12.5px}
+.lg-h{font-weight:700;margin:10px 0 4px;letter-spacing:.06em}.lg-h:first-child{margin-top:0}
+.lg-l{display:flex;gap:8px;align-items:flex-start;justify-content:space-between;padding:3px 0;border-bottom:1px dashed var(--line)}
+.lg-l .x{flex:none}
+.atr-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:12px}
+.atr-grid label.f{font-size:9px;letter-spacing:.04em}
+.hab-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px 14px}
+.hab-h{font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--lila);margin-bottom:4px}
+.hab-r{display:flex;justify-content:space-between;gap:6px;align-items:center;font-size:12.5px;margin-bottom:3px}
+.hab-r select.in{width:118px;padding:3px 6px;font-size:12px}
+.atr-view{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:10px;text-align:center}
+.atr-view span{background:rgba(255,255,255,.6);border-radius:8px;padding:4px 2px;box-shadow:inset 0 0 0 1px var(--line)}
+.atr-view small{display:block;font-size:9px;letter-spacing:.04em;opacity:.8}.atr-view b{font-family:var(--f-name);font-size:18px}
+.hab-view{display:flex;flex-wrap:wrap;gap:6px}
+.hab-view span{font-size:12px;padding:3px 9px;border-radius:999px;background:rgba(255,255,255,.6);box-shadow:inset 0 0 0 1px var(--line)}
+@media (max-width:760px){.dice-grid{grid-template-columns:repeat(2,1fr)}.dice-grid>div{grid-column:span 2!important}.atr-grid,.atr-view{grid-template-columns:repeat(4,1fr)}}
+.dark .dice-prev,.dark .lg,.dark .atr-view span,.dark .hab-view span{background:rgba(255,255,255,.05)}
+.skin-dk .dice-prev,.skin-dk .lg{background:var(--sk-meta);box-shadow:inset 0 0 0 1px var(--sk-border2);color:var(--sk-text)}
+.skin-dk .die{background:linear-gradient(135deg,var(--sk-panel2),var(--sk-border));color:var(--sk-accent)}
+.skin-dk .dice-sum,.skin-dk .hab-h{color:var(--sk-accent);font-family:var(--f-title)}
+.skin-chef .dice-prev,.skin-chef .lg{background:#F5EDDD}
+.skin-dk .dice-res.ok,.dark .dice-res.ok{background:rgba(var(--rosa-rgb),.14);color:var(--rosa)}
+.skin-dk .dice-res.ko,.dark .dice-res.ko{background:rgba(var(--rosapolvo-rgb),.35);color:var(--perla)}
+.skin-dk .dice-res.ok{color:var(--sk-name)}
+.skin-chef .die{background:linear-gradient(135deg,#B05E3E,#8E4A30)}
+
+.dice-ev{margin:12px 0 0;font-weight:500}
+.dice-top{display:flex;gap:22px;align-items:center;margin:14px 0 6px;flex-wrap:wrap}
+.die.big{width:118px;height:118px;font-size:44px;border:0;cursor:pointer;flex:none;transition:transform .2s,filter .2s}
+.die.big:hover{transform:scale(1.05) rotate(-4deg);filter:brightness(1.08)}
+.die.big:active{transform:scale(.95)}
+.dice-top-r{flex:1;min-width:240px;display:flex;flex-direction:column;gap:8px}
+.dice-top-r .dice-prev{margin-top:0}
+.dice-hint{font-family:var(--f-script);font-size:26px;color:var(--rosapolvo)}
+.dice-hint:empty{display:none}
+.dice-last{font-family:ui-monospace,Menlo,monospace;font-size:12.5px;opacity:.85}
+.dice-top .dice-res{align-self:flex-start}
+.cr-form{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;align-items:end}
+.cr-form>*{grid-column:span 1}.cr-form .cr-h{grid-column:span 5}.cr-form .cr-df{grid-column:span 2}
+.cr-form .btn{white-space:nowrap}
+.cr-form label.chk{margin-bottom:8px;white-space:nowrap}
+.cr-lg{margin-top:10px;max-height:260px}
+@media (max-width:520px){.cr-form{grid-template-columns:repeat(3,1fr)}.cr-form .cr-h{grid-column:span 2}.cr-form .cr-df{grid-column:span 3}}
+.skin-dk .dice-hint{font-family:var(--f-body);font-style:italic;font-size:17px;color:var(--sk-sub)}
+.skin-chef .dice-hint{font-family:'Pinyon Script',cursive;color:var(--salvia)}
+
 /* ───── APARIENCIA ───── */
 .theme-panel{margin:-4px 0 16px}
 .theme-panel>summary{list-style:none;cursor:pointer;font-weight:700;color:var(--lila);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
@@ -684,10 +761,29 @@ function newChar(){
         {n:'🎖️ Orden de Merlín',l:'',u:'',m:'',d:''}, {n:'🤝 Patrón',l:'',u:'',m:'',d:''} ],
     tr:[ {n:'',c:'',l:'',u:'',m:'',d:''} ],
     inv:[ {c:'Básico',o:'',u:'',m:'',d:''} ],
+    at:{}, hb:{}, hx:{},
     no:'' };
 }
+/* ── Atributos y habilidades del Sistema Avadense ── */
+const ATRS=[['vigor','Vigor'],['destreza','Destreza'],['carisma','Carisma'],['voluntad','Voluntad'],['percepcion','Percepción'],['inteligencia','Inteligencia'],['poder','Poder']];
+const ATR_N=Object.fromEntries(ATRS);
+const HABS=[['atletismo','Atletismo','vigor'],['pelea','Pelea','vigor'],
+  ['esquiva','Esquiva','destreza'],['latrocinio','Latrocinio','destreza'],['sigilo','Sigilo','destreza'],['vuelo','Vuelo','destreza'],
+  ['coordinacion','Coordinación','carisma'],['intimidacion','Intimidación','carisma'],['oratoria','Oratoria','carisma'],['seduccion','Seducción','carisma'],['subterfugio','Subterfugio','carisma'],
+  ['estilo','Estilo','voluntad'],['frialdad','Frialdad','voluntad'],
+  ['alerta','Alerta','percepcion'],['consciencia','Consciencia','percepcion'],['empatia','Empatía','percepcion'],['iniciativa','Iniciativa','percepcion'],['investigacion','Investigación','percepcion'],
+  ['adivinacion','Adivinación','inteligencia'],['arcanismo','Arcanismo','inteligencia'],['callejeo','Callejeo','inteligencia'],['cultura_magica','Cultura Mágica','inteligencia'],['cultura_muggle','Cultura Muggle','inteligencia'],['herbologia','Herbología','inteligencia'],['magizoologia','Magizoología','inteligencia'],['medicina','Medicina','inteligencia'],['politica','Política','inteligencia'],['supervivencia','Supervivencia','inteligencia'],
+  ['duelo','Duelo','poder'],['pociones','Pociones','poder'],['rituales','Rituales','poder']];
+const NIVELES=[[0,'Desentrenado'],[1,'Novato'],[2,'Competente'],[4,'Experto'],[7,'Maestro'],[9,'Legendario']];
+const NIV_N=Object.fromEntries(NIVELES);
+/* todas las habilidades de un personaje: [clave, nombre, atributo] */
+function charHabs(ch){
+  const out=HABS.map(([k,nm,a])=>[k,nm,a]);
+  Object.entries(ch.hx||{}).forEach(([k,[nm,a]])=>out.push([k,nm,a||'voluntad']));
+  return out;
+}
 const DEF_EV={vb:0,bt:'comp',md:'top3',ok:0,base:20,p1:50,p2:30,p3:20,np:20};
-function newTab(i){ const c=newChar(); c.t=Array(20).fill(''); return { id:uid(), n:'Tablilla '+i, nt:20, m:{n:'',t:Array(20).fill(''),f:Array(20).fill(0)}, r:{...DEF_RULES}, ev:0, e:{...DEF_EV}, ch:[c] }; }
+function newTab(i){ const c=newChar(); c.t=Array(20).fill(''); return { id:uid(), n:'Tablilla '+i, nt:20, m:{n:'',t:Array(20).fill(''),f:Array(20).fill(0)}, r:{...DEF_RULES}, ev:0, e:{...DEF_EV}, lg:[], ch:[c] }; }
 function newParty(){ return { v:1, title:'', sv:0, at:0, tb:[newTab(1)] }; }
 
 /* normaliza datos (rellena faltantes tras decodificar) */
@@ -696,7 +792,7 @@ function normParty(p){
   if(!Array.isArray(p.tb)||!p.tb.length) p.tb=[newTab(1)];
   p.tb=p.tb.map((t,i)=>{
     const b=Object.assign(newTab(i+1),t); b.ch=[];
-    b.r=Object.assign({...DEF_RULES},t.r||{}); b.ev=t.ev?1:0; b.e=Object.assign({...DEF_EV},t.e||{});
+    b.r=Object.assign({...DEF_RULES},t.r||{}); b.lg=Array.isArray(t.lg)?t.lg:[]; b.ev=t.ev?1:0; b.e=Object.assign({...DEF_EV},t.e||{});
     b.nt=Math.max(1,Math.min(60,parseInt(b.nt)||20));
     b.m=Object.assign({n:'',t:[]},t.m||{});
     b.m.t=fromT(b.m.t,b.nt); b.m.f=fromF(b.m.f,b.nt);
@@ -704,6 +800,7 @@ function normParty(p){
       const x=Object.assign(newChar(),c);
       ['pp','pr','pd','h','pa'].forEach(k=>{ if(!Array.isArray(x[k])) x[k]=[0,0]; });
       ['v','tr','inv'].forEach(k=>{ if(!Array.isArray(x[k])) x[k]=[]; });
+      ['at','hb','hx'].forEach(k=>{ if(!x[k]||typeof x[k]!=='object'||Array.isArray(x[k])) x[k]={}; });
       x.t=fromT(x.t,b.nt); if(!x.id) x.id=uid(); return x;
     });
     return b;
@@ -776,7 +873,7 @@ function compact(p){
     return o;
   };
   const c=JSON.parse(JSON.stringify(p));
-  c.tb.forEach(t=>{ t.m.f=(t.m.f||[]).map((x,i)=>t.m.t[i]==='X'?x:0); while(t.m.f.length&&!t.m.f[t.m.f.length-1]) t.m.f.pop(); if(!t.m.f.length) delete t.m.f; t.m.t=toT(t.m.t); t.ch.forEach(ch=>{ ch.t=toT(ch.t); }); });
+  delete c.rg; c.tb.forEach(t=>{ delete t.lg; t.m.f=(t.m.f||[]).map((x,i)=>t.m.t[i]==='X'?x:0); while(t.m.f.length&&!t.m.f[t.m.f.length-1]) t.m.f.pop(); if(!t.m.f.length) delete t.m.f; t.m.t=toT(t.m.t); t.ch.forEach(ch=>{ ch.t=toT(ch.t); }); });
   return strip(c);
 }
 const b64u={
@@ -784,8 +881,9 @@ const b64u={
   dec(str){str=str.replace(/-/g,'+').replace(/_/g,'/');while(str.length%4)str+='=';const b=atob(str);const u=new Uint8Array(b.length);for(let i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return u;}
 };
 async function pipe(bytes,Stream,mode){ const s=new Blob([bytes]).stream().pipeThrough(new Stream(mode)); return new Uint8Array(await new Response(s).arrayBuffer()); }
-async function encodeParty(p){
-  const bytes=new TextEncoder().encode(JSON.stringify(compact(p)));
+async function encodeParty(p,rg){
+  const c=compact(p); if(rg) c.rg=rg;
+  const bytes=new TextEncoder().encode(JSON.stringify(c));
   if('CompressionStream' in window){ try{ return PREFIX+'z.'+b64u.enc(await pipe(bytes,CompressionStream,'deflate-raw')); }catch(e){} }
   return PREFIX+'p.'+b64u.enc(bytes);
 }
@@ -891,6 +989,15 @@ function fichaToChar(f,base){
   const at=Object.entries(f.atributos||{}).map(([k,v])=>`${cap(k)} ${v}`).join(' · ');
   const note=[stats&&'⚔ '+stats, at&&'✦ '+at].filter(Boolean).join('\n');
   if(note) c.no=base&&base.no&&!base.no.startsWith('⚔')?base.no+'\n\n'+note:note;
+  if(f.atributos) c.at=Object.assign({},f.atributos);
+  if(f.habilidades||f.bonos){
+    c.hb={}; c.hx={}; const std=new Set(HABS.map(h=>h[0]));
+    Object.entries(f.habilidades||{}).forEach(([g,hs])=>Object.entries(hs||{}).forEach(([k,h])=>{
+      if(h&&h.bono!=null) c.hb[k]=n(h.bono);
+      if(!std.has(k)) c.hx[k]=[h.nombre||cap(k),ATR_N[g]?g:'voluntad'];
+    }));
+    Object.entries(f.bonos||{}).forEach(([k,b])=>{ if(c.hb[k]==null) c.hb[k]=n(b); });
+  }
   return c;
 }
 function importModal(ti,ci){
@@ -901,6 +1008,216 @@ function importModal(ti,ci){
     <div class="tip">Se cargan: nombre, raza y especializaciones, puntos de Poción/Rituales/Destino, Heridas, Umbral, PAs, Ventajas, Trasfondos, Objetos y los stats de combate (en Notas).
       ${tgt?'<br><b>Se conservan</b> la imagen, el jugador y los turnos de este personaje.':''}</div>
     <div class="row"><button class="btn prime" data-doimport="${ti}" data-ci="${ci===undefined?'':ci}">📥 Importar</button></div>`);
+}
+
+
+/* ════════════════ EL DADO + REGISTRO DE TIRADAS ════════════════ */
+const ESCALA=[[5,'Rutinaria'],[7,'Fácil'],[9,'Moderada'],[12,'Complicada'],[15,'Difícil'],[18,'Heroica'],[21,'Épica'],[25,'Imposible']];
+const ESC_N=Object.fromEntries(ESCALA);
+function grados(total,dif){
+  if(total>=dif){ let g=0; ESCALA.forEach(([v])=>{ if(v>dif&&total>=v) g++; }); return {ok:1,g}; }
+  let g=0; ESCALA.forEach(([v])=>{ if(v<dif&&total<v) g++; }); return {ok:0,g};
+}
+function resTxt(r){ return r.ok?`Éxito, ${r.g} ${r.g===1?'grado':'grados'}`:(r.g?`Fracaso, ${r.g} ${r.g===1?'grado':'grados'} de fracaso`:'Fracaso'); }
+const sgn=x=>x<0?`− ${-x}`:`+ ${x}`;
+function logLine(e,withTurn){
+  const parts=[e.pd&&!e.pv?`D10 (10, PD)`:`D10 (${e.d})`];
+  if(e.pd&&e.pv) parts.push(`PD (7)`);
+  parts.push(`${e.an} (${e.av})`, `${e.hn} (${e.hv})`);
+  if(e.tf) parts.push(`${e.tf} (${e.tv||0})`);
+  if(e.ap) parts.push(`apoyos (${e.ap})`);
+  let s=parts.join(' + ');
+  if(e.md) s+=' '+sgn(e.md);
+  const r=grados(e.tot,e.df);
+  return `${withTurn?`T${e.t} · `:''}✦ ${e.who} — ${s} = ${e.tot} vs ${e.dn} (${e.df}) → ${resTxt(r)}`;
+}
+function logText(tb,mode){
+  const lg=tb.lg||[]; if(!lg.length) return 'REGISTRO DE TIRADAS\n\n(sin tiradas todavía)';
+  let out=`REGISTRO DE TIRADAS${tb.n?' · '+tb.n:''}\n`;
+  if(mode==='pj'){
+    [...new Set(lg.map(e=>e.who))].forEach(w=>{ out+=`\n${w.toUpperCase()}:\n`+lg.filter(e=>e.who===w).sort((a,b)=>a.t-b.t).map(e=>logLine(e,1)).join('\n')+'\n'; });
+  } else {
+    [...new Set(lg.map(e=>e.t))].sort((a,b)=>a-b).forEach(t=>{ out+=`\nTURNO ${t}:\n`+lg.filter(e=>e.t===t).map(e=>logLine(e,0)).join('\n')+'\n'; });
+  }
+  return out.trim();
+}
+/* estado del dado (no se guarda en la partida) */
+function diceState(ti,tb){
+  if(!S.dice[ti]){ const next=tb.m.t.findIndex(x=>!x); S.dice[ti]={c:0,h:'',dm:'esc',df:9,dfn:'',tp:'',th:'',mod:0,ap:0,tf:'',tv:0,pd:0,d:'',turno:next<0?tb.nt:next+1,last:null}; }
+  const st=S.dice[ti]; if(st.c>=tb.ch.length) st.c=0; return st;
+}
+function diceCalc(tb,st){
+  const ch=tb.ch[st.c]; if(!ch) return null;
+  const habs=charHabs(ch), h=habs.find(x=>x[0]===st.h)||habs.find(x=>(ch.hb||{})[x[0]]>0)||habs[0];
+  const av=n((ch.at||{})[h[2]]), hv=n((ch.hb||{})[h[0]]);
+  let df=n(st.df), dn=ESC_N[df]||'Dificultad';
+  let pvsPJ=false;
+  if(st.dm==='pj'){ const tg=tb.ch[+st.tp]; pvsPJ=!!tg;
+    if(tg){ const th=charHabs(tg).find(x=>x[0]===st.th)||charHabs(tg)[0]; df=5+n((tg.at||{})[th[2]])+n((tg.hb||{})[th[0]]); dn=`${tg.n||'PJ'} · ${th[1]}`; } }
+  if(st.dm==='num'){ df=n(st.dfn); dn=ESC_N[df]||'Dificultad'; }
+  const tr=st.tf!==''?ch.tr[+st.tf]:null;
+  const tfLabel=tr?[tr.n,tr.c].filter(Boolean).join(' '):'';
+  const tv=tr?n(st.tv):0, ap=Math.min(3,Math.max(0,n(st.ap)));
+  let md=n(st.mod);
+  const cap=tr&&tv>0?10:7, ext=md+ap+tv; let capped=false;
+  if(ext>cap){ md-= (ext-cap); capped=true; }
+  const pd=!!st.pd, pv=pd&&pvsPJ;
+  return {ch,h,av,hv,df,dn,tr,tfLabel,tv,ap,md,pd,pv,cap,capped,ext};
+}
+function diceHTML(tb,ti){
+  const p=S.party;
+  if(p.rg) return `<div class="dice-lock">
+      <div class="sec-title">🔒 REGISTRO PROTEGIDO</div>
+      <p class="muted" style="text-align:center">Esta partida tiene un registro de tiradas con contraseña. Escribila para usar el dado y ver el registro.</p>
+      <div class="row" style="justify-content:center"><input class="in" type="password" id="unlockPw" placeholder="Contraseña del master" style="max-width:260px"><button class="btn prime" data-unlock="1">Desbloquear</button></div>
+    </div>`;
+  if(!tb.ch.length) return `<p class="muted" style="text-align:center">Agregá personajes para usar el dado.</p>`;
+  const st=diceState(ti,tb), c=diceCalc(tb,st), ch=c.ch;
+  const habs=charHabs(ch);
+  const optH=ATRS.map(([a,an])=>`<optgroup label="${an} (${n((ch.at||{})[a])})">${habs.filter(h=>h[2]===a).map(h=>`<option value="${h[0]}" ${h[0]===c.h[0]?'selected':''}>${esc(h[1])} · ${NIV_N[n((ch.hb||{})[h[0]])]||'+'+n((ch.hb||{})[h[0]])} (${n((ch.hb||{})[h[0]])})</option>`).join('')}</optgroup>`).join('');
+  const dk=(k,v,extra='')=>`data-dk="${k}" data-ti="${ti}" ${extra}`;
+  const tg=tb.ch[+st.tp], tgHabs=tg?charHabs(tg):[];
+  const ev=tb.ev;
+  const preview=`D10 ${c.pd&&!c.pv?'(10, PD)':'(?)'}${c.pv?' + PD (7)':''} + ${ATR_N[c.h[2]]} (${c.av}) + ${esc(c.h[1])} (${c.hv})${c.tr?` + ${esc(c.tfLabel)} (${c.tv})`:''}${c.ap?` + apoyos (${c.ap})`:''}${c.md?' '+sgn(c.md):''} vs ${esc(c.dn)} (${c.df})`;
+  const L=st.last;
+  return `
+  ${tb.ev?`<div class="evwarn dice-ev">⚠ Esta tablilla es un <b>acontecimiento</b>: las tiradas de los jugadores se hacen en el foro y se anotan en la tarjeta de cada participante (📜 Tablillas → 🎲 Tiradas). Usá este dado solo para tiradas misceláneas.</div>`:''}
+  <div class="dice-top">
+    <button class="die big" id="die-${ti}" data-roll="${ti}" title="Tocá el dado para tirar">${L?L.d:'D10'}</button>
+    <div class="dice-top-r">
+      <div class="dice-hint">${L?'':'Tocá el dado para tirar'}</div>
+      ${L?`<div class="dice-res ${grados(L.tot,L.df).ok?'ok':'ko'}"><b>${L.tot}</b> vs ${L.df} · ${resTxt(grados(L.tot,L.df))}</div><div class="dice-last">${esc(logLine(L,0))}</div>`:''}
+      <div class="dice-prev">${preview}${c.capped?`<span class="evwarn" style="display:inline-block;margin-left:8px">Tope de modificadores externos: +${c.cap}</span>`:''}</div>
+    </div>
+  </div>
+  <div class="dice-grid">
+    <div><label class="f">Turno</label><input class="in num" type="number" min="1" value="${st.turno}" ${dk('turno')} data-num="1"></div>
+    <div class="span2"><label class="f">Personaje</label><select class="in" ${dk('c')}>${tb.ch.map((x,i)=>`<option value="${i}" ${i===st.c?'selected':''}>${esc(x.n||'Personaje '+(i+1))}</option>`).join('')}</select></div>
+    <div class="span3"><label class="f">Habilidad</label><select class="in" ${dk('h')}>${optH}</select>
+      ${!Object.keys(ch.at||{}).length?`<div class="muted" style="margin-top:4px">Este personaje no tiene atributos cargados: completalos en su tarjeta (📐 Atributos y habilidades) o importá su ficha.</div>`:''}</div>
+    <div class="span2"><label class="f">Dificultad</label>
+      <div class="seg"><button ${dk('dm')} data-val="esc" class="${st.dm==='esc'?'on':''}">Escala</button><button ${dk('dm')} data-val="pj" class="${st.dm==='pj'?'on':''}">Contra PJ</button><button ${dk('dm')} data-val="num" class="${st.dm==='num'?'on':''}">Número</button></div></div>
+    ${st.dm==='esc'?`<div class="span2"><label class="f">&nbsp;</label><select class="in" ${dk('df')} data-num="1">${ESCALA.map(([v,nm])=>`<option value="${v}" ${v===n(st.df)?'selected':''}>${nm} (${v})</option>`).join('')}</select></div>`
+     :st.dm==='num'?`<div class="span2"><label class="f">Dificultad</label><input class="in num" type="number" value="${esc(st.dfn)}" ${dk('dfn')} data-num="1" placeholder="Ej: 13"></div>`
+     :`<div><label class="f">Objetivo</label><select class="in" ${dk('tp')}><option value="">—</option>${tb.ch.map((x,i)=>i===st.c?'':`<option value="${i}" ${String(i)===String(st.tp)?'selected':''}>${esc(x.n||'Personaje '+(i+1))}</option>`).join('')}</select></div>
+       <div><label class="f">Su habilidad pasiva</label><select class="in" ${dk('th')}>${tgHabs.map(h=>`<option value="${h[0]}" ${h[0]===st.th?'selected':''}>${esc(h[1])}</option>`).join('')}</select></div>`}
+    <div class="span3"><label class="f">Modificadores</label>
+      <div class="modrow">${[-4,-2,-1,1,2,4].map(v=>`<button class="btn sm" data-dmod="${v}" data-ti="${ti}">${v>0?'+'+v:v}</button>`).join('')}
+        <input class="in num" type="number" value="${st.mod}" ${dk('mod')} data-num="1" style="width:70px"><button class="btn sm ghost" data-dmod="0" data-ti="${ti}">0</button></div></div>
+    <div><label class="f">Apoyos</label><select class="in" ${dk('ap')} data-num="1">${[0,1,2,3].map(v=>`<option value="${v}" ${v===n(st.ap)?'selected':''}>${v?'+'+v:'—'}</option>`).join('')}</select></div>
+    <div class="span2"><label class="f">Trasfondo (gasta 1 uso)</label><select class="in" ${dk('tf')}><option value="">— ninguno —</option>${ch.tr.map((r,i)=>r.n?`<option value="${i}" ${String(i)===String(st.tf)?'selected':''}>${esc([r.n,r.c].filter(Boolean).join(' '))} · usos ${n(r.u)}/${r.m!==''&&r.m!=null?r.m:(r.l||'—')}</option>`:'').join('')}</select></div>
+    ${c.tr?`<div><label class="f">Bonus específico</label><input class="in num" type="number" min="0" value="${st.tv}" ${dk('tv')} data-num="1"></div>`:''}
+    <div class="span2"><label class="chk" style="margin-top:22px"><input type="checkbox" ${dk('pd')} ${st.pd?'checked':''}> Usar Punto de Destino ${c.pv?'(contra PJ: +7)':'(dado = 10)'} · quedan ${Math.max(0,n(ch.pd[1])-n(ch.pd[0]))}</label></div>
+  </div>
+`;
+}
+function logHTML(tb,ti){
+  if(S.party.rg) return '';
+  const lg=tb.lg||[], mode=S.logView[ti]||(tb.ev?'pj':'turno');
+  let body='';
+  if(!lg.length) body='<p class="muted">Todavía no hay tiradas.</p>';
+  else if(mode==='pj'){
+    [...new Set(lg.map(e=>e.who))].forEach(w=>{ body+=`<div class="lg-h">${esc(w)}</div>`+lg.map((e,i)=>({e,i})).filter(x=>x.e.who===w).sort((a,b)=>a.e.t-b.e.t).map(({e,i})=>`<div class="lg-l"><span>${esc(logLine(e,1))}</span><button class="x" data-dellog="${ti}.${i}" title="Borrar">×</button></div>`).join(''); });
+  } else {
+    [...new Set(lg.map(e=>e.t))].sort((a,b)=>a-b).forEach(t=>{ body+=`<div class="lg-h">TURNO ${t}:</div>`+lg.map((e,i)=>({e,i})).filter(x=>x.e.t===t).map(({e,i})=>`<div class="lg-l"><span>${esc(logLine(e,0))}</span><button class="x" data-dellog="${ti}.${i}" title="Borrar">×</button></div>`).join(''); });
+  }
+  return `<div class="lg-bar"><div class="sec-title" style="flex:1;margin:0">REGISTRO DE TIRADAS</div></div>
+    <div class="row" style="margin:6px 0 10px">
+      <div class="seg"><button data-logview="${ti}" data-val="turno" class="${mode==='turno'?'on':''}">Por turno</button><button data-logview="${ti}" data-val="pj" class="${mode==='pj'?'on':''}">Por jugador</button></div>
+      <button class="btn sm" data-copylog="${ti}">Copiar registro</button>
+      <button class="btn sm ghost" data-setpw="1">${S.pw?'🔑 Cambiar contraseña':'🔑 Poner contraseña'}</button>
+    </div>
+    <div class="lg">${body}</div>
+    <div class="muted" style="margin-top:8px">🔒 El registro va cifrado dentro del código de partida: los jugadores no lo pueden ver, solo quien tenga la contraseña del master.</div>`;
+}
+function diceSection(tb,ti){
+  return `<section class="panel dice">
+    <div class="dice-sum">🎲 EL DADO <span class="muted">· ${esc(tb.n||'Tablilla')} · ${tb.ev?'acontecimiento':'misión'}</span></div>
+    <div id="dice-${ti}">${diceHTML(tb,ti)}</div>
+    <div id="log-${ti}" style="margin-top:16px">${logHTML(tb,ti)}</div>
+  </section>`;
+}
+function refreshDice(ti){ const tb=S.party.tb[ti], d=document.getElementById('dice-'+ti), l=document.getElementById('log-'+ti);
+  if(d) d.innerHTML=diceHTML(tb,ti); if(l) l.innerHTML=logHTML(tb,ti); skinClean(); }
+async function doRoll(ti){
+  const p=S.party, tb=p.tb[ti], st=diceState(ti,tb), c=diceCalc(tb,st); if(!c) return;
+  let d;
+  if(c.pd&&!c.pv) d=10;
+  else{
+    d=1+Math.floor(crypto.getRandomValues(new Uint32Array(1))[0]/4294967296*10);
+    const die=document.getElementById('die-'+ti);
+    if(die){ if(die.classList.contains('rolling')) return; die.classList.add('rolling'); for(let i=0;i<10;i++){ die.textContent=1+Math.floor(Math.random()*10); await new Promise(r=>setTimeout(r,55)); } die.classList.remove('rolling'); }
+  }
+  if(c.pd){ if(n(c.ch.pd[0])>=n(c.ch.pd[1])) { toast('No le quedan Puntos de Destino'); return; } c.ch.pd[0]=n(c.ch.pd[0])+1; }
+  if(c.tr){ const mx=c.tr.m!==''&&c.tr.m!=null?n(c.tr.m):n(c.tr.l); if(mx&&n(c.tr.u)>=mx) toast('Ojo: ese trasfondo ya no tenía usos'); c.tr.u=n(c.tr.u)+1; }
+  const tot=(c.pd&&!c.pv?10:d)+(c.pv?7:0)+c.av+c.hv+c.tv+c.ap+c.md;
+  const e={t:Math.max(1,n(st.turno)),who:c.ch.n||'Personaje',an:ATR_N[c.h[2]],av:c.av,hn:c.h[1],hv:c.hv,d:(c.pd&&!c.pv)?10:d,pd:c.pd?1:0,pv:c.pv?1:0,
+    tf:c.tfLabel||'',tv:c.tv,ap:c.ap,md:c.md,df:c.df,dn:c.dn,tot};
+  if(!e.tf) delete e.tf; if(!e.ap) delete e.ap; if(!e.md) delete e.md; if(!e.pd) delete e.pd; if(!e.pv) delete e.pv;
+  tb.lg.push(e); st.last=e; st.pd=0; st.tf=''; st.tv=0; st.d=''; st.mod=0; st.ap=0;
+  markDirty(); render();
+}
+/* cifrado del registro (AES-GCM con clave derivada de la contraseña) */
+async function pwKey(pw,salt){ const km=await crypto.subtle.importKey('raw',new TextEncoder().encode(pw),'PBKDF2',false,['deriveKey']);
+  return crypto.subtle.deriveKey({name:'PBKDF2',salt,iterations:150000,hash:'SHA-256'},km,{name:'AES-GCM',length:256},false,['encrypt','decrypt']); }
+async function encLogs(p,pw){ const salt=crypto.getRandomValues(new Uint8Array(16)), iv=crypto.getRandomValues(new Uint8Array(12));
+  const data=new TextEncoder().encode(JSON.stringify(p.tb.map(t=>t.lg||[])));
+  const ct=new Uint8Array(await crypto.subtle.encrypt({name:'AES-GCM',iv},await pwKey(pw,salt),data));
+  return {s:b64u.enc(salt),i:b64u.enc(iv),c:b64u.enc(ct)}; }
+async function decLogs(rg,pw){ const pt=await crypto.subtle.decrypt({name:'AES-GCM',iv:b64u.dec(rg.i)},await pwKey(pw,b64u.dec(rg.s)),b64u.dec(rg.c));
+  return JSON.parse(new TextDecoder().decode(pt)); }
+const hasLogs=p=>p.tb.some(t=>(t.lg||[]).length);
+function pwModal(after){
+  S.pwAfter=after||null;
+  modal(`<h3>Contraseña del registro</h3><div class="script">solo para el master</div>
+    <p class="muted">El registro de tiradas se guarda cifrado dentro del código de partida. Sin esta contraseña nadie puede leerlo (ni vos: si la olvidás, el registro de los guardados anteriores no se puede recuperar).</p>
+    <label class="f">Contraseña</label><input class="in" type="password" id="pw1">
+    <label class="f" style="margin-top:8px">Repetila</label><input class="in" type="password" id="pw2">
+    <div class="row"><button class="btn prime" data-pwok="1">Guardar contraseña</button></div>`);
+  setTimeout(()=>document.getElementById('pw1')?.focus(),50);
+}
+
+
+/* ── Acontecimiento: anotar tiradas del foro en la tarjeta de cada participante ── */
+function crState(ch){
+  if(!S.cr[ch.id]) S.cr[ch.id]={turno:1,tt:0,h:'',d:'',df:9,mod:0,pd:0};
+  const st=S.cr[ch.id];
+  if(!st.tt){ let last=-1; ch.t.forEach((x,i)=>{ if(x&&x!=='S') last=i; }); st.turno=Math.max(1,last+1); } // turno que acaba de postear, hasta que lo cambies a mano
+  return st;
+}
+function crCalc(ch,st){
+  const habs=charHabs(ch), h=habs.find(x=>x[0]===st.h)||habs.find(x=>(ch.hb||{})[x[0]]>0)||habs[0];
+  return {h,av:n((ch.at||{})[h[2]]),hv:n((ch.hb||{})[h[0]]),df:n(st.df),dn:ESC_N[n(st.df)]||'Dificultad',md:Math.max(-20,Math.min(7,n(st.mod)))};
+}
+function cardRollHTML(ch,tb,ti,ci){
+  if(S.party.rg) return `<div class="muted">🔒 El registro está protegido: desbloquealo en la pestaña 🎲 El Dado.</div>`;
+  const st=crState(ch), c=crCalc(ch,st), habs=charHabs(ch);
+  const ck=k=>`data-ck="${k}" data-ti="${ti}" data-ci="${ci}"`;
+  const mine=(tb.lg||[]).map((e,i)=>({e,i})).filter(x=>x.e.who===(ch.n||'Personaje')).sort((a,b)=>a.e.t-b.e.t);
+  let list='';
+  [...new Set(mine.map(x=>x.e.t))].forEach(t=>{ list+=`<div class="lg-h">TURNO ${t}:</div>`+mine.filter(x=>x.e.t===t).map(({e,i})=>`<div class="lg-l"><span>${esc(logLine(e,0).replace(/^✦ [^—]+— /,'✦ '))}</span><button class="x" data-dellog="${ti}.${i}" title="Borrar">×</button></div>`).join(''); });
+  return `<div class="cr-form">
+      <div><label class="f">Turno</label><input class="in num" type="number" min="1" value="${st.turno}" ${ck('turno')} data-num="1"></div>
+      <div class="cr-h"><label class="f">Habilidad</label><select class="in" ${ck('h')}>${ATRS.map(([a,an])=>`<optgroup label="${an} (${n((ch.at||{})[a])})">${habs.filter(h=>h[2]===a).map(h=>`<option value="${h[0]}" ${h[0]===c.h[0]?'selected':''}>${esc(h[1])} (${n((ch.hb||{})[h[0]])})</option>`).join('')}</optgroup>`).join('')}</select></div>
+      <div><label class="f">Dado</label><input class="in num" type="number" min="1" max="10" value="${esc(st.d)}" ${ck('d')} data-num="1" placeholder="1-10" ${st.pd?'disabled':''}></div>
+      <div><label class="f">Mod.</label><input class="in num" type="number" value="${st.mod}" ${ck('mod')} data-num="1"></div>
+      <div class="cr-df"><label class="f">Dificultad</label><select class="in" ${ck('df')} data-num="1">${ESCALA.map(([v,nm])=>`<option value="${v}" ${v===n(st.df)?'selected':''}>${nm} (${v})</option>`).join('')}</select></div>
+      <label class="chk"><input type="checkbox" ${ck('pd')} ${st.pd?'checked':''}> PD (10)</label>
+      <button class="btn sm prime" data-crok="${ti}.${ci}">✦ Anotar</button>
+    </div>
+    <div class="lg cr-lg">${list||'<span class="muted">Sin tiradas anotadas.</span>'}</div>`;
+}
+function refreshCard(ti,ci){ const el=document.getElementById(`cr-${ti}-${ci}`); if(el){ el.innerHTML=cardRollHTML(S.party.tb[ti].ch[ci],S.party.tb[ti],ti,ci); skinClean(); } }
+function crAdd(ti,ci){
+  const tb=S.party.tb[ti], ch=tb.ch[ci], st=crState(ch), c=crCalc(ch,st);
+  let d=st.pd?10:parseInt(st.d);
+  if(!(d>=1&&d<=10)){ toast('Escribí el número que salió en el dado del foro (1 a 10)'); return; }
+  if(st.pd){ if(n(ch.pd[0])>=n(ch.pd[1])){ toast('No le quedan Puntos de Destino'); return; } ch.pd[0]=n(ch.pd[0])+1; }
+  const tot=d+c.av+c.hv+c.md;
+  const e={t:Math.max(1,n(st.turno)),who:ch.n||'Personaje',an:ATR_N[c.h[2]],av:c.av,hn:c.h[1],hv:c.hv,d,df:c.df,dn:c.dn,tot};
+  if(c.md) e.md=c.md; if(st.pd) e.pd=1;
+  tb.lg.push(e); st.d=''; st.mod=0; st.pd=0;
+  markDirty(); render(); toast(`✦ ${resTxt(grados(tot,c.df))}`);
 }
 
 /* ════════════════ APARIENCIA (temas por misión) ════════════════ */
@@ -1030,7 +1347,7 @@ document.addEventListener('toggle',e=>{ if(e.target.id==='themePanel') S.themeOp
 function sealOf(code){ let h=2166136261; for(let i=0;i<code.length;i++){h^=code.charCodeAt(i);h=Math.imul(h,16777619);} return (h>>>0).toString(36).toUpperCase().slice(0,5).padStart(5,'0'); }
 
 /* ════════════════ ESTADO ════════════════ */
-let S={ mode:'home', party:null, view:null, tab:0, vtab:0, filter:'', lastCode:'' };
+let S={ dice:{}, logView:{}, cr:{}, pw:null, mode:'home', party:null, view:null, tab:0, vtab:0, filter:'', lastCode:'' };
 const ls={ get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}}, set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}} };
 function draftSave(){ if(S.party) ls.set(LS_DRAFT,{party:S.party,lastCode:S.lastCode}); } // borrador completo (con ids) para no perder nada al recargar
 /* recuerda qué secciones (Ventajas/Trasfondos/Inventario/Notas) dejaste abiertas o cerradas */
@@ -1153,6 +1470,7 @@ function charCard(ch,tb,ti,ci,edit){
     </div>
     <div class="card-body">
       <div class="block"><h4>🌙 Tracker de turnos</h4><div class="turns">${turns}</div>${tb.ev?evCardCtl(ch,tb,P,edit):''}</div>
+      ${tb.ev&&edit?`<details class="fold" data-fold="m:${ch.id}:cr" ${foldAttr(`m:${ch.id}:cr`,true)}><summary>🎲 Tiradas <span class="cnt">${(tb.lg||[]).filter(e=>e.who===(ch.n||'Personaje')).length}</span></summary><div class="fold-in" id="cr-${ti}-${ci}">${cardRollHTML(ch,tb,ti,ci)}</div></details>`:''}
       <div class="two">
         <div class="block"><h4>🔮 Puntos especiales</h4>
           ${edit?'<div class="stat"><span></span><span class="muted" style="text-align:center">Usados</span><span class="muted" style="text-align:center">Máx</span></div>':''}
@@ -1167,6 +1485,7 @@ function charCard(ch,tb,ti,ci,edit){
           ${statRow(edit,'🔥 PAs (Aguante)',ch.pa,P+'.pa','pa','cur')}
         </div>
       </div>
+      ${atrFold(ch,P,edit)}
       <details class="fold" data-fold="${edit?'m':'v'}:${ch.id}:v" ${foldAttr(`${edit?'m':'v'}:${ch.id}:v`,edit||cnt(ch.v)>0)}><summary>💎 Ventajas <span class="cnt">${cnt(ch.v)}</span></summary><div class="fold-in">
         ${tbl(vHead,vRows,'Sin ventajas.')}${edit?`<button class="btn sm addrow" data-add="v" data-p="${P}">+ Ventaja</button>`:''}</div></details>
       <details class="fold" data-fold="${edit?'m':'v'}:${ch.id}:tr" ${foldAttr(`${edit?'m':'v'}:${ch.id}:tr`,edit||(cnt(ch.tr)>0&&cnt(ch.tr)<=8))}><summary>🌿 Trasfondos <span class="cnt">${cnt(ch.tr)}</span></summary><div class="fold-in">
@@ -1193,6 +1512,21 @@ function evCardCtl(ch,tb,P,edit){
     ${puesto}
     <label class="chk"><input type="checkbox" data-k="${P}.mpj" ${ch.mpj?'checked':''}> PJ del master</label>
   </div>`;
+}
+function atrFold(ch,P,edit){
+  const at=ch.at||{}, hb=ch.hb||{}, has=Object.keys(at).length||Object.values(hb).some(v=>v>0);
+  const key=`${edit?'m':'v'}:${ch.id}:at`;
+  let body='';
+  if(edit){
+    body=`<div class="atr-grid">${ATRS.map(([a,an])=>`<div><label class="f">${an}</label>${fld(1,at[a]??'',`${P}.at.${a}`,{num:1,ph:'0'})}</div>`).join('')}</div>
+      <div class="hab-grid">${ATRS.map(([a,an])=>`<div class="hab-col"><div class="hab-h">${an}</div>${charHabs(ch).filter(h=>h[2]===a).map(h=>`<div class="hab-r"><span>${esc(h[1])}</span><select class="in" data-k="${P}.hb.${h[0]}" data-num="1">${NIVELES.map(([v,nm])=>`<option value="${v}" ${n(hb[h[0]])===v?'selected':''}>${nm}</option>`).join('')}</select></div>`).join('')}</div>`).join('')}</div>
+      <div class="row"><button class="btn sm" data-addhab="${P}">+ Arte / Artesanía u otra</button></div>`;
+  } else {
+    if(!has) return '';
+    body=`<div class="atr-view">${ATRS.map(([a,an])=>`<span><small>${an}</small><b>${n(at[a])}</b></span>`).join('')}</div>
+      <div class="hab-view">${charHabs(ch).filter(h=>n(hb[h[0]])>0).map(h=>`<span>${esc(h[1])} <b>${NIV_N[n(hb[h[0]])]||''} +${n(hb[h[0]])}</b></span>`).join('')}</div>`;
+  }
+  return `<details class="fold" data-fold="${key}" ${foldAttr(key,false)}><summary>📐 Atributos y habilidades</summary><div class="fold-in">${body}</div></details>`;
 }
 function sumPills(ch,tb){
   const s=charStats(ch,tb);
@@ -1333,7 +1667,13 @@ function masterView(){
       <button class="btn sm ghost" data-newparty="1">Nueva partida</button>
     </div>
     ${themePanel(p)}
-    ${tabsHTML(p,t,true)}${tablilla(p.tb[t],t,true,'')}
+    <div class="mtabs">
+      <button class="mtab ${S.mtab!=='dice'?'act':''}" data-mtab="tb">📜 Tablillas</button>
+      <button class="mtab ${S.mtab==='dice'?'act':''}" data-mtab="dice">🎲 El Dado</button>
+    </div>
+    ${S.mtab==='dice'
+      ? `${p.tb.length>1?`<div class="tabs">${p.tb.map((x,i)=>`<button class="tab ${i===t?'act':''}" data-tab="${i}"><span class="dot">✦</span>${esc(x.n||'Tablilla '+(i+1))}</button>`).join('')}</div>`:''}${diceSection(p.tb[t],t)}`
+      : `${tabsHTML(p,t,true)}${tablilla(p.tb[t],t,true,'')}`}
     <div class="savebar"><span class="st" id="saveSt">${dirty?'Cambios sin guardar ✎':(p.sv?'Guardado n.º '+p.sv:'Sin guardar aún')}</span>
       <button class="btn prime" data-save="1">✦ Guardar turno</button></div>`;
 }
@@ -1342,7 +1682,7 @@ function masterView(){
 const EMOJI_RE=/[\p{Extended_Pictographic}\u2600-\u27BF\uFE0F\u200D]+\s*/gu;
 function skinClean(root){
   if(!/skin-(chef|vanity|medical)/.test(document.documentElement.className)) return;
-  (root||document).querySelectorAll('.block h4, details.fold>summary, .sec-title, .stat .lbl, .vstat>span:first-child, .pill, .nav .btn, .btn, .mbar label, .hero .chip, .legend span, .mlegend span, .cplayer, .theme-panel>summary, .rules summary, table.t.view td b, .notes, .tab').forEach(el=>{
+  (root||document).querySelectorAll('.block h4, details.fold>summary, .sec-title, .stat .lbl, .vstat>span:first-child, .pill, .nav .btn, .btn, .mbar label, .hero .chip, .legend span, .mlegend span, .cplayer, .theme-panel>summary, .rules summary, table.t.view td b, .notes, .tab, .dice-sum, .mtab').forEach(el=>{
     el.childNodes.forEach(n=>{ if(n.nodeType===3) n.nodeValue=n.nodeValue.replace(EMOJI_RE,'').replace(/^\s*✦\s*/,''); });
   });
 }
@@ -1368,8 +1708,11 @@ async function copy(txt){ try{ await navigator.clipboard.writeText(txt); toast('
 const baseURL=()=>location.href.split('#')[0];
 
 async function saveTurn(){
-  const p=S.party; p.sv=(p.sv||0)+1; p.at=Date.now();
-  const long=await encodeParty(p);
+  const p=S.party;
+  if(hasLogs(p)&&!S.pw){ pwModal(()=>saveTurn()); toast('Primero poné una contraseña para el registro'); return; }
+  p.sv=(p.sv||0)+1; p.at=Date.now();
+  let rg=null; try{ rg=p.rg?p.rg:(hasLogs(p)?await encLogs(p,S.pw):null); }catch(e){ toast('No se pudo cifrar el registro'); return; }
+  const long=await encodeParty(p,rg);
   modal(`<h3>Guardando…</h3><div class="script">sellando el turno en la bóveda</div>`);
   let short='', err='';
   try{ short=await fbSave(long); }catch(e){ err=e.message; }
@@ -1412,6 +1755,18 @@ function histModal(){
 document.addEventListener('input',e=>{
   const el=e.target;
   if(el.id==='themeK'&&S.mode==='master'){ setTheme({k:+el.value}); return; }
+  if(el.dataset.ck){ const ti=+el.dataset.ti, ci=+el.dataset.ci, st=crState(S.party.tb[ti].ch[ci]), k=el.dataset.ck;
+    st[k]=el.type==='checkbox'?(el.checked?1:0):(el.dataset.num?(el.value===''?'':+el.value):el.value);
+    if(k==='turno') st.tt=1;
+    if(k==='pd'||el.tagName==='SELECT') refreshCard(ti,ci);
+    return; }
+  if(el.dataset.dk){ const ti=+el.dataset.ti, st=diceState(ti,S.party.tb[ti]), k=el.dataset.dk;
+    st[k]=el.type==='checkbox'?(el.checked?1:0):(el.dataset.num?(el.value===''?'':+el.value):el.value);
+    if(k==='c'){ st.c=+el.value; st.h=''; st.tf=''; st.tp=''; }
+    if(k==='tp') st.th='';
+    if(['c','h','tp','th','tf','pd','df','ap'].includes(k)||el.tagName==='SELECT') refreshDice(ti);
+    else { const pv=document.querySelector(`#dice-${ti} .dice-prev`); if(pv){ const keep=document.activeElement; refreshDice(ti); const again=document.querySelector(`#dice-${ti} [data-dk="${k}"]`); if(again&&keep===el){ again.focus(); try{again.setSelectionRange(again.value.length,again.value.length)}catch(_){} } } }
+    return; }
   if(S.mode!=='master'||!el.dataset.k) return;
   let v=el.value; if(el.type==='checkbox') v=el.checked?1:0; else if(el.dataset.num) v=v.trim()===''?'':(isNaN(+v)?v:+v);
   setPath(S.party,el.dataset.k,v);
@@ -1422,6 +1777,7 @@ document.addEventListener('input',e=>{
   if(el.dataset.turn){ const w=el.parentElement, m=el.dataset.turn==='m'; w.className='tsel st-'+(v||'_');
     w.firstChild.textContent=(m?MST_SHORT:ST_SHORT)[v]||'·'; w.title='Turno: '+((m?MST:ST)[v]||'—'); }
   markDirty(); refreshCalcs();
+  if(/\.(at|hb|tr|pd)\./.test(el.dataset.k)||/\.n$/.test(el.dataset.k)){ const ti=+el.dataset.k.split('.')[1]; if(document.activeElement!==el||el.tagName==='SELECT') refreshDice(ti); }
   if(el.dataset.k==='title') heroMeta(S.party);
 });
 document.addEventListener('change',e=>{
@@ -1446,10 +1802,10 @@ document.addEventListener('click',async e=>{
   if(d.open==='hist'){ histModal(); return; }
   if(d.copy){ copy(document.getElementById(d.copy).value); return; }
   if(d.copytext){ copy(d.copytext); return; }
-  if(d.loadMaster){ try{ S.party=(await loadAny(document.getElementById(d.loadMaster).value)).party; S.tab=0; dirty=false; draftSave(); closeModal(); render(); toast('✦ Partida cargada'); }catch(err){ toast('Código no válido'); } return; }
+  if(d.loadMaster){ try{ S.pw=null; S.dice={}; S.party=(await loadAny(document.getElementById(d.loadMaster).value)).party; S.tab=0; dirty=false; draftSave(); closeModal(); render(); toast('✦ Partida cargada'); }catch(err){ toast('Código no válido'); } return; }
   if(d.hcopy!==undefined){ copy(ls.get(LS_HIST,[])[d.hcopy].code); return; }
   if(d.hload!==undefined){ const x=ls.get(LS_HIST,[])[d.hload]; S.party=await decodeParty(x.long||x.code); S.lastCode=x.code; S.tab=0; dirty=false; draftSave(); closeModal(); render(); toast('✦ Guardado n.º '+x.sv+' abierto'); return; }
-  if(d.newparty){ if(confirmInline(b,'¿Seguro? Toca otra vez')){ S.party=newParty(); S.tab=0; dirty=false; draftSave(); render(); } return; }
+  if(d.newparty){ if(confirmInline(b,'¿Seguro? Toca otra vez')){ S.pw=null; S.dice={}; S.party=newParty(); S.tab=0; dirty=false; draftSave(); render(); } return; }
   if(S.mode!=='master') return;
   const p=S.party;
   if(d.preset!==undefined){ const x=PRESETS[d.preset]; setTheme({h:x.h,k:x.k,m:x.m,d:x.d||0,s:x.s||''}); return; }
@@ -1467,9 +1823,28 @@ document.addEventListener('click',async e=>{
       toast(list.length>1?`✦ ${list.length} fichas cargadas`:'✦ Ficha de '+(list[0].personaje||'personaje')+' cargada');
     }catch(err){ b.disabled=false; toast(err.message||'Código de ficha no válido'); }
     return; }
+  if(d.mtab){ S.mtab=d.mtab; render(); window.scrollTo(0,0); return; }
+  if(d.dk&&d.val!==undefined){ const ti=+d.ti, st=diceState(ti,p.tb[ti]); st[d.dk]=d.val; refreshDice(ti); return; }
+  if(d.dmod!==undefined){ const ti=+d.ti, st=diceState(ti,p.tb[ti]); st.mod=+d.dmod===0?0:n(st.mod)+(+d.dmod); refreshDice(ti); return; }
+  if(d.roll!==undefined){ doRoll(+d.roll); return; }
+  if(d.crok){ const [ti,ci]=d.crok.split('.').map(Number); crAdd(ti,ci); return; }
+  if(d.logview!==undefined){ S.logView[+d.logview]=d.val; refreshDice(+d.logview); return; }
+  if(d.copylog!==undefined){ const t=p.tb[+d.copylog]; copy(logText(t,S.logView[+d.copylog]||(t.ev?'pj':'turno'))); return; }
+  if(d.dellog){ const [ti,i]=d.dellog.split('.').map(Number); if(confirmInline(b,'¿?')){ p.tb[ti].lg.splice(i,1); markDirty(); if(b.closest('.cr-lg')) render(); else refreshDice(ti); } return; }
+  if(d.setpw){ pwModal(); return; }
+  if(d.pwok){ const a=document.getElementById('pw1').value, c2=document.getElementById('pw2').value;
+    if(a.length<4){ toast('Usá al menos 4 caracteres'); return; } if(a!==c2){ toast('Las contraseñas no coinciden'); return; }
+    S.pw=a; closeModal(); toast('🔑 Contraseña guardada'); render(); const f=S.pwAfter; S.pwAfter=null; if(f) f(); return; }
+  if(d.unlock){ const pw=document.getElementById('unlockPw').value;
+    try{ const logs=await decLogs(p.rg,pw); p.tb.forEach((t,i)=>t.lg=Array.isArray(logs[i])?logs[i]:[]); delete p.rg; S.pw=pw; draftSave(); render(); toast('🔓 Registro desbloqueado'); }
+    catch(err){ toast('Contraseña incorrecta'); } return; }
+  if(d.addhab){ const nm=prompt('Nombre de la habilidad (ej: Arte (Pintura) o Artesanía (Cocina))'); if(!nm) return;
+    const ch=getPath(p,d.addhab); const k='x_'+nm.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'_');
+    ch.hx[k]=[nm,'voluntad']; ch.hb[k]=0; markDirty(); render(); return; }
   if(d.evset!==undefined){ p.tb[+d.evset].ev=+d.ev; markDirty(); render(); return; }
   if(d.eset!==undefined){ const tb=p.tb[+d.eset]; tb.e[d.key]=d.val; if(d.key==='md') tb.ch.forEach(c=>{ if(d.val==='uno'&&c.pz>1) c.pz=0; }); markDirty(); render(); return; }
   if(d.addtab){ p.tb.push(newTab(p.tb.length+1)); S.tab=p.tb.length-1; markDirty(); render(); return; }
+  if(d.deltab!==undefined&&p.rg){ toast('Desbloqueá el registro de tiradas antes de eliminar una tablilla'); return; }
   if(d.deltab!==undefined){ if(p.tb.length<2){toast('Tiene que quedar al menos una tablilla');return;} if(confirmInline(b,'¿Eliminar? Toca otra vez')){ p.tb.splice(+d.deltab,1); S.tab=0; markDirty(); render(); } return; }
   if(d.addch!==undefined){ const tb=p.tb[d.addch]; const c=newChar(); c.t=fromT([],tb.nt); tb.ch.push(c); markDirty(); render(); return; }
   if(d.delch){ if(confirmInline(b,'¿Eliminar? Toca otra vez')){ const [ti,ci]=d.delch.split('.').map(Number); p.tb[ti].ch.splice(ci,1); markDirty(); render(); } return; }
@@ -1485,6 +1860,7 @@ document.addEventListener('click',async e=>{
   if(d.del){ getPath(p,d.del).splice(+d.i,1); markDirty(); render(); return; }
 });
 function confirmInline(btn,msg){ if(btn.dataset.armed){ return true; } btn.dataset.armed='1'; const o=btn.textContent; btn.textContent=msg; setTimeout(()=>{ if(btn.isConnected){btn.textContent=o; delete btn.dataset.armed;} },2500); return false; }
+document.addEventListener('keydown',e=>{ const el=e.target; if(e.key==='Enter'&&el.dataset&&el.dataset.ck){ e.preventDefault(); crAdd(+el.dataset.ti,+el.dataset.ci); } });
 window.addEventListener('beforeunload',e=>{ if(dirty&&S.mode==='master'){ e.preventDefault(); e.returnValue=''; } });
 
 /* ════════════════ INICIO ════════════════ */
