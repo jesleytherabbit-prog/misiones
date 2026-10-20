@@ -309,6 +309,11 @@ label.chk input{width:16px;height:16px;accent-color:var(--amatista)}
 .lg-h{font-weight:700;margin:10px 0 4px;letter-spacing:.06em}.lg-h:first-child{margin-top:0}
 .lg-l{display:flex;gap:8px;align-items:flex-start;justify-content:space-between;padding:3px 0;border-bottom:1px dashed var(--line)}
 .lg-l .x{flex:none}
+.atr-block .hab-grid{margin-top:4px}
+.atr-sum{display:flex;flex-wrap:wrap;gap:4px 8px;font-family:var(--f-body);font-size:11px;letter-spacing:0;text-transform:none;font-weight:600;color:var(--ink);opacity:.85;margin-left:6px}
+.atr-sum .am{color:var(--rosapolvo)}
+.hab-av{margin-left:auto;font-family:var(--f-name);font-size:14px;color:var(--ink);opacity:.8}
+.atr-block .hab-h{display:flex;align-items:baseline}
 .atr-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:12px}
 .atr-grid label.f{font-size:9px;letter-spacing:.04em}
 .hab-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px 14px}
@@ -350,6 +355,9 @@ label.chk input{width:16px;height:16px;accent-color:var(--amatista)}
 @media (max-width:520px){.cr-form{grid-template-columns:repeat(3,1fr)}.cr-form .cr-h{grid-column:span 2}.cr-form .cr-df{grid-column:span 3}}
 .skin-dk .dice-hint{font-family:var(--f-body);font-style:italic;font-size:17px;color:var(--sk-sub)}
 .skin-chef .dice-hint{font-family:'Pinyon Script',cursive;color:var(--salvia)}
+
+.in.calc{box-shadow:inset 0 0 0 1.5px var(--champagne);background:rgba(var(--champagne-rgb),.18)}
+.in.miss{box-shadow:inset 0 0 0 1.5px var(--rosapolvo)}
 
 /* ───── APARIENCIA ───── */
 .theme-panel{margin:-4px 0 16px}
@@ -761,7 +769,7 @@ function newChar(){
         {n:'🎖️ Orden de Merlín',l:'',u:'',m:'',d:''}, {n:'🤝 Patrón',l:'',u:'',m:'',d:''} ],
     tr:[ {n:'',c:'',l:'',u:'',m:'',d:''} ],
     inv:[ {c:'Básico',o:'',u:'',m:'',d:''} ],
-    at:{}, hb:{}, hx:{},
+    at:{}, hb:{}, hx:{}, atd:{}, cb:{},
     no:'' };
 }
 /* ── Atributos y habilidades del Sistema Avadense ── */
@@ -782,6 +790,41 @@ function charHabs(ch){
   Object.entries(ch.hx||{}).forEach(([k,[nm,a]])=>out.push([k,nm,a||'voluntad']));
   return out;
 }
+/* ── completar atributos que la ficha no trae, usando las fórmulas del sistema ── */
+const ETAPA_B={infante:[8,1,1],adolescente:[12,2,2],joven:[17,3,3],adulto:[17,3,3],experimentado:[12,2,2],veterano:[8,1,1]};
+function etapaKey(t){ t=String(t||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+  return [['infante','infante'],['adolesc','adolescente'],['adolec','adolescente'],['joven','joven'],['adult','adulto'],['experiment','experimentado'],['veteran','veterano'],['longev','veterano']].find(([a])=>t.includes(a))?.[1]||''; }
+function deriveAtr(f,hb){
+  const c=f.combate||{}, p=f.puntos||{}, e=ETAPA_B[etapaKey(f.datos&&f.datos.etapa)], B=k=>n(hb[k]), ok=v=>typeof v==='number'&&isFinite(v), out={};
+  if(ok(c.iniciativa)) out.percepcion=c.iniciativa-B('iniciativa');
+  if(ok(c.ataque_fisico)) out.vigor=c.ataque_fisico-B('pelea'); else if(e&&ok(c.umbral_de_heridas)) out.vigor=c.umbral_de_heridas-e[1];
+  if(ok(c.ataque_magico)) out.poder=c.ataque_magico-B('duelo'); else if(ok(p.pociones)) out.poder=p.pociones-B('pociones'); else if(ok(p.rituales)) out.poder=p.rituales-B('rituales');
+  if(ok(c.defensa)) out.destreza=c.defensa-5-B('esquiva');
+  if(e&&ok(c.heridas)) out.voluntad=c.heridas-e[2]; else if(e&&ok(c.pas)&&out.vigor!=null) out.voluntad=c.pas-e[0]-out.vigor;
+  Object.keys(out).forEach(k=>{ if(out[k]<1||out[k]>10) delete out[k]; });   // un atributo nunca baja de 1: si da menos, la ficha está vacía o tiene bonos raros
+  return out;
+}
+const CBS=[['cb_ini','Iniciativa','iniciativa'],['cb_af','Ataque Físico','ataque_fisico'],['cb_am','Ataque Mágico','ataque_magico'],['cb_lf','Lucha Física','lucha_fisica'],['cb_lm','Lucha Mágica','lucha_magica']];
+function cbVal(ch,k){
+  const cb=ch.cb||{}, at=ch.at||{}, hb=ch.hb||{}, a=x=>n(at[x]), b=x=>n(hb[x]);
+  const ini=cb.iniciativa??(a('percepcion')+b('iniciativa')), af=cb.ataque_fisico??(a('vigor')+b('pelea')), am=cb.ataque_magico??(a('poder')+b('duelo')), def=cb.defensa??(5+a('destreza')+b('esquiva'));
+  return {cb_ini:ini,cb_af:af,cb_am:am,cb_lf:cb.lucha_fisica??Math.floor((af+def-5+ini)/3),cb_lm:cb.lucha_magica??Math.floor((am+def-5+ini)/3)}[k];
+}
+/* partes de una tirada: atributo + habilidad, o un valor de combate */
+function rollParts(ch,key){
+  const cbx=CBS.find(x=>x[0]===key);
+  if(cbx){ const has=ch.cb&&ch.cb[cbx[2]]!=null, need={cb_ini:['percepcion'],cb_af:['vigor'],cb_am:['poder'],cb_lf:['vigor','destreza','percepcion'],cb_lm:['poder','destreza','percepcion']}[key];
+    const miss=has?'':need.filter(a=>(ch.at||{})[a]==null||(ch.at||{})[a]==='').map(a=>ATR_N[a]).join(', ');
+    return {key,an:cbx[1],av:cbVal(ch,key),hn:'',hv:0,miss,calc:false}; }
+  const habs=charHabs(ch), h=habs.find(x=>x[0]===key)||habs.find(x=>(ch.hb||{})[x[0]]>0)||habs[0];
+  const at=ch.at||{};
+  return {key:h[0],an:ATR_N[h[2]],av:n(at[h[2]]),hn:h[1],hv:n((ch.hb||{})[h[0]]),miss:at[h[2]]==null||at[h[2]]===''?ATR_N[h[2]]:'',calc:!!(ch.atd&&ch.atd[h[2]]),attr:h[2]};
+}
+function habOptions(ch,sel,long){
+  const habs=charHabs(ch), at=ch.at||{}, hb=ch.hb||{};
+  return ATRS.map(([a,an])=>`<optgroup label="${an} (${at[a]==null||at[a]===''?'falta':n(at[a])+(ch.atd&&ch.atd[a]?' ≈':'')})">${habs.filter(h=>h[2]===a).map(h=>`<option value="${h[0]}" ${h[0]===sel?'selected':''}>${esc(h[1])}${long?' · '+(NIV_N[n(hb[h[0]])]||'+'+n(hb[h[0]])):''} (${n(hb[h[0]])})</option>`).join('')}</optgroup>`).join('')
+    +`<optgroup label="Combate">${CBS.map(([k,nm])=>`<option value="${k}" ${k===sel?'selected':''}>${nm} (${cbVal(ch,k)})</option>`).join('')}</optgroup>`;
+}
 const DEF_EV={vb:0,bt:'comp',md:'top3',ok:0,base:20,p1:50,p2:30,p3:20,np:20};
 function newTab(i){ const c=newChar(); c.t=Array(20).fill(''); return { id:uid(), n:'Tablilla '+i, nt:20, m:{n:'',t:Array(20).fill(''),f:Array(20).fill(0)}, r:{...DEF_RULES}, ev:0, e:{...DEF_EV}, lg:[], ch:[c] }; }
 function newParty(){ return { v:1, title:'', sv:0, at:0, tb:[newTab(1)] }; }
@@ -800,7 +843,7 @@ function normParty(p){
       const x=Object.assign(newChar(),c);
       ['pp','pr','pd','h','pa'].forEach(k=>{ if(!Array.isArray(x[k])) x[k]=[0,0]; });
       ['v','tr','inv'].forEach(k=>{ if(!Array.isArray(x[k])) x[k]=[]; });
-      ['at','hb','hx'].forEach(k=>{ if(!x[k]||typeof x[k]!=='object'||Array.isArray(x[k])) x[k]={}; });
+      ['at','hb','hx','atd','cb'].forEach(k=>{ if(!x[k]||typeof x[k]!=='object'||Array.isArray(x[k])) x[k]={}; });
       x.t=fromT(x.t,b.nt); if(!x.id) x.id=uid(); return x;
     });
     return b;
@@ -989,21 +1032,28 @@ function fichaToChar(f,base){
   const at=Object.entries(f.atributos||{}).map(([k,v])=>`${cap(k)} ${v}`).join(' · ');
   const note=[stats&&'⚔ '+stats, at&&'✦ '+at].filter(Boolean).join('\n');
   if(note) c.no=base&&base.no&&!base.no.startsWith('⚔')?base.no+'\n\n'+note:note;
-  if(f.atributos) c.at=Object.assign({},f.atributos);
   if(f.habilidades||f.bonos){
-    c.hb={}; c.hx={}; const std=new Set(HABS.map(h=>h[0]));
+    c.hb={}; c.hx={}; const std=new Set(HABS.map(h=>h[0])), arte=k=>/^arte|^artesan/.test(k);
     Object.entries(f.habilidades||{}).forEach(([g,hs])=>Object.entries(hs||{}).forEach(([k,h])=>{
+      if(!std.has(k)&&!arte(k)) return;                     // descarta lo que no es una habilidad (objetos, totales…)
       if(h&&h.bono!=null) c.hb[k]=n(h.bono);
-      if(!std.has(k)) c.hx[k]=[h.nombre||cap(k),ATR_N[g]?g:'voluntad'];
+      if(!std.has(k)) c.hx[k]=[h.nombre||cap(k),'voluntad'];
     }));
-    Object.entries(f.bonos||{}).forEach(([k,b])=>{ if(c.hb[k]==null) c.hb[k]=n(b); });
+    Object.entries(f.bonos||{}).forEach(([k,b])=>{ if(c.hb[k]==null&&(std.has(k)||arte(k))){ c.hb[k]=n(b); if(!std.has(k)) c.hx[k]=[cap(k.replace(/_/g,' ')),'voluntad']; } });
   }
+  if(f.atributos||f.habilidades||f.combate){
+    const at={}; Object.entries(f.atributos||{}).forEach(([k,v])=>{ if(ATR_N[k]&&v!=null&&v!=='') at[k]=n(v); });
+    const dv=deriveAtr(f,c.hb||{}), atd={};
+    ATRS.forEach(([k])=>{ if(at[k]==null&&dv[k]!=null){ at[k]=dv[k]; atd[k]=1; } });
+    c.at=at; c.atd=atd;
+  }
+  if(f.combate){ c.cb={}; ['iniciativa','ataque_fisico','ataque_magico','defensa','lucha_fisica','lucha_magica'].forEach(k=>{ if(typeof f.combate[k]==='number') c.cb[k]=f.combate[k]; }); }
   return c;
 }
 function importModal(ti,ci){
   const tgt=ci===undefined?null:S.party.tb[ti].ch[ci];
   modal(`<h3>Importar ficha</h3><div class="script">${tgt?'actualizar a '+esc(tgt.n||'este personaje'):'cargar un personaje nuevo'}</div>
-    <label class="f">Código de ficha</label>
+    <label class="f">Código de ficha (o varios: uno por línea)</label>
     <textarea class="in code-box" id="fichaCode" style="min-height:70px" placeholder="Código corto (ej. AK48213) o código largo (AVK1.…) del Lector de Fichas"></textarea>
     <div class="tip">Se cargan: nombre, raza y especializaciones, puntos de Poción/Rituales/Destino, Heridas, Umbral, PAs, Ventajas, Trasfondos, Objetos y los stats de combate (en Notas).
       ${tgt?'<br><b>Se conservan</b> la imagen, el jugador y los turnos de este personaje.':''}</div>
@@ -1023,7 +1073,7 @@ const sgn=x=>x<0?`− ${-x}`:`+ ${x}`;
 function logLine(e,withTurn){
   const parts=[e.pd&&!e.pv?`D10 (10, PD)`:`D10 (${e.d})`];
   if(e.pd&&e.pv) parts.push(`PD (7)`);
-  parts.push(`${e.an} (${e.av})`, `${e.hn} (${e.hv})`);
+  parts.push(`${e.an} (${e.av})`); if(e.hn) parts.push(`${e.hn} (${e.hv})`);
   if(e.tf) parts.push(`${e.tf} (${e.tv||0})`);
   if(e.ap) parts.push(`apoyos (${e.ap})`);
   let s=parts.join(' + ');
@@ -1048,8 +1098,7 @@ function diceState(ti,tb){
 }
 function diceCalc(tb,st){
   const ch=tb.ch[st.c]; if(!ch) return null;
-  const habs=charHabs(ch), h=habs.find(x=>x[0]===st.h)||habs.find(x=>(ch.hb||{})[x[0]]>0)||habs[0];
-  const av=n((ch.at||{})[h[2]]), hv=n((ch.hb||{})[h[0]]);
+  const rp=rollParts(ch,st.h), h=[rp.key,rp.hn||rp.an,rp.attr], av=rp.av, hv=rp.hv;
   let df=n(st.df), dn=ESC_N[df]||'Dificultad';
   let pvsPJ=false;
   if(st.dm==='pj'){ const tg=tb.ch[+st.tp]; pvsPJ=!!tg;
@@ -1062,7 +1111,7 @@ function diceCalc(tb,st){
   const cap=tr&&tv>0?10:7, ext=md+ap+tv; let capped=false;
   if(ext>cap){ md-= (ext-cap); capped=true; }
   const pd=!!st.pd, pv=pd&&pvsPJ;
-  return {ch,h,av,hv,df,dn,tr,tfLabel,tv,ap,md,pd,pv,cap,capped,ext};
+  return {ch,h,rp,an:rp.an,hn:rp.hn,av,hv,df,dn,tr,tfLabel,tv,ap,md,pd,pv,cap,capped,ext};
 }
 function diceHTML(tb,ti){
   const p=S.party;
@@ -1074,11 +1123,11 @@ function diceHTML(tb,ti){
   if(!tb.ch.length) return `<p class="muted" style="text-align:center">Agregá personajes para usar el dado.</p>`;
   const st=diceState(ti,tb), c=diceCalc(tb,st), ch=c.ch;
   const habs=charHabs(ch);
-  const optH=ATRS.map(([a,an])=>`<optgroup label="${an} (${n((ch.at||{})[a])})">${habs.filter(h=>h[2]===a).map(h=>`<option value="${h[0]}" ${h[0]===c.h[0]?'selected':''}>${esc(h[1])} · ${NIV_N[n((ch.hb||{})[h[0]])]||'+'+n((ch.hb||{})[h[0]])} (${n((ch.hb||{})[h[0]])})</option>`).join('')}</optgroup>`).join('');
+  const optH=habOptions(ch,c.rp.key,true);
   const dk=(k,v,extra='')=>`data-dk="${k}" data-ti="${ti}" ${extra}`;
   const tg=tb.ch[+st.tp], tgHabs=tg?charHabs(tg):[];
   const ev=tb.ev;
-  const preview=`D10 ${c.pd&&!c.pv?'(10, PD)':'(?)'}${c.pv?' + PD (7)':''} + ${ATR_N[c.h[2]]} (${c.av}) + ${esc(c.h[1])} (${c.hv})${c.tr?` + ${esc(c.tfLabel)} (${c.tv})`:''}${c.ap?` + apoyos (${c.ap})`:''}${c.md?' '+sgn(c.md):''} vs ${esc(c.dn)} (${c.df})`;
+  const preview=`D10 ${c.pd&&!c.pv?'(10, PD)':'(?)'}${c.pv?' + PD (7)':''} + ${esc(c.an)} (${c.av})${c.hn?` + ${esc(c.hn)} (${c.hv})`:''}${c.tr?` + ${esc(c.tfLabel)} (${c.tv})`:''}${c.ap?` + apoyos (${c.ap})`:''}${c.md?' '+sgn(c.md):''} vs ${esc(c.dn)} (${c.df})`;
   const L=st.last;
   return `
   ${tb.ev?`<div class="evwarn dice-ev">⚠ Esta tablilla es un <b>acontecimiento</b>: las tiradas de los jugadores se hacen en el foro y se anotan en la tarjeta de cada participante (📜 Tablillas → 🎲 Tiradas). Usá este dado solo para tiradas misceláneas.</div>`:''}
@@ -1094,7 +1143,7 @@ function diceHTML(tb,ti){
     <div><label class="f">Turno</label><input class="in num" type="number" min="1" value="${st.turno}" ${dk('turno')} data-num="1"></div>
     <div class="span2"><label class="f">Personaje</label><select class="in" ${dk('c')}>${tb.ch.map((x,i)=>`<option value="${i}" ${i===st.c?'selected':''}>${esc(x.n||'Personaje '+(i+1))}</option>`).join('')}</select></div>
     <div class="span3"><label class="f">Habilidad</label><select class="in" ${dk('h')}>${optH}</select>
-      ${!Object.keys(ch.at||{}).length?`<div class="muted" style="margin-top:4px">Este personaje no tiene atributos cargados: completalos en su tarjeta (📐 Atributos y habilidades) o importá su ficha.</div>`:''}</div>
+      ${c.rp.miss?`<div class="evwarn" style="margin-top:6px">Falta ${esc(c.rp.miss)} en la ficha de ${esc(ch.n||'este personaje')}: cargalo en su tarjeta (📐 Atributos y habilidades). Mientras tanto cuenta como 0.</div>`:c.rp.calc&&c.rp.attr?`<div class="muted" style="margin-top:4px">≈ ${esc(c.an)} calculado a partir de los valores de combate de la ficha (revisalo en su tarjeta).</div>`:''}</div>
     <div class="span2"><label class="f">Dificultad</label>
       <div class="seg"><button ${dk('dm')} data-val="esc" class="${st.dm==='esc'?'on':''}">Escala</button><button ${dk('dm')} data-val="pj" class="${st.dm==='pj'?'on':''}">Contra PJ</button><button ${dk('dm')} data-val="num" class="${st.dm==='num'?'on':''}">Número</button></div></div>
     ${st.dm==='esc'?`<div class="span2"><label class="f">&nbsp;</label><select class="in" ${dk('df')} data-num="1">${ESCALA.map(([v,nm])=>`<option value="${v}" ${v===n(st.df)?'selected':''}>${nm} (${v})</option>`).join('')}</select></div>`
@@ -1151,9 +1200,9 @@ async function doRoll(ti){
   if(c.pd){ if(n(c.ch.pd[0])>=n(c.ch.pd[1])) { toast('No le quedan Puntos de Destino'); return; } c.ch.pd[0]=n(c.ch.pd[0])+1; }
   if(c.tr){ const mx=c.tr.m!==''&&c.tr.m!=null?n(c.tr.m):n(c.tr.l); if(mx&&n(c.tr.u)>=mx) toast('Ojo: ese trasfondo ya no tenía usos'); c.tr.u=n(c.tr.u)+1; }
   const tot=(c.pd&&!c.pv?10:d)+(c.pv?7:0)+c.av+c.hv+c.tv+c.ap+c.md;
-  const e={t:Math.max(1,n(st.turno)),who:c.ch.n||'Personaje',an:ATR_N[c.h[2]],av:c.av,hn:c.h[1],hv:c.hv,d:(c.pd&&!c.pv)?10:d,pd:c.pd?1:0,pv:c.pv?1:0,
+  const e={t:Math.max(1,n(st.turno)),who:c.ch.n||'Personaje',an:c.an,av:c.av,hn:c.hn,hv:c.hv,d:(c.pd&&!c.pv)?10:d,pd:c.pd?1:0,pv:c.pv?1:0,
     tf:c.tfLabel||'',tv:c.tv,ap:c.ap,md:c.md,df:c.df,dn:c.dn,tot};
-  if(!e.tf) delete e.tf; if(!e.ap) delete e.ap; if(!e.md) delete e.md; if(!e.pd) delete e.pd; if(!e.pv) delete e.pv;
+  if(!e.hn){ delete e.hn; delete e.hv; } if(!e.tf) delete e.tf; if(!e.ap) delete e.ap; if(!e.md) delete e.md; if(!e.pd) delete e.pd; if(!e.pv) delete e.pv;
   tb.lg.push(e); st.last=e; st.pd=0; st.tf=''; st.tv=0; st.d=''; st.mod=0; st.ap=0;
   markDirty(); render();
 }
@@ -1186,8 +1235,8 @@ function crState(ch){
   return st;
 }
 function crCalc(ch,st){
-  const habs=charHabs(ch), h=habs.find(x=>x[0]===st.h)||habs.find(x=>(ch.hb||{})[x[0]]>0)||habs[0];
-  return {h,av:n((ch.at||{})[h[2]]),hv:n((ch.hb||{})[h[0]]),df:n(st.df),dn:ESC_N[n(st.df)]||'Dificultad',md:Math.max(-20,Math.min(7,n(st.mod)))};
+  const rp=rollParts(ch,st.h);
+  return {rp,h:[rp.key],an:rp.an,hn:rp.hn,av:rp.av,hv:rp.hv,df:n(st.df),dn:ESC_N[n(st.df)]||'Dificultad',md:Math.max(-20,Math.min(7,n(st.mod)))};
 }
 function cardRollHTML(ch,tb,ti,ci){
   if(S.party.rg) return `<div class="muted">🔒 El registro está protegido: desbloquealo en la pestaña 🎲 El Dado.</div>`;
@@ -1198,7 +1247,7 @@ function cardRollHTML(ch,tb,ti,ci){
   [...new Set(mine.map(x=>x.e.t))].forEach(t=>{ list+=`<div class="lg-h">TURNO ${t}:</div>`+mine.filter(x=>x.e.t===t).map(({e,i})=>`<div class="lg-l"><span>${esc(logLine(e,0).replace(/^✦ [^—]+— /,'✦ '))}</span><button class="x" data-dellog="${ti}.${i}" title="Borrar">×</button></div>`).join(''); });
   return `<div class="cr-form">
       <div><label class="f">Turno</label><input class="in num" type="number" min="1" value="${st.turno}" ${ck('turno')} data-num="1"></div>
-      <div class="cr-h"><label class="f">Habilidad</label><select class="in" ${ck('h')}>${ATRS.map(([a,an])=>`<optgroup label="${an} (${n((ch.at||{})[a])})">${habs.filter(h=>h[2]===a).map(h=>`<option value="${h[0]}" ${h[0]===c.h[0]?'selected':''}>${esc(h[1])} (${n((ch.hb||{})[h[0]])})</option>`).join('')}</optgroup>`).join('')}</select></div>
+      <div class="cr-h"><label class="f">Habilidad</label><select class="in" ${ck('h')}>${habOptions(ch,c.rp.key,false)}</select>${c.rp.miss?`<div class="evwarn" style="margin-top:4px">Falta ${esc(c.rp.miss)}: cargalo en 📐 Atributos y habilidades.</div>`:''}</div>
       <div><label class="f">Dado</label><input class="in num" type="number" min="1" max="10" value="${esc(st.d)}" ${ck('d')} data-num="1" placeholder="1-10" ${st.pd?'disabled':''}></div>
       <div><label class="f">Mod.</label><input class="in num" type="number" value="${st.mod}" ${ck('mod')} data-num="1"></div>
       <div class="cr-df"><label class="f">Dificultad</label><select class="in" ${ck('df')} data-num="1">${ESCALA.map(([v,nm])=>`<option value="${v}" ${v===n(st.df)?'selected':''}>${nm} (${v})</option>`).join('')}</select></div>
@@ -1214,7 +1263,7 @@ function crAdd(ti,ci){
   if(!(d>=1&&d<=10)){ toast('Escribí el número que salió en el dado del foro (1 a 10)'); return; }
   if(st.pd){ if(n(ch.pd[0])>=n(ch.pd[1])){ toast('No le quedan Puntos de Destino'); return; } ch.pd[0]=n(ch.pd[0])+1; }
   const tot=d+c.av+c.hv+c.md;
-  const e={t:Math.max(1,n(st.turno)),who:ch.n||'Personaje',an:ATR_N[c.h[2]],av:c.av,hn:c.h[1],hv:c.hv,d,df:c.df,dn:c.dn,tot};
+  const e={t:Math.max(1,n(st.turno)),who:ch.n||'Personaje',an:c.an,av:c.av,d,df:c.df,dn:c.dn,tot}; if(c.hn){ e.hn=c.hn; e.hv=c.hv; }
   if(c.md) e.md=c.md; if(st.pd) e.pd=1;
   tb.lg.push(e); st.d=''; st.mod=0; st.pd=0;
   markDirty(); render(); toast(`✦ ${resTxt(grados(tot,c.df))}`);
@@ -1471,6 +1520,7 @@ function charCard(ch,tb,ti,ci,edit){
     <div class="card-body">
       <div class="block"><h4>🌙 Tracker de turnos</h4><div class="turns">${turns}</div>${tb.ev?evCardCtl(ch,tb,P,edit):''}</div>
       ${tb.ev&&edit?`<details class="fold" data-fold="m:${ch.id}:cr" ${foldAttr(`m:${ch.id}:cr`,true)}><summary>🎲 Tiradas <span class="cnt">${(tb.lg||[]).filter(e=>e.who===(ch.n||'Personaje')).length}</span></summary><div class="fold-in" id="cr-${ti}-${ci}">${cardRollHTML(ch,tb,ti,ci)}</div></details>`:''}
+      ${atrFold(ch,P,edit)}
       <div class="two">
         <div class="block"><h4>🔮 Puntos especiales</h4>
           ${edit?'<div class="stat"><span></span><span class="muted" style="text-align:center">Usados</span><span class="muted" style="text-align:center">Máx</span></div>':''}
@@ -1485,7 +1535,6 @@ function charCard(ch,tb,ti,ci,edit){
           ${statRow(edit,'🔥 PAs (Aguante)',ch.pa,P+'.pa','pa','cur')}
         </div>
       </div>
-      ${atrFold(ch,P,edit)}
       <details class="fold" data-fold="${edit?'m':'v'}:${ch.id}:v" ${foldAttr(`${edit?'m':'v'}:${ch.id}:v`,edit||cnt(ch.v)>0)}><summary>💎 Ventajas <span class="cnt">${cnt(ch.v)}</span></summary><div class="fold-in">
         ${tbl(vHead,vRows,'Sin ventajas.')}${edit?`<button class="btn sm addrow" data-add="v" data-p="${P}">+ Ventaja</button>`:''}</div></details>
       <details class="fold" data-fold="${edit?'m':'v'}:${ch.id}:tr" ${foldAttr(`${edit?'m':'v'}:${ch.id}:tr`,edit||(cnt(ch.tr)>0&&cnt(ch.tr)<=8))}><summary>🌿 Trasfondos <span class="cnt">${cnt(ch.tr)}</span></summary><div class="fold-in">
@@ -1518,15 +1567,20 @@ function atrFold(ch,P,edit){
   const key=`${edit?'m':'v'}:${ch.id}:at`;
   let body='';
   if(edit){
-    body=`<div class="atr-grid">${ATRS.map(([a,an])=>`<div><label class="f">${an}</label>${fld(1,at[a]??'',`${P}.at.${a}`,{num:1,ph:'0'})}</div>`).join('')}</div>
-      <div class="hab-grid">${ATRS.map(([a,an])=>`<div class="hab-col"><div class="hab-h">${an}</div>${charHabs(ch).filter(h=>h[2]===a).map(h=>`<div class="hab-r"><span>${esc(h[1])}</span><select class="in" data-k="${P}.hb.${h[0]}" data-num="1">${NIVELES.map(([v,nm])=>`<option value="${v}" ${n(hb[h[0]])===v?'selected':''}>${nm}</option>`).join('')}</select></div>`).join('')}</div>`).join('')}</div>
+    const miss=ATRS.filter(([a])=>at[a]==null||at[a]==='').map(x=>x[1]), calc=ATRS.filter(([a])=>ch.atd&&ch.atd[a]).map(x=>x[1]);
+    body=`${miss.length?`<div class="evwarn" style="margin-bottom:8px">Faltan en la ficha: ${miss.join(', ')}. Completalos para que el dado los use.</div>`:''}
+      ${calc.length?`<div class="tip" style="margin:0 0 8px">≈ ${calc.join(', ')}: la ficha no los traía y los calculé desde sus valores de combate (Iniciativa, Ataques, Defensa, Heridas y la etapa). Revisalos: si el personaje tiene bonos de raza u objetos pueden variar.</div>`:''}
+      <div class="atr-grid">${ATRS.map(([a,an])=>`<div><label class="f">${an}${ch.atd&&ch.atd[a]?' ≈':''}</label>${fld(1,at[a]??'',`${P}.at.${a}`,{num:1,ph:'falta',cls:(ch.atd&&ch.atd[a]?'calc':'')+(at[a]==null||at[a]===''?' miss':'')})}</div>`).join('')}</div>
+      <div class="hab-grid">${ATRS.map(([a,an])=>`<div class="hab-col"><div class="hab-h">${an} <span class="hab-av">${at[a]==null||at[a]===''?'—':n(at[a])}</span></div>${charHabs(ch).filter(h=>h[2]===a).map(h=>`<div class="hab-r"><span>${esc(h[1])}</span><select class="in" data-k="${P}.hb.${h[0]}" data-num="1">${NIVELES.map(([v,nm])=>`<option value="${v}" ${n(hb[h[0]])===v?'selected':''}>${nm}</option>`).join('')}</select></div>`).join('')}</div>`).join('')}</div>
       <div class="row"><button class="btn sm" data-addhab="${P}">+ Arte / Artesanía u otra</button></div>`;
   } else {
     if(!has) return '';
-    body=`<div class="atr-view">${ATRS.map(([a,an])=>`<span><small>${an}</small><b>${n(at[a])}</b></span>`).join('')}</div>
+    body=`<div class="atr-view">${ATRS.map(([a,an])=>`<span><small>${an}</small><b>${at[a]==null||at[a]===''?'—':n(at[a])}</b></span>`).join('')}</div>
+      <div class="hab-view" style="margin-bottom:8px">${CBS.map(([k,nm])=>`<span>${nm} <b>${cbVal(ch,k)}</b></span>`).join('')}</div>
       <div class="hab-view">${charHabs(ch).filter(h=>n(hb[h[0]])>0).map(h=>`<span>${esc(h[1])} <b>${NIV_N[n(hb[h[0]])]||''} +${n(hb[h[0]])}</b></span>`).join('')}</div>`;
   }
-  return `<details class="fold" data-fold="${key}" ${foldAttr(key,false)}><summary>📐 Atributos y habilidades</summary><div class="fold-in">${body}</div></details>`;
+  const resumen=ATRS.map(([k,an])=>`<span class="${at[k]==null||at[k]===''?'am':''}">${an.slice(0,3)} ${at[k]==null||at[k]===''?'—':n(at[k])+(ch.atd&&ch.atd[k]?'≈':'')}</span>`).join('');
+  return `<details class="fold atr-block" data-fold="${key}" ${foldAttr(key,false)}><summary>📐 Atributos y habilidades <span class="atr-sum">${resumen}</span></summary><div class="fold-in">${body}</div></details>`;
 }
 function sumPills(ch,tb){
   const s=charStats(ch,tb);
@@ -1776,6 +1830,7 @@ document.addEventListener('input',e=>{
     const w=el.previousElementSibling; if(w){ w.firstChild.textContent='✓'+nf; w.title='Posteó con '+nf+' faltas'; } }
   if(el.dataset.turn){ const w=el.parentElement, m=el.dataset.turn==='m'; w.className='tsel st-'+(v||'_');
     w.firstChild.textContent=(m?MST_SHORT:ST_SHORT)[v]||'·'; w.title='Turno: '+((m?MST:ST)[v]||'—'); }
+  { const m=el.dataset.k.match(/^(tb\.\d+\.ch\.\d+)\.at\.(\w+)$/); if(m){ const ch=getPath(S.party,m[1]); if(ch.atd) delete ch.atd[m[2]]; el.classList.remove('calc'); } }
   markDirty(); refreshCalcs();
   if(/\.(at|hb|tr|pd)\./.test(el.dataset.k)||/\.n$/.test(el.dataset.k)){ const ti=+el.dataset.k.split('.')[1]; if(document.activeElement!==el||el.tagName==='SELECT') refreshDice(ti); }
   if(el.dataset.k==='title') heroMeta(S.party);
@@ -1814,8 +1869,17 @@ document.addEventListener('click',async e=>{
   if(d.import!==undefined){ importModal(+d.import, d.ci===undefined||d.ci===''?undefined:+d.ci); return; }
   if(d.doimport!==undefined){
     b.disabled=true;
-    try{ const raw=await decodeFicha(document.getElementById('fichaCode').value);
-      const list=Array.isArray(raw)?raw:[raw];
+    try{ const txt=document.getElementById('fichaCode').value;
+      const longs=txt.match(/AVK[01]\.[A-Za-z0-9_-]+/g)||[], shorts=txt.match(/\bAK-?\s?\d{5}\b/gi)||[];
+      const codes=longs.length?longs:shorts;            // si hay códigos largos, alcanzan (no hace falta internet)
+      let list=[];
+      if(codes.length>1){ const best=new Map();
+        for(const c of codes){ let raw; try{ raw=await decodeFicha(/^AVK/i.test(c)?c:c.replace(/[^0-9A-Za-z]/g,'')); }catch(_){ continue; }
+          (Array.isArray(raw)?raw:[raw]).forEach(f=>{ if(!(f.atributos||f.habilidades||f.combate)) return; const k=(f.personaje||'').trim().toLowerCase(), sz=JSON.stringify(f).length;
+            if(!best.has(k)||best.get(k).sz<sz) best.set(k,{f,sz}); }); }
+        list=[...best.values()].map(x=>x.f); }
+      else { const raw=await decodeFicha(txt); list=Array.isArray(raw)?raw:[raw]; }
+      if(!list.length) throw new Error('No encontré fichas con datos en ese texto');
       const tb=p.tb[+d.doimport], ci=d.ci===''?undefined:+d.ci;
       if(ci===undefined){ list.forEach(f=>{ const c=fichaToChar(f); c.id=uid(); c.t=fromT([],tb.nt); tb.ch.push(c); }); }
       else { const f=list[0], old=tb.ch[ci]; const c=fichaToChar(f,old); c.img=old.img; c.p=old.p; c.t=old.t; tb.ch[ci]=c; }
