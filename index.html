@@ -6,7 +6,7 @@
 <title>PMA · Plataforma de Masters Avadenses</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Allura&family=Cinzel:wght@500;600;700&family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Pinyon+Script&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Allura&family=Cinzel:wght@500;600;700&family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Pinyon+Script&family=Quicksand:wght@400;500;600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
   --lila:#60507B; --amatista:#6B62AE; --lavanda:#AD9CBC; --rosapolvo:#C59FB3;
@@ -377,6 +377,14 @@ label.chk input{width:16px;height:16px;accent-color:var(--amatista)}
 .pma-item{width:100%;border:0;cursor:pointer;display:flex;justify-content:space-between;gap:10px;align-items:baseline;padding:9px 12px;border-radius:12px;background:rgba(255,255,255,.6);box-shadow:inset 0 0 0 1px var(--line);color:var(--ink);transition:.15s}
 .pma-item:hover{background:#fff;box-shadow:inset 0 0 0 1px var(--oro)}
 .pma-item b{font-family:var(--f-name);font-size:16px}
+.pma-list li{display:flex;gap:6px;align-items:stretch}
+.pma-list li .pma-item{flex:1;min-width:0}
+.pma-x{flex:none;border:0;cursor:pointer;min-width:34px;padding:0 10px;border-radius:12px;background:transparent;color:var(--muted);font-size:13px;box-shadow:inset 0 0 0 1px var(--line);transition:.15s;font-family:inherit}
+.pma-x:hover{color:var(--rosapolvo);box-shadow:inset 0 0 0 1px var(--rosapolvo)}
+.pma-x.armed{background:var(--rosapolvo);color:#fff;font-size:11.5px;font-weight:700;box-shadow:none}
+.skin-dk .pma-x{color:var(--sk-sub);box-shadow:inset 0 0 0 1px var(--sk-border2)}
+.skin-dk .pma-x:hover{color:var(--sk-name);box-shadow:inset 0 0 0 1px var(--sk-name)}
+.skin-dk .pma-x.armed{background:var(--sk-alert);color:var(--sk-text)}
 .pma-item span{font-size:11.5px;color:var(--muted);white-space:nowrap}
 /* ───── Fases de posteo ───── */
 .fz{margin:0 0 12px;padding:12px 16px;border-radius:14px;background:rgba(255,255,255,.6);box-shadow:inset 0 0 0 1px var(--line);font-size:14px}
@@ -684,6 +692,70 @@ button.faltan-chip:hover{background:var(--champagne)}
 .skin-dk .legend,.skin-dk .mlegend{font-family:var(--f-label);font-size:10.5px;letter-spacing:.06em;color:var(--sk-sub)}
 .skin-dk .notes{font-family:var(--f-body);color:var(--sk-text)}
 
+/* ════════ SKIN · PAM (oficial, igual que la Plataforma Avadense Multiuso) ════════ */
+:root.skin-pam{--sk-bg:#171a2b;--sk-panel:#1e2236;--sk-panel2:#262a42;--sk-meta:#1b1f33;--sk-border:rgba(180,151,104,.42);--sk-border2:rgba(241,234,223,.1);
+  --sk-accent:#B49768;--sk-title:#d6bd8f;--sk-name:#cf94a3;--sk-text:#F1EADF;--sk-sub:#a7a1b6;--sk-alert:#A96879;
+  --sk-bar:linear-gradient(180deg,#d6bd8f,#B49768);
+  --sk-bgimg:radial-gradient(900px 500px at 50% -180px,rgba(169,104,121,.16),transparent 70%),radial-gradient(700px 400px at 100% 10%,rgba(130,123,154,.10),transparent 70%);
+  --f-title:'Cormorant Garamond','Iowan Old Style',Georgia,serif;--f-name:'Cormorant Garamond',Georgia,serif;--f-body:'Nunito',-apple-system,'Segoe UI',Roboto,sans-serif;--f-label:'Nunito',-apple-system,'Segoe UI',sans-serif;--radius:16px}
+:root.skin-pam body{font-size:15px}
+/* cielo estrellado */
+:root.skin-pam body::before,:root.skin-pam body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;background-repeat:repeat}
+:root.skin-pam body::before{background-image:radial-gradient(1px 1px at 20px 30px,rgba(241,234,223,.55),transparent 60%),radial-gradient(1px 1px at 140px 90px,rgba(241,234,223,.35),transparent 60%),radial-gradient(1.4px 1.4px at 260px 160px,rgba(214,189,143,.6),transparent 60%),radial-gradient(1px 1px at 330px 40px,rgba(241,234,223,.3),transparent 60%),radial-gradient(1px 1px at 90px 230px,rgba(207,148,163,.45),transparent 60%);background-size:380px 280px;opacity:.55}
+:root.skin-pam body::after{background-image:radial-gradient(1.3px 1.3px at 60px 120px,rgba(241,234,223,.7),transparent 60%),radial-gradient(1px 1px at 210px 20px,rgba(214,189,143,.7),transparent 60%),radial-gradient(1.2px 1.2px at 300px 210px,rgba(241,234,223,.6),transparent 60%);background-size:520px 360px;animation:pamTwinkle 6s ease-in-out infinite alternate}
+@keyframes pamTwinkle{from{opacity:.15}to{opacity:.7}}
+:root.skin-pam .wrap{position:relative;z-index:1}
+/* cabecera sin caja, como la de PAM */
+.skin-pam .hero{background:transparent;box-shadow:none;padding-top:40px}
+.skin-pam .pma-k{font-family:var(--f-body);font-size:11px;letter-spacing:.32em;color:#827B9A;display:inline-flex;align-items:center;gap:10px}
+.skin-pam .pma-k::before,.skin-pam .pma-k::after{content:"✦";color:#B49768;font-size:9px;letter-spacing:0}
+.skin-pam .hero h1{font-family:var(--f-title);font-style:italic;font-weight:500;text-transform:none;letter-spacing:0;font-size:clamp(34px,6vw,54px);line-height:1.05;
+  background:linear-gradient(100deg,#d6bd8f 10%,#F1EADF 50%,#cf94a3 90%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.skin-pam .hero .script{font-family:var(--f-body);font-style:normal;font-size:15px;color:var(--sk-sub);letter-spacing:0;margin-top:8px}
+.skin-pam .hero #heroMeta::before{content:"☾";display:flex;align-items:center;justify-content:center;gap:12px;margin:16px auto 0;color:#B49768;font-size:13px;max-width:260px;
+  background:linear-gradient(90deg,transparent,#8f7a58 30%,transparent 42%,transparent 58%,#8f7a58 70%,transparent) center/100% 1px no-repeat}
+.skin-pam .hero .chip{font-family:var(--f-body);text-transform:none;letter-spacing:.02em;font-size:12px;border-radius:999px}
+/* paneles, botones y campos */
+.skin-pam .panel,.skin-pam .master{border-radius:16px;background:linear-gradient(180deg,rgba(241,234,223,.025),transparent),var(--sk-panel);box-shadow:0 0 0 1px var(--sk-border2),0 18px 40px -24px rgba(0,0,0,.6)}
+.skin-pam .master{box-shadow:0 0 0 1px var(--sk-border),0 18px 40px -24px rgba(0,0,0,.6)}
+.skin-pam .btn{border-radius:999px;font-family:var(--f-body);font-weight:600;letter-spacing:.01em;color:var(--sk-sub);box-shadow:inset 0 0 0 1px rgba(241,234,223,.16)}
+.skin-pam .btn:hover{color:var(--sk-text);background:rgba(241,234,223,.04);box-shadow:inset 0 0 0 1px var(--sk-sub)}
+.skin-pam .btn.prime,.skin-pam .btn.on{background:#B49768;color:#1b1e30;font-weight:700;box-shadow:none}
+.skin-pam .btn.prime:hover,.skin-pam .btn.on:hover{background:#d6bd8f;filter:none;box-shadow:0 0 18px rgba(214,189,143,.35)}
+.skin-pam .btn.dark{background:#A96879;color:#F1EADF;box-shadow:none}
+.skin-pam .btn.dark:hover{background:#cf94a3;color:#1b1e30;box-shadow:0 0 18px rgba(207,148,163,.35)}
+.skin-pam .in{border-radius:10px;background:var(--sk-panel2);box-shadow:inset 0 0 0 1px rgba(241,234,223,.12)}
+.skin-pam .in:hover{box-shadow:inset 0 0 0 1px rgba(180,151,104,.45)}
+.skin-pam .in:focus{box-shadow:inset 0 0 0 1px #B49768,0 0 0 3px rgba(180,151,104,.15)}
+.skin-pam .block,.skin-pam details.fold{border-radius:12px}
+.skin-pam label.f,.skin-pam table.t th,.skin-pam .tcell small{font-size:10px;letter-spacing:.12em}
+.skin-pam .sec-title,.skin-pam .block h4,.skin-pam details.fold>summary,.skin-pam .rules summary,.skin-pam .theme-panel>summary{font-family:var(--f-title);font-style:italic;text-transform:none;letter-spacing:.01em;font-size:20px;font-weight:500;color:var(--sk-text)}
+.skin-pam .tabs .tab,.skin-pam .mtab{font-family:var(--f-body);text-transform:none;letter-spacing:0;font-size:13.5px;border-radius:999px;box-shadow:none;background:transparent;color:var(--sk-sub)}
+.skin-pam .tabs .tab.act,.skin-pam .mtab.act{color:var(--sk-text);background:rgba(180,151,104,.08);box-shadow:inset 0 0 0 1px rgba(180,151,104,.45)}
+.skin-pam .who .cname{text-transform:none;letter-spacing:0;font-size:26px;font-weight:600;font-style:italic}
+.skin-pam .who .in.name{text-transform:none;letter-spacing:0}
+.skin-pam .master .mname{text-transform:none;letter-spacing:0;font-style:italic;font-size:22px}
+.skin-pam .pma-card h2{font-style:italic;font-weight:500;font-size:30px}
+.skin-pam .pma-card .script{font-family:var(--f-body);color:var(--sk-sub);font-size:14px}
+.skin-pam .pma-ico{background:var(--sk-panel2);color:#d6bd8f;box-shadow:0 0 0 1px rgba(180,151,104,.45)}
+.skin-pam .pma-q{font-family:var(--f-title);font-style:italic;font-size:26px;color:var(--sk-text)}
+.skin-pam .pma-q b{color:#d6bd8f;font-weight:600}
+.skin-pam .pma-list-h{font-family:var(--f-body);font-size:10.5px;letter-spacing:.32em;color:#827B9A}
+.skin-pam .pma-list-h::before,.skin-pam .pma-list-h::after{background:linear-gradient(90deg,transparent,#8f7a58,transparent)}
+.skin-pam .pma-item{background:var(--sk-panel2);box-shadow:inset 0 0 0 1px rgba(241,234,223,.09)}
+.skin-pam .pma-item:hover{box-shadow:inset 0 0 0 1px rgba(180,151,104,.45),0 0 0 4px rgba(180,151,104,.04)}
+.skin-pam .pma-item b{font-family:var(--f-title);font-size:17px;font-weight:600;color:var(--sk-text)}
+.skin-pam .pma-x{border-radius:10px}
+.skin-pam .pma-x.armed{background:#d98377;color:#1b1e30}
+.skin-pam footer{font-family:var(--f-title);font-style:italic;font-size:17px;color:var(--sk-sub);opacity:1;letter-spacing:.04em}
+.skin-pam footer::before,.skin-pam footer::after{content:" ✦ ";color:#B49768;font-style:normal;font-size:11px}
+.skin-pam .st-R{background:#93b8a0;color:#171a2b}
+.skin-pam .st-N{background:#B49768;color:#171a2b}
+.skin-pam .st-L{background:#827B9A;color:#F1EADF}
+.skin-pam .st-J,.skin-pam .st-Y{background:#d6bd8f;color:#171a2b}
+.skin-pam .st-X{background:#d6bd8f;color:#171a2b;box-shadow:inset 0 -3px 0 #A96879}
+.skin-pam .st-I{background:#262a42;color:#d98377;box-shadow:inset 0 0 0 1px #d98377}
+.skin-pam .st-F{background:#A96879;color:#F1EADF}
 /* ════════ SKIN · VICTORIAN VANITY ════════ */
 :root.skin-vanity{--sk-bg:#171114;--sk-panel:#1E1519;--sk-panel2:#321D27;--sk-meta:#21161B;--sk-border:#70404E;--sk-border2:#493238;
   --sk-accent:#D1A56B;--sk-title:#D1A56B;--sk-name:#E4B4BE;--sk-text:#DDD2D4;--sk-sub:#A38C92;--sk-alert:#70404E;
@@ -807,7 +879,7 @@ footer{text-align:center;font-family:var(--f-script);font-size:22px;color:var(--
     <nav class="nav" id="nav"></nav>
   </header>
   <main id="app"></main>
-  <footer>✦ Sistema Avadense ✦</footer>
+  <footer>By: Hana Park</footer>
 </div>
 <div id="layer"></div>
 
@@ -1510,12 +1582,18 @@ const PRESETS=[
   {n:'Veneno',h:95,k:1.2,m:'plata'},
   {n:'Misión oscura',h:352,k:.85,m:'bronce',d:1},
   {n:'Abismo',h:262,k:.8,m:'plata',d:1},
+  {n:'PAM · oficial',s:'pam',h:BASE_H,k:1,m:'oro',d:0},
   {n:'Magic Chef',s:'chef',h:18,k:1,m:'oro',d:0},
   {n:'Victorian Vanity',s:'vanity',h:340,k:1,m:'oro',d:0},
   {n:'Gothic Medical Mystery',s:'medical',h:160,k:1,m:'oro',d:0},
 ];
 /* Skins de misión: paletas fijas + fuentes + decoración propia */
 const SKINS={
+  pam:{ name:'PAM · oficial', dk:true, pal:{
+    lila:'#A96879', amatista:'#827B9A', ciruela:'#262a42', lavanda:'#827B9A', rosapolvo:'#A96879', rosa:'#cf94a3',
+    melocoton:'#d6bd8f', perla:'#F1EADF', cristal:'#cf94a3', salvia:'#93b8a0',
+    champagne:'#d6bd8f', oro:'#B49768', carbon:'#171a2b', ink:'#F1EADF', 'bg-deep':'#171a2b', 'bg-mid':'#1e2236', _soft:'#d6bd8f' },
+    muted:'#a7a1b6', line:'rgba(241,234,223,.12)', modal:'rgba(30,34,54,.98)' },
   chef:{ name:'Magic Chef', noEmoji:true, pal:{
     lila:'#B05E3E', amatista:'#8E4A30', ciruela:'#7A3F28', lavanda:'#D9C19C', rosapolvo:'#C98B6B', rosa:'#CF7E5E',
     melocoton:'#E7D5B8', perla:'#FBF7EF', cristal:'#B05E3E', salvia:'#657F59',
@@ -1532,8 +1610,9 @@ const SKINS={
     champagne:'#C49A55', oro:'#A9803F', carbon:'#172522', ink:'#D9D8CC', 'bg-deep':'#172522', 'bg-mid':'#1D2D29', _soft:'#D8B677' },
     muted:'#B7C8C5', line:'rgba(82,103,93,.7)', modal:'rgba(29,45,41,.98)' }
 };
+const OFICIAL={s:'pam'};
 function genTheme(th){
-  th=Object.assign({},DEF_THEME,th||{});
+  th=Object.assign({},DEF_THEME,th||OFICIAL);
   if(th.s&&SKINS[th.s]) return Object.assign({},SKINS[th.s].pal); const dh=th.h-BASE_H, out={};
   for(const k in BASE){ const [h,s,l]=rgb2hsl(hex2rgb(BASE[k])); out[k]=rgb2hex(hsl2rgb(h+dh,Math.min(1,s*th.k),l)); }
   const mt=METALS[th.m]||METALS.oro; out.champagne=mt.champagne; out.oro=mt.oro; out.carbon=mt.carbon; out._soft=mt.soft;
@@ -1544,6 +1623,7 @@ function genTheme(th){
   return out;
 }
 function applyTheme(th){
+  th=th||OFICIAL;
   const t=genTheme(th), st=document.documentElement.style;
   for(const k in t){ if(k[0]==='_') continue; st.setProperty('--'+k,t[k]); st.setProperty('--'+k+'-rgb',hex2rgb(t[k]).join(',')); }
   const pr=hex2rgb(t.perla), dark=!!(th&&th.d), lh=rgb2hsl(hex2rgb(t.lila))[0];
@@ -1562,7 +1642,7 @@ const swatch=th=>{const t=genTheme(th);if(th&&th.s==='chef') return `linear-grad
 const sameTheme=(a,b)=>(a.s||'')===(b.s||'')&&(a.s?true:a.h===b.h&&Math.abs(a.k-b.k)<.001&&a.m===b.m&&(a.d||0)===(b.d||0));
 function knobPos(h){ const a=(h-90)*Math.PI/180; return [80+Math.cos(a)*68, 80+Math.sin(a)*68]; }
 function themePanel(p){
-  const th=Object.assign({},DEF_THEME,p.th||{}); const [kx,ky]=knobPos(th.h);
+  const th=Object.assign({},DEF_THEME,p.th||OFICIAL); const [kx,ky]=knobPos(th.h);
   return `<details class="panel theme-panel" ${S.themeOpen?'open':''} id="themePanel">
     <summary><span class="sw" style="background:${swatch(th)}"></span>🎨 Apariencia de la misión <span class="muted" style="font-weight:500">· los jugadores la ven igual</span></summary>
     <div class="theme-grid">
@@ -1905,7 +1985,7 @@ function homeView(){
       <h2>Soy master</h2><div class="script">llevar mis partidas</div>
       <div class="row" style="justify-content:center"><button class="btn prime" data-mode="master">🗝️ ${draft?'Seguir con '+esc(draft.title||'mi borrador'):'Abrir el panel de master'}</button></div>
       <div class="pma-list-h">Tus partidas</div>
-      ${mine.length?`<ul class="pma-list">${mine.map((h,i)=>`<li><button class="pma-item" data-hopen="${hist.indexOf(h)}"><b>${esc(h.title)}</b><span>${isShort(h.code)?esc(h.code)+' · ':''}guardado n.º ${h.sv} · ${fmtD(h.at)}</span></button></li>`).join('')}</ul>`
+      ${mine.length?`<ul class="pma-list">${mine.map((h,i)=>`<li><button class="pma-item" data-hopen="${hist.indexOf(h)}"><b>${esc(h.title)}</b><span>${isShort(h.code)?esc(h.code)+' · ':''}guardado n.º ${h.sv} · ${fmtD(h.at)}</span></button><button class="pma-x" data-hdel="${hist.indexOf(h)}" title="Quitar de la lista" aria-label="Quitar de la lista">✕</button></li>`).join('')}</ul>`
         :`<p class="muted" style="text-align:center">Todavía no guardaste partidas en este navegador. Cuando toques “Guardar turno”, aparecen acá.</p>`}
       <div class="row" style="justify-content:center"><button class="btn sm ghost" data-mode="master" data-fresh="1">+ Nueva partida</button><button class="btn sm ghost" data-gomaster-load="1">📜 Cargar un código</button></div>
     </section>
@@ -1915,7 +1995,7 @@ function homeView(){
       <label class="f">Código de partida</label>
       <div class="row" style="margin-top:0"><input class="in" id="homeCode" placeholder="El código que dejó tu master (ej: X7K2P9)" style="flex:1;font-family:var(--f-title);letter-spacing:.12em;text-align:center"><button class="btn prime" data-load-view="homeCode">🔮 Ver</button></div>
       <div class="pma-list-h">Partidas que viste</div>
-      ${seen.length?`<ul class="pma-list">${seen.slice(0,8).map(x=>`<li><button class="pma-item" data-seen="${esc(x.code)}"><b>${esc(x.title)}</b><span>${/^AVK/.test(x.code)?'código largo':esc(x.code)} · guardado n.º ${x.sv} · ${fmtD(x.at)}</span></button></li>`).join('')}</ul>`
+      ${seen.length?`<ul class="pma-list">${seen.slice(0,8).map(x=>`<li><button class="pma-item" data-seen="${esc(x.code)}"><b>${esc(x.title)}</b><span>${/^AVK/.test(x.code)?'código largo':esc(x.code)} · guardado n.º ${x.sv} · ${fmtD(x.at)}</span></button><button class="pma-x" data-sdel="${esc(x.code)}" title="Quitar de la lista" aria-label="Quitar de la lista">✕</button></li>`).join('')}</ul>`
         :`<p class="muted" style="text-align:center">Las partidas que abras con un código quedan guardadas acá para volver rápido.</p>`}
     </section>
   </div>`;
@@ -2112,6 +2192,11 @@ document.addEventListener('click',async e=>{
   if(d.closeBg!==undefined){ if(e.target===b) closeModal(); return; }
   if(d.close){ closeModal(); return; }
   if(d.seen){ try{ const r=await loadAny(d.seen); S.view=r.party; S.lastViewCode=r.code; S.vtab=0; S.filter=''; S.mode='view'; rememberSeen(r.code,r.party); history.replaceState(null,'',linkFor(r.code)); render(); window.scrollTo(0,0); }catch(err){ toast('No se pudo abrir esa partida'); } return; }
+  if(d.hdel!==undefined){ if(!b.dataset.armed){ b.dataset.armed='1'; b.classList.add('armed'); b.textContent='¿Quitar?'; setTimeout(()=>{ if(b.isConnected){ b.textContent='✕'; b.classList.remove('armed'); delete b.dataset.armed; } },2500); return; }
+    const all=ls.get(LS_HIST,[]), x=all[+d.hdel]; if(!x) return; const key=h=>isShort(h.code)?h.code:h.title;
+    ls.set(LS_HIST,all.filter(h=>key(h)!==key(x))); render(); toast('Quitada de tu lista (el código sigue funcionando)'); return; }
+  if(d.sdel!==undefined){ if(!b.dataset.armed){ b.dataset.armed='1'; b.classList.add('armed'); b.textContent='¿Quitar?'; setTimeout(()=>{ if(b.isConnected){ b.textContent='✕'; b.classList.remove('armed'); delete b.dataset.armed; } },2500); return; }
+    ls.set(LS_SEEN,ls.get(LS_SEEN,[]).filter(x=>x.code!==d.sdel)); render(); toast('Quitada de tu lista'); return; }
   if(d.hopen!==undefined){ const x=ls.get(LS_HIST,[])[+d.hopen]; if(!x) return; if(dirty&&!confirmInline(b,'Tenés cambios sin guardar: tocá otra vez')) return;
     S.pw=null; S.dice={}; S.party=null; if(isShort(x.code)){ try{ S.party=(await loadAny(x.code)).party; }catch(e){} } if(!S.party){ S.party=await decodeParty(x.long||x.code); if(isShort(x.code)) S.party.mc=x.code; } S.lastCode=x.code; S.tab=0; dirty=false; draftSave(); S.mode='master'; render(); window.scrollTo(0,0); toast('✦ '+(x.title||'Partida')+' abierta'); return; }
   if(d.gomasterLoad){ S.mode='master'; render(); loadModal(); return; }
