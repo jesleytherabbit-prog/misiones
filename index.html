@@ -494,6 +494,11 @@ details.g-sec[open]>summary::before{transform:rotate(45deg)}
 .skin-dk .pma-tool span:last-child{color:var(--sk-sub)}
 .skin-dk .pma-tool:hover{box-shadow:0 0 0 1px var(--sk-accent),0 14px 30px -18px #000}
 .skin-pam .pma-tool b{font-style:italic;font-weight:600}
+.nav:empty{display:none}
+.nav-back{border:0;background:none;cursor:pointer;font-family:var(--f-body);font-size:13px;letter-spacing:.04em;color:var(--muted);padding:4px 8px;opacity:.85;transition:.2s}
+.nav-back:hover{opacity:1;color:var(--oro)}
+.skin-dk .nav-back{color:var(--sk-sub);font-family:var(--f-label)}
+.skin-dk .nav-back:hover{color:var(--sk-accent)}
 /* ───── APARIENCIA ───── */
 .theme-panel{margin:-4px 0 16px}
 .theme-panel>summary{list-style:none;cursor:pointer;font-weight:700;color:var(--lila);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
@@ -2135,8 +2140,8 @@ function tabsHTML(p,active,edit){
 
 /* ════════════════ VISTAS ════════════════ */
 function nav(){
-  const b=(m,txt)=>`<button class="btn ${S.mode===m?'on':''}" data-mode="${m}">${txt}</button>`;
-  document.getElementById('nav').innerHTML=b('home','🌙 Inicio')+b('view','🔮 Ver con código')+b('master','🗝️ Panel de Master');
+  // solo un enlace discreto para volver; en el inicio no se muestra nada
+  document.getElementById('nav').innerHTML=S.mode==='home'?'':`<button class="nav-back" data-mode="home">‹ Volver al inicio</button>`;
 }
 function heroMeta(p){
   const m=document.getElementById('heroMeta'), s=document.getElementById('heroScript');
