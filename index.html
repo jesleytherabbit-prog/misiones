@@ -6,7 +6,7 @@
 <title>PMA · Plataforma de Masters Avadenses</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Allura&family=Cinzel:wght@500;600;700&family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Pinyon+Script&family=Quicksand:wght@400;500;600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Allura&family=Cinzel:wght@500;600;700&family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Pinyon+Script&family=Quicksand:wght@400;500;600;700&family=Nunito:wght@400;600;700&family=IM+Fell+English+SC&family=IM+Fell+DW+Pica:ital@0;1&family=IM+Fell+Double+Pica:ital@0;1&family=Mrs+Saint+Delafield&display=swap" rel="stylesheet">
 <style>
 :root{
   --lila:#60507B; --amatista:#6B62AE; --lavanda:#AD9CBC; --rosapolvo:#C59FB3;
@@ -430,6 +430,67 @@ button.faltan-chip:hover{background:var(--champagne)}
 
 .mc-chip{font-family:var(--f-title);letter-spacing:.14em;background:rgba(255,255,255,.7);color:var(--lila);box-shadow:inset 0 0 0 1px var(--oro);padding:6px 12px}
 .skin-dk .mc-chip{background:var(--sk-meta);color:var(--sk-accent)}
+/* ───── Guía de tiradas ───── */
+.guia-h{text-align:center;margin-bottom:10px}
+.guia-h .script{font-family:var(--f-script);font-size:24px;color:var(--rosa)}
+.guia-bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:6px -8px 14px;padding:8px;border-radius:12px;position:sticky;top:6px;z-index:3;background:var(--modal-bg);box-shadow:0 8px 18px -12px rgba(0,0,0,.5)}
+.guia-bar .in{flex:1;min-width:200px}
+.g-hide{display:none!important}
+details.g-sec{border-radius:14px;margin:0 0 10px;background:rgba(255,255,255,.45);box-shadow:inset 0 0 0 1px var(--line)}
+details.g-sec>summary{cursor:pointer;list-style:none;padding:12px 16px;font-family:var(--f-title);font-size:15px;letter-spacing:.06em;color:var(--lila);display:flex;align-items:center;gap:10px}
+details.g-sec>summary::-webkit-details-marker{display:none}
+details.g-sec>summary::before{content:"✦";color:var(--oro);font-size:11px;transition:transform .3s}
+details.g-sec[open]>summary::before{transform:rotate(45deg)}
+.g-body{padding:2px 18px 16px;line-height:1.6}
+.g-body h2{font-family:var(--f-name);font-size:19px;font-weight:600;color:var(--amatista);margin:16px 0 6px}
+.g-body p{margin:6px 0}
+.g-body ul,.g-card ul{list-style:none;margin:6px 0;padding:0}
+.g-body li{display:block;margin:3px 0;padding:0 0 0 18px;position:relative;text-indent:0}
+.g-body li::before{content:"✧";position:absolute;left:2px;top:0;color:var(--oro);font-size:12px}
+.skin-dk .g-body li::before{color:var(--sk-accent)}
+.g-sub{font-family:var(--f-title);font-size:11.5px;letter-spacing:.18em;color:var(--oro);margin:16px 0 4px!important}
+.g-sub::before{content:"✧ "}
+.g-note{margin:12px 0;padding:10px 16px;border-radius:12px;background:rgba(var(--champagne-rgb),.18);box-shadow:inset 3px 0 0 var(--oro)}
+.g-note p:first-child strong{font-family:var(--f-title);font-size:12px;letter-spacing:.16em;color:var(--oro)}
+.g-card{margin:10px 0;padding:10px 16px 8px;border-radius:12px;background:rgba(255,255,255,.55);box-shadow:inset 0 0 0 1px var(--line)}
+.g-card-h{font-family:var(--f-name);font-size:18px;color:var(--lila)}
+.g-card-h p{margin:0}
+.g-card p em{color:var(--muted)}
+
+.g-tw{overflow-x:auto;margin:10px 0}
+.g-t{width:100%;border-collapse:collapse;font-size:14px}
+.g-t th{font-family:var(--f-title);font-size:10.5px;letter-spacing:.16em;font-weight:600;text-align:left;color:var(--muted);padding:6px 10px;border-bottom:1px solid var(--oro)}
+.g-t td{padding:7px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+.g-t td.g-k{white-space:nowrap;color:var(--lila)}
+.dark details.g-sec,.dark .g-card{background:rgba(255,255,255,.05)}
+.skin-dk details.g-sec{background:var(--sk-meta);box-shadow:inset 0 0 0 1px var(--sk-border2);border-radius:var(--radius)}
+.skin-dk details.g-sec>summary{color:var(--sk-title);font-family:var(--f-title)}
+.skin-dk details.g-sec>summary::before{color:var(--sk-accent)}
+.skin-dk .g-body{color:var(--sk-text)}
+.skin-dk .g-body h2,.skin-dk .g-card-h,.skin-dk .g-t td.g-k{color:var(--sk-name);font-family:var(--f-name)}
+.skin-dk .g-sub,.skin-dk .g-note p:first-child strong{color:var(--sk-accent);font-family:var(--f-label)}
+.skin-dk .g-note{background:rgba(255,255,255,.04);box-shadow:inset 3px 0 0 var(--sk-accent)}
+.skin-dk .g-card{background:var(--sk-panel2);box-shadow:inset 0 0 0 1px var(--sk-border2)}
+.skin-dk .g-card p em{color:var(--sk-sub)}
+.skin-dk .g-t th{color:var(--sk-sub);border-bottom-color:var(--sk-border);font-family:var(--f-label)}
+.skin-dk .g-t td{border-bottom-color:var(--sk-border2)}
+.skin-dk .guia-h .script{font-family:var(--f-body);font-style:italic;font-size:15px;color:var(--sk-sub)}
+.skin-chef .g-card,.skin-chef details.g-sec{background:#FBF7EF}
+@media (max-width:620px){.g-t td.g-k{white-space:normal}.g-body{padding:2px 12px 14px}}
+/* ───── Herramientas de master (inicio) ───── */
+.pma-link{text-decoration:none}
+.pma-link span::after{content:" →"}
+.pma-tools-h{max-width:520px;margin:26px auto 10px}
+.pma-tools{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;max-width:760px;margin:0 auto}
+.pma-tool{display:flex;flex-direction:column;align-items:center;text-align:center;gap:4px;padding:16px 18px;text-decoration:none;color:inherit;transition:transform .2s,box-shadow .2s}
+.pma-tool:hover{transform:translateY(-2px);box-shadow:0 0 0 1px var(--oro),0 14px 30px -18px rgba(0,0,0,.5)}
+.pma-tool-i{font-size:24px;line-height:1}
+.pma-tool b{font-family:var(--f-name);font-size:19px;color:var(--lila)}
+.pma-tool span:last-child{font-size:13px;color:var(--muted)}
+.skin-dk .pma-tool b{color:var(--sk-title)}
+.skin-dk .pma-tool span:last-child{color:var(--sk-sub)}
+.skin-dk .pma-tool:hover{box-shadow:0 0 0 1px var(--sk-accent),0 14px 30px -18px #000}
+.skin-pam .pma-tool b{font-style:italic;font-weight:600}
 /* ───── APARIENCIA ───── */
 .theme-panel{margin:-4px 0 16px}
 .theme-panel>summary{list-style:none;cursor:pointer;font-weight:700;color:var(--lila);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
@@ -756,6 +817,104 @@ button.faltan-chip:hover{background:var(--champagne)}
 .skin-pam .st-X{background:#d6bd8f;color:#171a2b;box-shadow:inset 0 -3px 0 #A96879}
 .skin-pam .st-I{background:#262a42;color:#d98377;box-shadow:inset 0 0 0 1px #d98377}
 .skin-pam .st-F{background:#A96879;color:#F1EADF}
+/* ════════ SKIN · HOGWARTS NOCTURNO (cielo estrellado, nieve, índigo, plata y champán) ════════ */
+:root.skin-nocturno{--sk-bg:#0B0E26;--sk-panel:rgba(14,18,46,.86);--sk-panel2:#141A3D;--sk-meta:rgba(11,14,38,.6);--sk-border:rgba(201,178,122,.45);--sk-border2:rgba(156,151,204,.3);
+  --sk-accent:#E7D3A0;--sk-title:#E7D3A0;--sk-name:#AFC6EC;--sk-text:#DCE2F2;--sk-sub:#8C93B8;--sk-alert:#262A5A;
+  --sk-bar:linear-gradient(180deg,#E7D3A0,#C9B27A);
+  --sk-bgimg:radial-gradient(60% 260px at 25% 0%,rgba(156,151,204,.16),transparent 70%),radial-gradient(50% 220px at 72% 90px,rgba(175,198,236,.10),transparent 70%),
+    radial-gradient(120% 340px at 50% 100%,rgba(38,42,90,.55),transparent 70%),
+    linear-gradient(180deg,#141A3D 0%,#0B0E26 55%,#090B1E 100%);
+  --f-title:'IM Fell English SC',Georgia,serif;--f-name:'IM Fell English SC',Georgia,serif;--f-body:'IM Fell DW Pica',Georgia,serif;--f-label:'IM Fell English SC',Georgia,serif;--radius:4px}
+:root.skin-nocturno body{font-size:16px}
+/* estrellas que titilan + nieve que cae */
+:root.skin-nocturno body::before,:root.skin-nocturno body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:0}
+:root.skin-nocturno body::before{background-image:radial-gradient(1px 1px at 20px 30px,rgba(255,255,255,.75),transparent 60%),radial-gradient(1px 1px at 61px 55px,rgba(255,255,255,.5),transparent 60%),radial-gradient(1.2px 1.2px at 40px 12px,rgba(231,211,160,.8),transparent 60%),
+    radial-gradient(1px 1px at 90px 70px,rgba(255,255,255,.55),transparent 60%),radial-gradient(1.4px 1.4px at 150px 120px,rgba(175,198,236,.8),transparent 60%),radial-gradient(1px 1px at 120px 20px,rgba(255,255,255,.6),transparent 60%);
+  background-size:97px 83px,131px 109px,173px 151px,131px 109px,173px 151px,97px 83px;animation:hnTitilar 5s ease-in-out infinite alternate}
+:root.skin-nocturno body::after{inset:-10px;opacity:.7;
+  background-image:radial-gradient(1.6px 1.6px at 30px 40px,rgba(255,255,255,.85),transparent 60%),radial-gradient(1.2px 1.2px at 140px 90px,rgba(255,255,255,.6),transparent 60%),
+    radial-gradient(1px 1px at 60px 20px,rgba(255,255,255,.55),transparent 60%),radial-gradient(1.3px 1.3px at 20px 70px,rgba(255,255,255,.5),transparent 60%),
+    radial-gradient(1px 1px at 50px 50px,rgba(255,255,255,.45),transparent 60%),radial-gradient(.8px .8px at 10px 30px,rgba(255,255,255,.4),transparent 60%);
+  background-size:180px 180px,180px 180px,120px 120px,120px 120px,80px 80px,80px 80px;animation:hnNieve 22s linear infinite}
+@keyframes hnTitilar{0%{opacity:.25}50%{opacity:.9}100%{opacity:.45}}
+@keyframes hnNieve{from{background-position:0 0,0 0,0 0,0 0,0 0,0 0}to{background-position:30px 360px,-20px 360px,20px 240px,-30px 240px,10px 160px,-10px 160px}}
+@keyframes hnDestello{0%,55%{background-position:120% 0}80%,100%{background-position:-20% 0}}
+:root.skin-nocturno .wrap{position:relative;z-index:1}
+/* cabecera en arco, como la tablilla */
+.skin-nocturno .hero{background:radial-gradient(circle at 80% 48px,#F4F2EA 0 12px,rgba(175,198,236,.4) 14px,rgba(175,198,236,.1) 30px,transparent 62px),radial-gradient(50% 120px at 30% 10px,rgba(156,151,204,.18),transparent 70%),linear-gradient(180deg,rgba(20,26,61,.9),rgba(11,14,38,.9));border-radius:50% 50% 10px 10px/90px 90px 10px 10px;padding:58px 30px 30px;
+  box-shadow:inset 0 0 40px rgba(0,0,0,.55),inset 0 1px 0 rgba(220,226,242,.12),0 0 0 1px rgba(156,151,204,.35),0 0 0 5px #0B0E26,0 0 0 6px rgba(201,178,122,.35),0 0 40px rgba(156,151,204,.12),0 22px 48px -10px rgba(0,0,0,.7)}
+.skin-nocturno .pma-k{font-family:var(--f-title);font-size:13px;letter-spacing:4px;color:#8C93B8;display:flex;align-items:center;justify-content:center;gap:14px;padding:0}
+.skin-nocturno .pma-k::before,.skin-nocturno .pma-k::after{content:"";flex:1;max-width:120px;height:1px;background:linear-gradient(90deg,transparent,rgba(201,178,122,.45),transparent)}
+.skin-nocturno .hero h1{font-family:var(--f-title);font-weight:400;text-transform:none;letter-spacing:2.5px;font-size:clamp(24px,4.2vw,34px);line-height:1.2;margin-top:6px;
+  background:linear-gradient(100deg,#E7D3A0 0%,#E7D3A0 40%,#fff 47%,#AFC6EC 52%,#E7D3A0 60%,#E7D3A0 100%);background-size:250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 0 6px rgba(231,211,160,.25));animation:hnDestello 8s ease-in-out infinite}
+.skin-nocturno .hero .script{font-family:var(--f-body);font-style:italic;font-size:16px;color:#DCE2F2;opacity:.88;letter-spacing:0;margin-top:10px}
+.skin-nocturno .skin-tag{order:9}
+.skin-nocturno .skin-tag::before{content:"\00AB En Hogwarts siempre se prestar\00E1  ayuda a quien la pida. \00BB"}
+.skin-nocturno .hero #heroMeta::before{content:"\2726\2002\263E\2002\2726";display:block;margin:16px auto 6px;color:#E7D3A0;font-size:14px;text-shadow:0 0 8px rgba(231,211,160,.6);
+  background:linear-gradient(90deg,transparent 5%,rgba(201,178,122,.45) 30%,transparent 40%,transparent 60%,rgba(201,178,122,.45) 70%,transparent 95%) center/100% 1px no-repeat}
+.skin-nocturno .hero .chip{font-family:var(--f-title);text-transform:uppercase;letter-spacing:1.5px;font-size:12px;color:#8C93B8;box-shadow:none;border-radius:0;padding:6px 14px}
+.skin-nocturno .hero .chip b{color:#DCE2F2;font-weight:400}
+/* paneles como el pergamino nocturno, con esquinas doradas */
+.skin-nocturno .panel,.skin-nocturno .master{border-radius:4px;
+  background:linear-gradient(rgba(201,178,122,.6),rgba(201,178,122,.6)) 6px 6px/16px 1px no-repeat,linear-gradient(rgba(201,178,122,.6),rgba(201,178,122,.6)) 6px 6px/1px 16px no-repeat,
+    linear-gradient(rgba(201,178,122,.6),rgba(201,178,122,.6)) calc(100% - 6px) 6px/16px 1px no-repeat,linear-gradient(rgba(201,178,122,.6),rgba(201,178,122,.6)) calc(100% - 6px) 6px/1px 16px no-repeat,
+    linear-gradient(rgba(201,178,122,.6),rgba(201,178,122,.6)) 6px calc(100% - 6px)/16px 1px no-repeat,linear-gradient(rgba(201,178,122,.6),rgba(201,178,122,.6)) 6px calc(100% - 6px)/1px 16px no-repeat,
+    linear-gradient(rgba(201,178,122,.6),rgba(201,178,122,.6)) calc(100% - 6px) calc(100% - 6px)/16px 1px no-repeat,linear-gradient(rgba(201,178,122,.6),rgba(201,178,122,.6)) calc(100% - 6px) calc(100% - 6px)/1px 16px no-repeat,
+    radial-gradient(80% 120px at 50% 0,rgba(156,151,204,.10),transparent 70%),linear-gradient(180deg,rgba(14,18,46,.86),rgba(11,14,38,.9));
+  box-shadow:inset 0 0 40px rgba(0,0,0,.45),0 0 0 1px rgba(156,151,204,.3),0 0 24px rgba(156,151,204,.08),0 20px 30px -12px rgba(0,0,0,.6)}
+.skin-nocturno .master{box-shadow:inset 0 0 40px rgba(0,0,0,.45),0 0 0 1px rgba(201,178,122,.45),0 0 24px rgba(156,151,204,.1),0 20px 30px -12px rgba(0,0,0,.6)}
+.skin-nocturno .card{background:rgba(11,14,38,.55)}
+.skin-nocturno .card-top{background:linear-gradient(180deg,rgba(38,42,90,.45),transparent);border-bottom:1px solid rgba(156,151,204,.25)}
+/* textos y títulos */
+.skin-nocturno .sec-title,.skin-nocturno .block h4,.skin-nocturno details.fold>summary,.skin-nocturno .rules summary,.skin-nocturno .theme-panel>summary{font-family:var(--f-title);text-transform:uppercase;letter-spacing:3px;font-size:13px;font-weight:400;color:#E7D3A0}
+.skin-nocturno details.fold>summary::before,.skin-nocturno .block h4::before{content:"\2744";color:#AFC6EC;font-family:serif;letter-spacing:0;transition:transform .5s}
+.skin-nocturno details.fold[open]>summary::before{content:"\263E";color:#E7D3A0}
+.skin-nocturno details.fold>summary:hover::before{transform:rotate(60deg)}
+.skin-nocturno label.f,.skin-nocturno table.t th,.skin-nocturno .tcell small{font-family:var(--f-title);font-size:11.5px;letter-spacing:1.5px;color:#8C93B8}
+.skin-nocturno .muted{font-style:italic}
+.skin-nocturno .who .cname{font-family:var(--f-title);text-transform:none;letter-spacing:2px;font-size:25px;color:#E7D3A0;text-shadow:0 0 10px rgba(231,211,160,.25)}
+.skin-nocturno .who .csub{font-family:var(--f-body);font-style:italic;color:#AFC6EC}
+.skin-nocturno .who .cplayer{font-family:var(--f-title);letter-spacing:2px;color:#8C93B8}
+.skin-nocturno .master .mname{font-family:var(--f-title);text-transform:none;letter-spacing:2px;color:#E7D3A0}
+.skin-nocturno .pma-q{font-family:var(--f-body);font-style:italic;font-size:22px;color:#DCE2F2}
+.skin-nocturno .pma-q b{font-family:var(--f-title);font-style:normal;font-weight:400;color:#E7D3A0;letter-spacing:1px}
+.skin-nocturno .pma-card h2{font-family:var(--f-title);font-weight:400;letter-spacing:2.5px;color:#E7D3A0;font-size:26px}
+.skin-nocturno .pma-card .script{font-family:var(--f-body);font-style:italic;color:#AFC6EC;font-size:15px}
+.skin-nocturno .pma-ico{background:rgba(20,26,61,.9);color:#E7D3A0;box-shadow:0 0 0 1px rgba(201,178,122,.45),0 0 18px rgba(156,151,204,.18)}
+.skin-nocturno .pma-list-h{font-family:var(--f-title);font-size:12px;letter-spacing:4px;color:#8C93B8}
+.skin-nocturno .pma-list-h::before,.skin-nocturno .pma-list-h::after{background:linear-gradient(90deg,transparent,rgba(201,178,122,.45),transparent)}
+.skin-nocturno .pma-item{border-radius:4px;background:rgba(11,14,38,.6);box-shadow:inset 0 0 0 1px rgba(156,151,204,.3)}
+.skin-nocturno .pma-item:hover{box-shadow:inset 0 0 0 1px rgba(201,178,122,.55),0 0 12px rgba(156,151,204,.15)}
+.skin-nocturno .pma-item b{font-family:var(--f-title);font-weight:400;letter-spacing:1px;color:#DCE2F2}
+.skin-nocturno .pma-item span{font-family:var(--f-title);letter-spacing:1px;color:#8C93B8}
+.skin-nocturno .pma-x{border-radius:4px}
+/* pestañas: subrayado dorado que crece */
+.skin-nocturno .tabs .tab,.skin-nocturno .mtab{position:relative;font-family:var(--f-title);text-transform:uppercase;letter-spacing:2.5px;font-size:13px;background:transparent;box-shadow:none;color:#8C93B8;border-radius:0}
+.skin-nocturno .tabs .tab::after,.skin-nocturno .mtab::after{content:"";position:absolute;left:50%;bottom:2px;height:1px;width:0;background:#E7D3A0;box-shadow:0 0 6px rgba(231,211,160,.7);transform:translateX(-50%);transition:width .35s}
+.skin-nocturno .tabs .tab:hover,.skin-nocturno .mtab:hover{color:#DCE2F2}
+.skin-nocturno .tabs .tab.act,.skin-nocturno .mtab.act{background:transparent;box-shadow:none;color:#E7D3A0;text-shadow:0 0 10px rgba(231,211,160,.5)}
+.skin-nocturno .tabs .tab.act::after,.skin-nocturno .mtab.act::after{width:100%}
+/* botones y campos */
+.skin-nocturno .btn{border-radius:2px;font-family:var(--f-title);letter-spacing:1.5px;font-size:13px;color:#DCE2F2;background:rgba(11,14,38,.5);box-shadow:inset 0 0 0 1px rgba(156,151,204,.35)}
+.skin-nocturno .btn:hover{color:#fff;box-shadow:inset 0 0 0 1px rgba(201,178,122,.6),0 0 12px rgba(231,211,160,.15)}
+.skin-nocturno .btn.prime,.skin-nocturno .btn.on{background:linear-gradient(180deg,#E7D3A0,#C9B27A);color:#0B0E26;box-shadow:0 0 14px rgba(231,211,160,.25)}
+.skin-nocturno .btn.prime:hover{filter:brightness(1.07)}
+.skin-nocturno .btn.dark{background:#262A5A;color:#E7D3A0;box-shadow:inset 0 0 0 1px rgba(201,178,122,.55)}
+.skin-nocturno .in{border-radius:2px;background:rgba(11,14,38,.65);box-shadow:inset 0 0 0 1px rgba(156,151,204,.3);font-family:var(--f-body);color:#DCE2F2}
+.skin-nocturno .in:focus{box-shadow:inset 0 0 0 1px #C9B27A,0 0 10px rgba(231,211,160,.15)}
+.skin-nocturno .pill.gold,.skin-nocturno .master .pill.gold{background:#E7D3A0;color:#0B0E26}
+.skin-nocturno footer{font-family:var(--f-title);font-size:12px;letter-spacing:2.5px;text-transform:uppercase;color:#8C93B8;opacity:1}
+.skin-nocturno footer::after{content:"";display:block;width:140px;height:1px;margin:8px auto 0;background:linear-gradient(90deg,transparent,rgba(201,178,122,.45),transparent)}
+.skin-nocturno .st-R{background:#AFC6EC;color:#0B0E26}
+.skin-nocturno .st-N{background:#9C97CC;color:#0B0E26}
+.skin-nocturno .st-L{background:#262A5A;color:#DCE2F2;box-shadow:inset 0 0 0 1px #9C97CC}
+.skin-nocturno .st-J,.skin-nocturno .st-Y{background:#E7D3A0;color:#0B0E26}
+.skin-nocturno .st-X{background:#E7D3A0;color:#0B0E26;box-shadow:inset 0 -3px 0 #9C97CC}
+.skin-nocturno .st-I{background:#141A3D;color:#E6BFCB;box-shadow:inset 0 0 0 1px #E6BFCB}
+.skin-nocturno .st-F{background:#E6BFCB;color:#0B0E26}
+@media (max-width:520px){.skin-nocturno .hero{border-radius:50% 50% 10px 10px/60px 60px 10px 10px;padding:50px 18px 26px}}
+@media (prefers-reduced-motion:reduce){:root.skin-nocturno body::before,:root.skin-nocturno body::after,.skin-nocturno .hero h1{animation:none}}
 /* ════════ SKIN · VICTORIAN VANITY ════════ */
 :root.skin-vanity{--sk-bg:#171114;--sk-panel:#1E1519;--sk-panel2:#321D27;--sk-meta:#21161B;--sk-border:#70404E;--sk-border2:#493238;
   --sk-accent:#D1A56B;--sk-title:#D1A56B;--sk-name:#E4B4BE;--sk-text:#DDD2D4;--sk-sub:#A38C92;--sk-alert:#70404E;
@@ -1585,6 +1744,7 @@ const PRESETS=[
   {n:'PAM · oficial',s:'pam',h:BASE_H,k:1,m:'oro',d:0},
   {n:'Magic Chef',s:'chef',h:18,k:1,m:'oro',d:0},
   {n:'Victorian Vanity',s:'vanity',h:340,k:1,m:'oro',d:0},
+  {n:'Hogwarts Nocturno',s:'nocturno',h:235,k:1,m:'plata',d:0},
   {n:'Gothic Medical Mystery',s:'medical',h:160,k:1,m:'oro',d:0},
 ];
 /* Skins de misión: paletas fijas + fuentes + decoración propia */
@@ -1604,6 +1764,11 @@ const SKINS={
     melocoton:'#C9A2A8', perla:'#DDD2D4', cristal:'#A38C92', salvia:'#7E6A70',
     champagne:'#D1A56B', oro:'#B88A50', carbon:'#171114', ink:'#DDD2D4', 'bg-deep':'#171114', 'bg-mid':'#1E1519', _soft:'#E3C391' },
     muted:'#A38C92', line:'rgba(112,64,78,.55)', modal:'rgba(30,21,25,.98)' },
+  nocturno:{ name:'Hogwarts Nocturno', noEmoji:true, dk:true, pal:{
+    lila:'#9C97CC', amatista:'#262A5A', ciruela:'#141A3D', lavanda:'#9C97CC', rosapolvo:'#E6BFCB', rosa:'#AFC6EC',
+    melocoton:'#C9B8E8', perla:'#DCE2F2', cristal:'#AFC6EC', salvia:'#AFC6EC',
+    champagne:'#E7D3A0', oro:'#C9B27A', carbon:'#0B0E26', ink:'#DCE2F2', 'bg-deep':'#0B0E26', 'bg-mid':'#141A3D', _soft:'#E7D3A0' },
+    muted:'#8C93B8', line:'rgba(156,151,204,.3)', modal:'rgba(20,26,61,.98)' },
   medical:{ name:'Gothic Medical Mystery', noEmoji:true, dk:true, pal:{
     lila:'#52675D', amatista:'#3E5A50', ciruela:'#1D2D29', lavanda:'#B7C8C5', rosapolvo:'#7D4549', rosa:'#A7C5AE',
     melocoton:'#8FA89A', perla:'#D9D8CC', cristal:'#A7C5AE', salvia:'#A7C5AE',
@@ -1988,6 +2153,11 @@ function homeView(){
       ${mine.length?`<ul class="pma-list">${mine.map((h,i)=>`<li><button class="pma-item" data-hopen="${hist.indexOf(h)}"><b>${esc(h.title)}</b><span>${isShort(h.code)?esc(h.code)+' · ':''}guardado n.º ${h.sv} · ${fmtD(h.at)}</span></button><button class="pma-x" data-hdel="${hist.indexOf(h)}" title="Quitar de la lista" aria-label="Quitar de la lista">✕</button></li>`).join('')}</ul>`
         :`<p class="muted" style="text-align:center">Todavía no guardaste partidas en este navegador. Cuando toques “Guardar turno”, aparecen acá.</p>`}
       <div class="row" style="justify-content:center"><button class="btn sm ghost" data-mode="master" data-fresh="1">+ Nueva partida</button><button class="btn sm ghost" data-gomaster-load="1">📜 Cargar un código</button></div>
+      <div class="pma-list-h">Herramientas de master</div>
+      <ul class="pma-list">
+        <li><a class="pma-item pma-link" href="chuletadecombate.html"><b>⚔️ Chuleta de combate</b><span>tirador con reglas de combate</span></a></li>
+        <li><a class="pma-item pma-link" href="pnjgenerador.html"><b>🎭 Generador de PNJ</b><span>personajes no jugadores</span></a></li>
+      </ul>
     </section>
     <section class="panel pma-card">
       <div class="pma-ico">${PMA_ICO.jugador}</div>
@@ -2050,20 +2220,46 @@ function masterView(){
     </div>
     ${themePanel(p)}
     <div class="mtabs">
-      <button class="mtab ${S.mtab!=='dice'?'act':''}" data-mtab="tb">📜 Tablillas</button>
+      <button class="mtab ${S.mtab!=='dice'&&S.mtab!=='guia'?'act':''}" data-mtab="tb">📜 Tablillas</button>
       <button class="mtab ${S.mtab==='dice'?'act':''}" data-mtab="dice">🎲 El Dado</button>
+      <button class="mtab ${S.mtab==='guia'?'act':''}" data-mtab="guia">📖 Guía de tiradas</button>
     </div>
-    ${S.mtab==='dice'
+    ${S.mtab==='guia'?guiaSection():S.mtab==='dice'
       ? `${p.tb.length>1?`<div class="tabs">${p.tb.map((x,i)=>`<button class="tab ${i===t?'act':''}" data-tab="${i}"><span class="dot">✦</span>${esc(x.n||'Tablilla '+(i+1))}</button>`).join('')}</div>`:''}${diceSection(p.tb[t],t)}`
       : `${tabsHTML(p,t,true)}${tablilla(p.tb[t],t,true,'')}`}
     <div class="savebar"><span class="st" id="saveSt">${dirty?'Cambios sin guardar ✎':(p.sv?'Guardado n.º '+p.sv:'Sin guardar aún')}</span>
       <button class="btn prime" data-save="1">✦ Guardar turno</button></div>`;
 }
 
+/* ── Guía de tiradas para másters (Sistema Avadense) ── */
+const GUIA_HTML=`<details class="g-sec" open><summary>Antes de empezar</summary><div class="g-body"><p>La idea es tenerla a mano mientras masteas. No te dice "esta tirada es así acá" caso por caso: te cuenta <strong>para qué sirve cada tirada</strong>, así cuando alguien pregunta "¿Alerta o Investigación?" lo tienes claro al toque.</p><p>Todo sale del manual (Sistemas, Las Habilidades y Los Trasfondos) y de las reglas del foro.</p><div class="g-note"><p><strong>✦ LO ESENCIAL</strong></p><p>Toda tirada es de una Habilidad: <strong>1d10 + Atributo + Habilidad</strong>, contra una dificultad.</p><p>Si dudas de la dificultad, usa <strong>Moderada (9)</strong>.</p><p>Los bonos externos nunca suman más de <strong>+7</strong>.</p></div></div></details><details class="g-sec"><summary>I. Cómo funciona una tirada</summary><div class="g-body"><h2>1. La tirada y las dificultades</h2><p>Cada tirada se hace de una Habilidad. Se suma el bonificador del Atributo asociado y el de la Habilidad al d10, y se compara con la dificultad. <strong>Se logra si se iguala o se supera.</strong></p><div class="g-tw"><table class="g-t"><thead><tr><th>DIFICULTAD</th><th>VALOR</th><th>EJEMPLO DEL SISTEMA</th></tr></thead><tbody><tr><td class="g-k"><strong>Rutinaria</strong></td><td>5</td><td>Caminar a paso rápido. Normalmente no se tira.</td></tr><tr><td class="g-k"><strong>Fácil</strong></td><td>7</td><td>Entender las reglas del Ajedrez Mágico, buscar algo en un libro.</td></tr><tr><td class="g-k"><strong>Moderada</strong></td><td>9</td><td>Distinguir tipos de dragón a simple vista. <strong>La de por defecto si dudas.</strong></td></tr><tr><td class="g-k"><strong>Complicada</strong></td><td>12</td><td>Traducir un texto de un idioma mágico.</td></tr><tr><td class="g-k"><strong>Difícil</strong></td><td>15</td><td>Reconocer a un personaje de un cuadro que visita otro cuadro.</td></tr><tr><td class="g-k"><strong>Heroica</strong></td><td>18</td><td>Orientarse en escoba en mitad de una tormenta, preparar Felix Felicis.</td></tr><tr><td class="g-k"><strong>Épica</strong></td><td>21</td><td>Seguir el rastro de una criatura sobre piedra tras una semana de lluvia.</td></tr><tr><td class="g-k"><strong>Imposible</strong></td><td>25</td><td>Descubrir o forjar las Reliquias de la Muerte.</td></tr></tbody></table></div><h2>2. Grados, enfrentadas y valor pasivo</h2><p class="g-sub">GRADOS DE ÉXITO Y DE FRACASO</p><p>Igualar la dificultad da <strong>0 grados</strong>. Cada escalón de la tabla que se alcanza por encima es un Grado de Éxito; cada escalón por debajo que no se alcanza es un Grado de Fracaso.</p><ul><li> Dificultad 9 y sale <strong>11</strong>: éxito con 0 grados. </li><li> Dificultad 9 y sale <strong>15</strong>: éxito con 2 grados. </li><li> Dificultad 9 y sale <strong>6</strong>: fallo con 1 grado de fracaso. </li></ul><p class="g-sub">TIRADA ENFRENTADA</p><p>Dos PJs tiran y <strong>gana el resultado más alto</strong>. Se recomienda solo entre PJs; contra un PNJ, mejor poner una dificultad.</p><p>Si hay empate y no puede haberlo, gana el atributo que aparece antes en esta lista: <strong>Percepción, Voluntad, Carisma, Inteligencia, Destreza, Vigor, Poder</strong>. Aun así, solo es una victoria parcial.</p><p class="g-sub">DIFICULTAD DINÁMICA O VALOR PASIVO</p><p>Cuando el objetivo es un PJ que no compite activamente o no sabe que es objetivo, solo tira quien actúa: <strong>dificultad = 5 + Atributo + Habilidad del objetivo</strong>. Contra un PNJ, se usa la dificultad de la tabla más cercana a ese valor.</p><h2>3. Modificadores y casos especiales</h2><div class="g-tw"><table class="g-t"><thead><tr><th>REGLA</th><th>CÓMO SE APLICA</th></tr></thead><tbody><tr><td class="g-k"><strong>Modificadores</strong></td><td>Pequeño ±1, normal ±2, grande ±4. Se acumulan.</td></tr><tr><td class="g-k"><strong>Tope de bonos</strong></td><td>Los bonos externos (circunstancias, trasfondos, hechizos) nunca suman más de <strong>+7</strong>.</td></tr><tr><td class="g-k"><strong>Acción grupal</strong></td><td>Un PJ tira y cada compañero que apoya da +1, hasta +3.</td></tr><tr><td class="g-k"><strong>Asumir éxito</strong></td><td>Con calma total y sin consecuencias por fallar, el máster da el resultado como si el dado hubiera salido al máximo.</td></tr></tbody></table></div><div class="g-note"><p><strong>✦ EJEMPLO DE ASUMIR ÉXITO</strong></p><p>Abrir una puerta: sí se puede asumir éxito. Abrirla <strong>sin que se note que fue forzada</strong>: no, porque fallar tiene consecuencias.</p></div></div></details><details class="g-sec"><summary>II. Las que más se confunden</summary><div class="g-body"><h2>1. Percibir</h2><div class="g-note"><p><strong>✦ LA PREGUNTA CLAVE</strong></p><p>Las cuatro son de Percepción, pero miran cosas distintas: <strong>¿qué está buscando o notando el PJ?</strong></p><p>Si no estaba buscando y algo pasa: <strong>Alerta</strong>. Si se pone a buscar: <strong>Investigación</strong>. Si lo que hay que notar es magia: <strong>Consciencia</strong>. Si es una persona y lo que siente o calla: <strong>Empatía</strong>.</p></div><div class="g-card"><div class="g-card-h">✧ <strong>Alerta</strong></div><p><em>La atención a lo que se ve, se oye, se huele o se toca. Es reactiva.</em></p><ul><li><strong>Se usa para:</strong> notar un ruido, que alguien se acerca, escuchar una conversación a escondidas. </li><li><strong>No se usa para:</strong> buscar pistas a conciencia ni sacar conclusiones. </li><li><strong>Se enfrenta a:</strong> Sigilo. </li><li><strong>Ejemplo:</strong> oír pasos detrás en el Callejón Knockturn. </li></ul></div><div class="g-card"><div class="g-card-h">✧ <strong>Investigación</strong></div><p><em>Encontrar y juntar pistas para resolver misterios. Es activa y deductiva.</em></p><ul><li><strong>Se usa para:</strong> registrar una escena, distinguir un asesinato de un accidente, resolver robos y secuestros. </li><li><strong>No se usa para:</strong> darse cuenta de algo de golpe sin buscarlo. </li><li><strong>También es:</strong> la tirada de Biblioteca. </li><li><strong>Ejemplo:</strong> revisar la habitación y deducir que la víctima conocía al agresor. </li></ul></div><div class="g-card"><div class="g-card-h">✧ <strong>Consciencia</strong></div><p><em>Lo que pasa más allá del mundo material.</em></p><ul><li><strong>Se usa para:</strong> saber si algo está encantado, detectar un rastro mágico, tener un presentimiento, notar un recuerdo borrado. </li><li><strong>No se usa para:</strong> ver u oír cosas del mundo físico. </li><li><strong>Ejemplo:</strong> notar que el espejo tiene un encantamiento. </li></ul></div><div class="g-card"><div class="g-card-h">✧ <strong>Empatía</strong></div><p><em>Leer las emociones de otras personas.</em></p><ul><li><strong>Se usa para:</strong> saber si alguien miente o dice la verdad, conectar con alguien, fingir compasión. </li><li><strong>No se usa para:</strong> notar detalles físicos o pistas. </li><li><strong>Se enfrenta a:</strong> Subterfugio. </li><li><strong>Ejemplo:</strong> darse cuenta de que el tabernero oculta algo. </li></ul></div><h2>2. Hablar</h2><p>Las cinco son de Carisma. Lo que cambia es <strong>qué quiere conseguir el PJ</strong> con sus palabras.</p><div class="g-tw"><table class="g-t"><thead><tr><th>HABILIDAD</th><th>EL PJ QUIERE…</th><th>EJEMPLO</th></tr></thead><tbody><tr><td class="g-k"><strong>Oratoria</strong></td><td>Convencer con argumentos o transmitir una idea, de palabra o por escrito.</td><td>Un discurso, una carta formal, ganar un debate.</td></tr><tr><td class="g-k"><strong>Seducir</strong></td><td>Caer bien y estrechar la relación, sin convencer de nada concreto. Nunca fuerza deseo sexual en otro PJ.</td><td>Ganarse la simpatía de un rival.</td></tr><tr><td class="g-k"><strong>Subterfugio</strong></td><td>Mentir, ocultar sus motivos o aparentar lo que no es.</td><td>Hacerse pasar por empleado del Ministerio.</td></tr><tr><td class="g-k"><strong>Intimidación</strong></td><td>Presionar con miedo o autoridad para que hagan lo que quiere.</td><td>Que el guardia se aparte.</td></tr><tr><td class="g-k"><strong>Coordinación</strong></td><td>Organizar a un grupo para que actúe junto.</td><td>Dirigir una evacuación.</td></tr></tbody></table></div><h2>3. Otras confusiones habituales</h2><div class="g-card"><div class="g-card-h">✧ <strong>Inteligencia o Biblioteca</strong></div><ul><li> La habilidad de Inteligencia es <strong>lo que el PJ recuerda</strong>. </li><li> La Biblioteca es <strong>lo que tiene guardado y puede consultar</strong>. </li><li> Saber de memoria qué planta es esa: Herbología. Ir a sus libros a buscarla: tirada de Biblioteca. </li></ul></div><div class="g-card"><div class="g-card-h">✧ <strong>Callejeo o Latrocinio</strong></div><ul><li><strong>Callejeo</strong> es conocer la calle: a quién preguntar, la jerga, dónde comprar o vender. </li><li><strong>Latrocinio</strong> es la técnica del delito: abrir cerraduras, falsificar, reventar cajas fuertes. </li></ul></div><div class="g-card"><div class="g-card-h">✧ <strong>Frialdad o Empatía</strong></div><ul><li><strong>Frialdad</strong> resiste: no entrar en pánico, aguantar un interrogatorio o una manipulación. </li><li><strong>Empatía</strong> detecta: darse cuenta de que te están mintiendo. </li></ul></div><div class="g-card"><div class="g-card-h">✧ <strong>Estilo</strong></div><ul><li> Solo sirve para <strong>quedar bien</strong>, se tenga éxito o no. </li><li> Nunca supera otra tirada por sí mismo. </li></ul></div></div></details><details class="g-sec"><summary>III. Habilidades por atributo</summary><div class="g-body"><h2>1. Vigor y Destreza</h2><p>La tirada siempre es <strong>Atributo + Habilidad</strong> de la misma fila.</p><p class="g-sub">VIGOR</p><div class="g-tw"><table class="g-t"><thead><tr><th>HABILIDAD</th><th>LAS TIRADAS DE… SON PARA</th></tr></thead><tbody><tr><td class="g-k"><strong>Atletismo</strong></td><td>Esfuerzo físico: saltar entre edificios, escalar, trepar, correr, deportes no mágicos.</td></tr><tr><td class="g-k"><strong>Pelea</strong></td><td>Combate físico con puños, patadas o armas. Es el Ataque Físico (Vigor + Pelea).</td></tr></tbody></table></div><p class="g-sub">DESTREZA</p><div class="g-tw"><table class="g-t"><thead><tr><th>HABILIDAD</th><th>LAS TIRADAS DE… SON PARA</th></tr></thead><tbody><tr><td class="g-k"><strong>Esquivar</strong></td><td>Ponerse a cubierto y evitar daño. Da la Defensa (5 + Destreza + Esquivar).</td></tr><tr><td class="g-k"><strong>Latrocinio</strong></td><td>Técnica criminal: abrir cerraduras, falsificar documentos, cajas fuertes, allanar, timos de trilero.</td></tr><tr><td class="g-k"><strong>Sigilo</strong></td><td>No ser visto ni oído, seguir a alguien, esconderse entre la gente, ocultar objetos (también al ser cacheado). Se enfrenta a Alerta.</td></tr><tr><td class="g-k"><strong>Volar</strong></td><td>Manejar una escoba: piruetas, carreras, Quidditch.</td></tr></tbody></table></div><h2>2. Carisma y Poder</h2><p class="g-sub">CARISMA</p><div class="g-tw"><table class="g-t"><thead><tr><th>HABILIDAD</th><th>LAS TIRADAS DE… SON PARA</th></tr></thead><tbody><tr><td class="g-k"><strong>Coordinación</strong></td><td>Organizar y liderar a un grupo para que actúe junto. También es la tirada de Seguidores.</td></tr><tr><td class="g-k"><strong>Intimidación</strong></td><td>Presión, miedo o autoridad para obtener algo. También es la tirada de Influencia.</td></tr><tr><td class="g-k"><strong>Oratoria</strong></td><td>Convencer y transmitir ideas, hablando o escribiendo. También es la tirada de Informantes.</td></tr><tr><td class="g-k"><strong>Seducir</strong></td><td>Caer bien, acercarse, convertir enemigos en aliados. Nunca fuerza deseo sexual en un PJ.</td></tr><tr><td class="g-k"><strong>Subterfugio</strong></td><td>Mentir, intrigar, doble juego, esconder motivos. Se enfrenta a Empatía.</td></tr></tbody></table></div><p class="g-sub">PODER</p><div class="g-tw"><table class="g-t"><thead><tr><th>HABILIDAD</th><th>LAS TIRADAS DE… SON PARA</th></tr></thead><tbody><tr><td class="g-k"><strong>Duelo</strong></td><td>Lanzar hechizos en combate. Es el Ataque Mágico (Poder + Duelo).</td></tr><tr><td class="g-k"><strong>Pociones</strong></td><td>Elaborar pociones.</td></tr><tr><td class="g-k"><strong>Rituales</strong></td><td>Ejecutar rituales, la magia que permanece en el tiempo.</td></tr></tbody></table></div><h2>3. Voluntad y Percepción</h2><p class="g-sub">VOLUNTAD</p><div class="g-tw"><table class="g-t"><thead><tr><th>HABILIDAD</th><th>LAS TIRADAS DE… SON PARA</th></tr></thead><tbody><tr><td class="g-k"><strong>Arte / Artesanía</strong></td><td>Crear o reparar con talento o con las manos, siempre dentro de la especialidad canjeada (Cocina, Forja, Pintura, Varitería…).</td></tr><tr><td class="g-k"><strong>Estilo</strong></td><td>Quedar bien al hacer algo, salga bien o mal. No supera otras tiradas.</td></tr><tr><td class="g-k"><strong>Frialdad</strong></td><td>Mantener la calma: resistir manipulación, interrogatorios, pánico o terror.</td></tr></tbody></table></div><p class="g-sub">PERCEPCIÓN</p><div class="g-tw"><table class="g-t"><thead><tr><th>HABILIDAD</th><th>LAS TIRADAS DE… SON PARA</th></tr></thead><tbody><tr><td class="g-k"><strong>Alerta</strong></td><td>Notar con los cinco sentidos lo que ocurre: que alguien se acerca, escuchar a escondidas.</td></tr><tr><td class="g-k"><strong>Consciencia</strong></td><td>Percibir lo sobrenatural: encantamientos, rastros mágicos, presentimientos, distinguir mago de muggle.</td></tr><tr><td class="g-k"><strong>Empatía</strong></td><td>Leer emociones y detectar mentiras.</td></tr><tr><td class="g-k"><strong>Iniciativa</strong></td><td>Orden de actuación en combate (Percepción + Iniciativa) y reaccionar rápido en la batalla.</td></tr><tr><td class="g-k"><strong>Investigación</strong></td><td>Buscar y unir pistas, resolver misterios y crímenes. También es la tirada de Biblioteca.</td></tr></tbody></table></div><h2>4. Inteligencia</h2><p>Son conocimientos: <strong>lo que el PJ sabe o recuerda</strong> del tema.</p><div class="g-tw"><table class="g-t"><thead><tr><th>HABILIDAD</th><th>LAS TIRADAS DE… SON PARA</th></tr></thead><tbody><tr><td class="g-k"><strong>Adivinación</strong></td><td>Interpretar presagios y métodos adivinatorios (posos de té, aritmancia, bola de cristal).</td></tr><tr><td class="g-k"><strong>Arcanismo</strong></td><td>Teoría de la magia: entender un hechizo o un rastro, tipos de magia, rituales oscuros. Saber, no poder.</td></tr><tr><td class="g-k"><strong>Callejeo</strong></td><td>Moverse en la calle: a quién preguntar, jerga, dónde comprar y vender, reconocer trapicheos.</td></tr><tr><td class="g-k"><strong>Cultura Mágica</strong></td><td>Saber académico del mundo mágico: historia, linajes, escuelas, Hogwarts.</td></tr><tr><td class="g-k"><strong>Cultura Muggle</strong></td><td>Manejarse en el mundo muggle: costumbres, transporte, máquinas, pasar desapercibido.</td></tr><tr><td class="g-k"><strong>Herbología</strong></td><td>Reconocer plantas y sus efectos, venenos, ingredientes.</td></tr><tr><td class="g-k"><strong>Magizoología</strong></td><td>Reconocer criaturas, sus rastros y debilidades; tratar y domar animales.</td></tr><tr><td class="g-k"><strong>Medicina</strong></td><td>Diagnosticar y curar: primeros auxilios, anatomía, tratar heridas.</td></tr><tr><td class="g-k"><strong>Política</strong></td><td>Instituciones, leyes y burocracia; moverse en el juego político y el Wizengamot.</td></tr><tr><td class="g-k"><strong>Supervivencia</strong></td><td>Vivir en la naturaleza: rastrear, encender fuego, orientarse, saber qué es comestible.</td></tr></tbody></table></div></div></details><details class="g-sec"><summary>IV. Tiradas de trasfondo</summary><div class="g-body"><h2>1. Con qué se tira cada trasfondo</h2><p>Los trasfondos son para conseguir <strong>información, favores o ayuda</strong> de personas o de libros. No sirven en combate ni contra un reto físico.</p><div class="g-tw"><table class="g-t"><thead><tr><th>TRASFONDO</th><th>SE TIRA CON</th><th>LAS TIRADAS SON PARA</th></tr></thead><tbody><tr><td class="g-k"><strong>Biblioteca</strong></td><td>Percepción + Investigación</td><td>Encontrar un dato concreto que esté en los libros o archivos del PJ.</td></tr><tr><td class="g-k"><strong>Informantes</strong></td><td>Percepción + Empatía</td><td>Saber algo que se comenta de persona a persona en ese ámbito: un rumor, un producto, un pequeño favor.</td></tr><tr><td class="g-k"><strong>Seguidores</strong></td><td>Carisma + Coordinación</td><td>Reunir gente fiel para <strong>una</strong> acción concreta. El nivel dice qué tan hábiles son; la tirada, cuántos vienen. Para otra tarea, se vuelve a tirar.</td></tr><tr><td class="g-k"><strong>Influencia</strong></td><td>Carisma + Intimidación</td><td>Imponerse en un grupo u organización para que le consigan materiales o recursos sin pagar.</td></tr></tbody></table></div><div class="g-note"><p><strong>✦ CÓMO SE ESCRIBE</strong></p><p>Siempre con el nombre completo: <strong>Informantes Política &gt; Azkaban</strong>, no "Informantes Azkaban".</p></div><h2>2. General, Específico y Ventajas</h2><p class="g-sub">GENERAL Y ESPECÍFICO EN LA TIRADA</p><ul><li> El <strong>General</strong> no da bonificador: solo habilita tiradas de ese trasfondo. </li><li> El <strong>Específico</strong> suma su bono a la tirada del trasfondo general correspondiente, no a la habilidad del tema. </li></ul><p class="g-sub">VENTAJAS QUE MODIFICAN LA TIRADA</p><div class="g-tw"><table class="g-t"><thead><tr><th>VENTAJA</th><th>EFECTO</th></tr></thead><tbody><tr><td class="g-k"><strong>Fama</strong></td><td>+1 uso de cualquier trasfondo por partida, por nivel, una vez agotados.</td></tr><tr><td class="g-k"><strong>Orden de Merlín</strong></td><td>Cada nivel se cambia por +4 a una tirada de trasfondo. Se declara antes de tirar y se gasta aunque sobre.</td></tr><tr><td class="g-k"><strong>Patrón</strong></td><td>Una vez por partida, tirar un trasfondo general que no se tiene, con +2 / +4 / +7 según nivel.</td></tr><tr><td class="g-k"><strong>Recursos</strong></td><td>Cada nivel sube el resultado un grado de dificultad. Se declara antes (de forma condicional) o después de ver el resultado.</td></tr></tbody></table></div></div></details><details class="g-sec"><summary>V. Chuleta rápida</summary><div class="g-body"><h2>Situación y tirada</h2><div class="g-tw"><table class="g-t"><thead><tr><th>SITUACIÓN</th><th>TIRADA</th></tr></thead><tbody><tr><td class="g-k">Alguien se acerca sin que el PJ lo espere</td><td>Percepción + Alerta (contra Sigilo)</td></tr><tr><td class="g-k">El PJ registra una habitación buscando pistas</td><td>Percepción + Investigación</td></tr><tr><td class="g-k">¿Este objeto está encantado?</td><td>Percepción + Consciencia</td></tr><tr><td class="g-k">¿Me está mintiendo?</td><td>Percepción + Empatía (contra Subterfugio)</td></tr><tr><td class="g-k">Pasar sin ser visto</td><td>Destreza + Sigilo (contra Alerta)</td></tr><tr><td class="g-k">Abrir una cerradura sin magia</td><td>Destreza + Latrocinio</td></tr><tr><td class="g-k">Escalar un muro o correr tras alguien</td><td>Vigor + Atletismo</td></tr><tr><td class="g-k">Convencer con argumentos</td><td>Carisma + Oratoria</td></tr><tr><td class="g-k">Engañar o hacerse pasar por otro</td><td>Carisma + Subterfugio</td></tr><tr><td class="g-k">Amenazar o imponerse</td><td>Carisma + Intimidación</td></tr><tr><td class="g-k">Caerle bien a alguien</td><td>Carisma + Seducir</td></tr><tr><td class="g-k">Organizar al grupo</td><td>Carisma + Coordinación</td></tr><tr><td class="g-k">No entrar en pánico o resistir un interrogatorio</td><td>Voluntad + Frialdad</td></tr><tr><td class="g-k">¿Qué criatura dejó este rastro?</td><td>Inteligencia + Magizoología</td></tr><tr><td class="g-k">¿Qué hechizo dejó este rastro?</td><td>Inteligencia + Arcanismo</td></tr><tr><td class="g-k">Curar o estabilizar a un herido</td><td>Inteligencia + Medicina</td></tr><tr><td class="g-k">Moverse por el Ministerio o la burocracia</td><td>Inteligencia + Política</td></tr><tr><td class="g-k">Conseguir algo en el mercado negro</td><td>Inteligencia + Callejeo</td></tr><tr><td class="g-k">Buscar el dato en sus libros</td><td>Biblioteca: Percepción + Investigación</td></tr><tr><td class="g-k">Preguntar a sus contactos</td><td>Informantes: Percepción + Empatía</td></tr></tbody></table></div></div></details>`;
+function guiaSection(){
+  return `<section class="panel guia">
+    <div class="guia-h"><div class="sec-title">Guía de tiradas</div><div class="script">apuntes para másters del Sistema Avadense</div></div>
+    <div class="guia-bar"><input class="in" id="guiaQ" placeholder="Buscar: Alerta, mentir, cerradura, Informantes…" autocomplete="off">
+      <button class="btn sm ghost" data-guia-all="1">Abrir todo</button><button class="btn sm ghost" data-guia-none="1">Cerrar todo</button></div>
+    <div class="guia-empty muted" hidden>No encontré nada con esa palabra.</div>
+    <div class="guia-c" id="guiaC">${GUIA_HTML}</div>
+  </section>`;
+}
+function guiaFiltrar(q){
+  const c=document.getElementById('guiaC'); if(!c) return;
+  const norm=x=>x.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase(); q=norm(q.trim());
+  const items=c.querySelectorAll('.g-card,.g-note,.g-t tbody tr,.g-body>p,.g-body>ul>li');
+  let hits=0;
+  items.forEach(el=>{ const ok=!q||norm(el.textContent).includes(q); el.classList.toggle('g-hide',!ok); if(ok&&q) hits++; });
+  c.querySelectorAll('.g-tw').forEach(w=>w.classList.toggle('g-hide',!!q&&!w.querySelector('tbody tr:not(.g-hide)')));
+  c.querySelectorAll('.g-body>ul').forEach(u=>u.classList.toggle('g-hide',!!q&&!u.querySelector('li:not(.g-hide)')));
+  c.querySelectorAll('.g-body>h2,.g-body>p.g-sub').forEach(h=>h.classList.toggle('g-hide',!!q));
+  c.querySelectorAll('details.g-sec').forEach(d=>{ if(q){ const any=d.querySelector('.g-card:not(.g-hide),.g-note:not(.g-hide),.g-t tbody tr:not(.g-hide),.g-body>p:not(.g-hide):not(.g-sub),.g-body>ul>li:not(.g-hide)'); d.classList.toggle('g-hide',!any); d.open=!!any; } else d.classList.remove('g-hide'); });
+  const e=document.querySelector('.guia-empty'); if(e) e.hidden=!(q&&!hits);
+}
+document.addEventListener('input',e=>{ if(e.target.id==='guiaQ') guiaFiltrar(e.target.value); });
+
 /* actualiza solo los cálculos sin re-renderizar (mantiene el foco) */
 const EMOJI_RE=/[\p{Extended_Pictographic}\u2600-\u27BF\uFE0F\u200D]+\s*/gu;
 function skinClean(root){
-  if(!/skin-(chef|vanity|medical)/.test(document.documentElement.className)) return;
+  if(!/skin-(chef|vanity|medical|nocturno)/.test(document.documentElement.className)) return;
   (root||document).querySelectorAll('.block h4, details.fold>summary, .sec-title, .stat .lbl, .vstat>span:first-child, .pill, .nav .btn, .btn, .mbar label, .hero .chip, .legend span, .mlegend span, .cplayer, .theme-panel>summary, .rules summary, table.t.view td b, .notes, .tab, .dice-sum, .mtab, .pma-card h2, .faltan-k').forEach(el=>{
     el.childNodes.forEach(n=>{ if(n.nodeType===3) n.nodeValue=n.nodeValue.replace(EMOJI_RE,'').replace(/^\s*✦\s*/,''); });
   });
@@ -2242,6 +2438,7 @@ document.addEventListener('click',async e=>{
     }catch(err){ b.disabled=false; toast(err.message||'Código de ficha no válido'); }
     return; }
   if(d.mtab){ S.mtab=d.mtab; render(); window.scrollTo(0,0); return; }
+  if(d.guiaAll||d.guiaNone){ document.querySelectorAll('#guiaC details.g-sec').forEach(x=>x.open=!!d.guiaAll); return; }
   if(d.dk&&d.val!==undefined){ const ti=+d.ti, st=diceState(ti,p.tb[ti]); st[d.dk]=d.val; refreshDice(ti); return; }
   if(d.dmod!==undefined){ const ti=+d.ti, st=diceState(ti,p.tb[ti]); st.mod=+d.dmod===0?0:n(st.mod)+(+d.dmod); refreshDice(ti); return; }
   if(d.roll!==undefined){ doRoll(+d.roll); return; }
