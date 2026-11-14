@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>PMA · Plataforma de Masters Avadenses</title>
+<title>PAA · Plataforma de Aventuras Avadenses</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Allura&family=Cinzel:wght@500;600;700&family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Pinyon+Script&family=Quicksand:wght@400;500;600;700&family=Nunito:wght@400;600;700&family=IM+Fell+English+SC&family=IM+Fell+DW+Pica:ital@0;1&family=IM+Fell+Double+Pica:ital@0;1&family=Mrs+Saint+Delafield&display=swap" rel="stylesheet">
@@ -499,6 +499,11 @@ details.g-sec[open]>summary::before{transform:rotate(45deg)}
 .nav-back:hover{opacity:1;color:var(--oro)}
 .skin-dk .nav-back{color:var(--sk-sub);font-family:var(--f-label)}
 .skin-dk .nav-back:hover{color:var(--sk-accent)}
+.dice-man{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:10px;padding-top:10px;border-top:1px dashed var(--line)}
+.dice-man label{font-size:13px;color:var(--muted);flex-basis:100%}
+.dice-man .in{width:90px;text-align:center}
+.skin-dk .dice-man{border-top-color:var(--sk-border2)}
+.skin-dk .dice-man label{color:var(--sk-sub)}
 /* ───── APARIENCIA ───── */
 .theme-panel{margin:-4px 0 16px}
 .theme-panel>summary{list-style:none;cursor:pointer;font-weight:700;color:var(--lila);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
@@ -1056,8 +1061,8 @@ footer{text-align:center;font-family:var(--f-script);font-size:22px;color:var(--
     <svg class="moon"><use href="#moon"/></svg>
     <svg class="bfly a"><use href="#bfly"/></svg>
     <svg class="bfly b"><use href="#bfly"/></svg>
-    <div class="pma-k">P · M · A</div>
-    <h1>Plataforma de Masters Avadenses</h1>
+    <div class="pma-k">P · A · A</div>
+    <h1>Plataforma de Aventuras Avadenses</h1>
     <div class="script" id="heroScript">turnos, recursos y dados para tus partidas</div>
     <div id="heroMeta"></div>
     <nav class="nav" id="nav"></nav>
@@ -1446,7 +1451,7 @@ function grados(total,dif){
 function resTxt(r){ return r.ok?`Éxito, ${r.g} ${r.g===1?'grado':'grados'}`:(r.g?`Fracaso, ${r.g} ${r.g===1?'grado':'grados'} de fracaso`:'Fracaso'); }
 const sgn=x=>x<0?`− ${-x}`:`+ ${x}`;
 function logLine(e,withTurn){
-  const parts=[e.pd&&!e.pv?`D10 (10, PD)`:`D10 (${e.d})`];
+  const parts=[e.pd&&!e.pv?`D10 (10, PD)`:`D10 (${e.d}${e.mn?', dado físico':''})`];
   if(e.pd&&e.pv) parts.push(`PD (7)`);
   parts.push(`${e.an} (${e.av})`); if(e.hn) parts.push(`${e.hn} (${e.hv})`);
   if(e.tf) parts.push(`${e.tf} (${e.tv||0})`);
@@ -1512,6 +1517,10 @@ function diceHTML(tb,ti){
       <div class="dice-hint">${L?'':'Tocá el dado para tirar'}</div>
       ${L?`<div class="dice-res ${grados(L.tot,L.df).ok?'ok':'ko'}"><b>${L.tot}</b> vs ${L.df} · ${resTxt(grados(L.tot,L.df))}</div><div class="dice-last">${esc(logLine(L,0))}</div>`:''}
       <div class="dice-prev">${preview}${c.capped?`<span class="evwarn" style="display:inline-block;margin-left:8px">Tope de modificadores externos: +${c.cap}</span>`:''}</div>
+      <div class="dice-man">${c.pd&&!c.pv?`<span class="muted">Con Punto de Destino el dado vale 10: no hace falta tirar.</span>`
+        :`<label for="dman-${ti}">¿Tiraste tu propio dado? Escribí lo que salió</label>
+        <input class="in" type="number" min="1" max="10" step="1" id="dman-${ti}" placeholder="1–10" data-dman="${ti}">
+        <button class="btn sm" data-roll-man="${ti}">Anotar tirada</button>`}</div>
     </div>
   </div>
   <div class="dice-grid">
@@ -1563,10 +1572,11 @@ function diceSection(tb,ti){
 }
 function refreshDice(ti){ const tb=S.party.tb[ti], d=document.getElementById('dice-'+ti), l=document.getElementById('log-'+ti);
   if(d) d.innerHTML=diceHTML(tb,ti); if(l) l.innerHTML=logHTML(tb,ti); skinClean(); }
-async function doRoll(ti){
+async function doRoll(ti,manual){
   const p=S.party, tb=p.tb[ti], st=diceState(ti,tb), c=diceCalc(tb,st); if(!c) return;
   let d;
   if(c.pd&&!c.pv) d=10;
+  else if(manual!=null) d=manual;   // dado físico: el master escribe lo que salió
   else{
     d=1+Math.floor(crypto.getRandomValues(new Uint32Array(1))[0]/4294967296*10);
     const die=document.getElementById('die-'+ti);
@@ -1577,6 +1587,7 @@ async function doRoll(ti){
   const tot=(c.pd&&!c.pv?10:d)+(c.pv?7:0)+c.av+c.hv+c.tv+c.ap+c.md;
   const e={t:Math.max(1,n(st.turno)),who:c.ch.n||'Personaje',an:c.an,av:c.av,hn:c.hn,hv:c.hv,d:(c.pd&&!c.pv)?10:d,pd:c.pd?1:0,pv:c.pv?1:0,
     tf:c.tfLabel||'',tv:c.tv,ap:c.ap,md:c.md,df:c.df,dn:c.dn,tot};
+  if(manual!=null&&!(c.pd&&!c.pv)) e.mn=1;
   if(!e.hn){ delete e.hn; delete e.hv; } if(!e.tf) delete e.tf; if(!e.ap) delete e.ap; if(!e.md) delete e.md; if(!e.pd) delete e.pd; if(!e.pv) delete e.pv;
   tb.lg.push(e); st.last=e; st.pd=0; st.tf=''; st.tv=0; st.d=''; st.mod=0; st.ap=0;
   markDirty(); render();
@@ -2278,6 +2289,7 @@ function guiaFiltrar(q){
   const e=document.querySelector('.guia-empty'); if(e) e.hidden=!(q&&!hits);
 }
 document.addEventListener('input',e=>{ if(e.target.id==='guiaQ') guiaFiltrar(e.target.value); });
+document.addEventListener('keydown',e=>{ const el=e.target; if(e.key==='Enter'&&el.dataset&&el.dataset.dman!==undefined){ e.preventDefault(); document.querySelector(`[data-roll-man="${el.dataset.dman}"]`)?.click(); } });
 
 /* actualiza solo los cálculos sin re-renderizar (mantiene el foco) */
 const EMOJI_RE=/[\p{Extended_Pictographic}\u2600-\u27BF\uFE0F\u200D]+\s*/gu;
@@ -2465,6 +2477,8 @@ document.addEventListener('click',async e=>{
   if(d.dk&&d.val!==undefined){ const ti=+d.ti, st=diceState(ti,p.tb[ti]); st[d.dk]=d.val; refreshDice(ti); return; }
   if(d.dmod!==undefined){ const ti=+d.ti, st=diceState(ti,p.tb[ti]); st.mod=+d.dmod===0?0:n(st.mod)+(+d.dmod); refreshDice(ti); return; }
   if(d.roll!==undefined){ doRoll(+d.roll); return; }
+  if(d.rollMan!==undefined){ const el=document.getElementById('dman-'+d.rollMan), v=Math.round(+el.value);
+    if(!el.value||v<1||v>10){ toast('Escribí un número del 1 al 10'); el.focus(); return; } doRoll(+d.rollMan,v); return; }
   if(d.posteo||d.ptnow){ const [ti,ci]=(d.posteo||d.ptnow).split('.').map(Number), tb=p.tb[ti], t=turnoActual(tb), ch=tb.ch[ci];
     ch.pt[t]=argInput(new Date()); const r=aplicarHora(tb,t,ch); if(!r) ch.t[t-1]=FASE_LET[fase(tb,t).f]||'N';
     markDirty(); render(); toast(`✦ ${ch.n}: turno ${t} = ${ST[ch.t[t-1]]}${r?' ('+r.why+')':''}`); return; }
