@@ -477,9 +477,12 @@ details.g-sec[open]>summary::before{transform:rotate(45deg)}
 .skin-dk .guia-h .script{font-family:var(--f-body);font-style:italic;font-size:15px;color:var(--sk-sub)}
 .skin-chef .g-card,.skin-chef details.g-sec{background:#FBF7EF}
 @media (max-width:620px){.g-t td.g-k{white-space:normal}.g-body{padding:2px 12px 14px}}
-/* ───── Herramientas de master (inicio) ───── */
-.pma-link{text-decoration:none}
-.pma-link span::after{content:" →"}
+/* ───── Herramientas de master (dentro del panel) ───── */
+.mtools{flex-basis:100%;display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding-top:10px;border-top:1px dashed var(--line)}
+.mtools-k{font-family:var(--f-title);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-right:4px}
+.mtools .btn{text-decoration:none}
+.skin-dk .mtools{border-top-color:var(--sk-border2)}
+.skin-dk .mtools-k{color:var(--sk-sub);font-family:var(--f-label)}
 .pma-tools-h{max-width:520px;margin:26px auto 10px}
 .pma-tools{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;max-width:760px;margin:0 auto}
 .pma-tool{display:flex;flex-direction:column;align-items:center;text-align:center;gap:4px;padding:16px 18px;text-decoration:none;color:inherit;transition:transform .2s,box-shadow .2s}
@@ -831,15 +834,32 @@ details.g-sec[open]>summary::before{transform:rotate(45deg)}
 :root.skin-nocturno body::before{background-image:radial-gradient(1px 1px at 20px 30px,rgba(255,255,255,.75),transparent 60%),radial-gradient(1px 1px at 61px 55px,rgba(255,255,255,.5),transparent 60%),radial-gradient(1.2px 1.2px at 40px 12px,rgba(231,211,160,.8),transparent 60%),
     radial-gradient(1px 1px at 90px 70px,rgba(255,255,255,.55),transparent 60%),radial-gradient(1.4px 1.4px at 150px 120px,rgba(175,198,236,.8),transparent 60%),radial-gradient(1px 1px at 120px 20px,rgba(255,255,255,.6),transparent 60%);
   background-size:97px 83px,131px 109px,173px 151px,131px 109px,173px 151px,97px 83px;animation:hnTitilar 5s ease-in-out infinite alternate}
-:root.skin-nocturno body::after{inset:-10px;opacity:.7;
-  background-image:radial-gradient(1.6px 1.6px at 30px 40px,rgba(255,255,255,.85),transparent 60%),radial-gradient(1.2px 1.2px at 140px 90px,rgba(255,255,255,.6),transparent 60%),
-    radial-gradient(1px 1px at 60px 20px,rgba(255,255,255,.55),transparent 60%),radial-gradient(1.3px 1.3px at 20px 70px,rgba(255,255,255,.5),transparent 60%),
-    radial-gradient(1px 1px at 50px 50px,rgba(255,255,255,.45),transparent 60%),radial-gradient(.8px .8px at 10px 30px,rgba(255,255,255,.4),transparent 60%);
-  background-size:180px 180px,180px 180px,120px 120px,120px 120px,80px 80px,80px 80px;animation:hnNieve 22s linear infinite}
+:root.skin-nocturno body::after{inset:-10px;opacity:.85;
+  background-image:radial-gradient(3px 3px at 30px 40px,rgba(255,255,255,.9),rgba(255,255,255,.35) 45%,transparent 70%),radial-gradient(2.4px 2.4px at 150px 110px,rgba(236,242,255,.8),rgba(236,242,255,.3) 45%,transparent 70%),
+    radial-gradient(2px 2px at 60px 20px,rgba(255,255,255,.7),transparent 70%),radial-gradient(2.2px 2.2px at 20px 90px,rgba(220,226,242,.65),transparent 70%),
+    radial-gradient(1.4px 1.4px at 50px 50px,rgba(255,255,255,.55),transparent 70%),radial-gradient(1.2px 1.2px at 10px 30px,rgba(255,255,255,.45),transparent 70%);
+  background-size:240px 240px,240px 240px,160px 160px,160px 160px,100px 100px,100px 100px;animation:hnNieve 30s linear infinite}
 @keyframes hnTitilar{0%{opacity:.25}50%{opacity:.9}100%{opacity:.45}}
-@keyframes hnNieve{from{background-position:0 0,0 0,0 0,0 0,0 0,0 0}to{background-position:30px 360px,-20px 360px,20px 240px,-30px 240px,10px 160px,-10px 160px}}
+@keyframes hnNieve{from{background-position:0 0,0 0,0 0,0 0,0 0,0 0}to{background-position:40px 480px,-30px 480px,25px 320px,-35px 320px,12px 200px,-12px 200px}}
+@keyframes hnCopo{0%{transform:translate(0,-30px) rotate(0);opacity:0}10%{opacity:.75}50%{transform:translate(14px,170px) rotate(160deg)}90%{opacity:.6}100%{transform:translate(-6px,360px) rotate(320deg);opacity:0}}
+@keyframes hnLuna{0%,100%{opacity:.85}50%{opacity:1}}
 @keyframes hnDestello{0%,55%{background-position:120% 0}80%,100%{background-position:-20% 0}}
 :root.skin-nocturno .wrap{position:relative;z-index:1}
+/* copos que caen sobre la cabecera + estrellitas doradas, suaves */
+.skin-nocturno .hero::before{display:block;animation:hnTitilar 6s ease-in-out infinite alternate}
+.skin-nocturno .hero .skin-deco{display:block;position:absolute;inset:0;pointer-events:none;overflow:hidden;border-radius:inherit}
+.skin-nocturno .hero .skin-deco i{position:absolute;top:0;width:auto;height:auto;opacity:0;animation:hnCopo 16s linear infinite}
+.skin-nocturno .hero .skin-deco i::before{content:"\2744\FE0E";font-family:'Segoe UI Symbol','DejaVu Sans',serif;color:#DCE2F2;text-shadow:0 0 6px rgba(175,198,236,.8)}
+.skin-nocturno .hero .skin-deco i:nth-child(1){left:8%;font-size:11px;animation-duration:17s;animation-delay:-2s}
+.skin-nocturno .hero .skin-deco i:nth-child(2){left:21%;font-size:8px;animation-duration:21s;animation-delay:-9s}
+.skin-nocturno .hero .skin-deco i:nth-child(3){left:36%;font-size:13px;animation-duration:19s;animation-delay:-14s}
+.skin-nocturno .hero .skin-deco i:nth-child(4){left:55%;font-size:9px;animation-duration:23s;animation-delay:-5s}
+.skin-nocturno .hero .skin-deco i:nth-child(5){left:68%;font-size:12px;animation-duration:18s;animation-delay:-11s}
+.skin-nocturno .hero .skin-deco i:nth-child(6){left:84%;font-size:8px;animation-duration:22s;animation-delay:-16s}
+.skin-nocturno .hero .skin-deco i:nth-child(7){left:93%;font-size:10px;animation-duration:20s;animation-delay:-7s}
+.skin-nocturno .hero .skin-deco i:nth-child(7)::before{content:"\2726";color:#E7D3A0;text-shadow:0 0 6px rgba(231,211,160,.8)}
+.skin-nocturno .hero .skin-deco i:nth-child(3)::before{content:"\2727";color:#E7D3A0;text-shadow:0 0 6px rgba(231,211,160,.8)}
+.skin-nocturno .hero>*:not(.skin-deco){position:relative;z-index:1}
 /* cabecera en arco, como la tablilla */
 .skin-nocturno .hero{background:radial-gradient(circle at 80% 48px,#F4F2EA 0 12px,rgba(175,198,236,.4) 14px,rgba(175,198,236,.1) 30px,transparent 62px),radial-gradient(50% 120px at 30% 10px,rgba(156,151,204,.18),transparent 70%),linear-gradient(180deg,rgba(20,26,61,.9),rgba(11,14,38,.9));border-radius:50% 50% 10px 10px/90px 90px 10px 10px;padding:58px 30px 30px;
   box-shadow:inset 0 0 40px rgba(0,0,0,.55),inset 0 1px 0 rgba(220,226,242,.12),0 0 0 1px rgba(156,151,204,.35),0 0 0 5px #0B0E26,0 0 0 6px rgba(201,178,122,.35),0 0 40px rgba(156,151,204,.12),0 22px 48px -10px rgba(0,0,0,.7)}
@@ -914,7 +934,7 @@ details.g-sec[open]>summary::before{transform:rotate(45deg)}
 .skin-nocturno .st-I{background:#141A3D;color:#E6BFCB;box-shadow:inset 0 0 0 1px #E6BFCB}
 .skin-nocturno .st-F{background:#E6BFCB;color:#0B0E26}
 @media (max-width:520px){.skin-nocturno .hero{border-radius:50% 50% 10px 10px/60px 60px 10px 10px;padding:50px 18px 26px}}
-@media (prefers-reduced-motion:reduce){:root.skin-nocturno body::before,:root.skin-nocturno body::after,.skin-nocturno .hero h1{animation:none}}
+@media (prefers-reduced-motion:reduce){:root.skin-nocturno body::before,:root.skin-nocturno body::after,.skin-nocturno .hero h1,.skin-nocturno .hero::before{animation:none}.skin-nocturno .hero .skin-deco{display:none}}
 /* ════════ SKIN · VICTORIAN VANITY ════════ */
 :root.skin-vanity{--sk-bg:#171114;--sk-panel:#1E1519;--sk-panel2:#321D27;--sk-meta:#21161B;--sk-border:#70404E;--sk-border2:#493238;
   --sk-accent:#D1A56B;--sk-title:#D1A56B;--sk-name:#E4B4BE;--sk-text:#DDD2D4;--sk-sub:#A38C92;--sk-alert:#70404E;
@@ -2153,11 +2173,6 @@ function homeView(){
       ${mine.length?`<ul class="pma-list">${mine.map((h,i)=>`<li><button class="pma-item" data-hopen="${hist.indexOf(h)}"><b>${esc(h.title)}</b><span>${isShort(h.code)?esc(h.code)+' · ':''}guardado n.º ${h.sv} · ${fmtD(h.at)}</span></button><button class="pma-x" data-hdel="${hist.indexOf(h)}" title="Quitar de la lista" aria-label="Quitar de la lista">✕</button></li>`).join('')}</ul>`
         :`<p class="muted" style="text-align:center">Todavía no guardaste partidas en este navegador. Cuando toques “Guardar turno”, aparecen acá.</p>`}
       <div class="row" style="justify-content:center"><button class="btn sm ghost" data-mode="master" data-fresh="1">+ Nueva partida</button><button class="btn sm ghost" data-gomaster-load="1">📜 Cargar un código</button></div>
-      <div class="pma-list-h">Herramientas de master</div>
-      <ul class="pma-list">
-        <li><a class="pma-item pma-link" href="chuletadecombate.html"><b>⚔️ Chuleta de combate</b><span>tirador con reglas de combate</span></a></li>
-        <li><a class="pma-item pma-link" href="pnjgenerador.html"><b>🎭 Generador de PNJ</b><span>personajes no jugadores</span></a></li>
-      </ul>
     </section>
     <section class="panel pma-card">
       <div class="pma-ico">${PMA_ICO.jugador}</div>
@@ -2217,6 +2232,9 @@ function masterView(){
       <button class="btn sm" data-open="load">📜 Cargar código</button>
       <button class="btn sm" data-open="hist">⏳ Guardados</button>
       <button class="btn sm ghost" data-newparty="1">Nueva partida</button>
+      <div class="mtools"><span class="mtools-k">Herramientas de master</span>
+        <a class="btn sm" href="chuletadecombate.html" target="_blank" rel="noopener">⚔️ Chuleta de combate ↗</a>
+        <a class="btn sm" href="pnjgenerador.html" target="_blank" rel="noopener">🎭 Generador de PNJ ↗</a></div>
     </div>
     ${themePanel(p)}
     <div class="mtabs">
