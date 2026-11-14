@@ -420,6 +420,8 @@ button.faltan-chip:hover{background:var(--champagne)}
 .skin-dk .pt-h{color:var(--sk-accent)}
 .dark .pt-row{background:rgba(255,255,255,.05)}
 
+.mc-chip{font-family:var(--f-title);letter-spacing:.14em;background:rgba(255,255,255,.7);color:var(--lila);box-shadow:inset 0 0 0 1px var(--oro);padding:6px 12px}
+.skin-dk .mc-chip{background:var(--sk-meta);color:var(--sk-accent)}
 /* ───── APARIENCIA ───── */
 .theme-panel{margin:-4px 0 16px}
 .theme-panel>summary{list-style:none;cursor:pointer;font-weight:700;color:var(--lila);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
@@ -1018,18 +1020,57 @@ async function fbSave(longCode){
   }
   throw new Error('No se pudo generar un código libre');
 }
-async function fbLoad(id){
+async function fbGet(id){
   const r=await fetch(`${FB_URL}/${encodeURIComponent(id.toUpperCase())}?key=${FB.apiKey}`);
   if(r.status===404) throw new Error('Ese código no existe');
   if(!r.ok) throw new Error('Firebase '+r.status);
-  const j=await r.json(); return j.fields.d.stringValue;
+  const f=(await r.json()).fields||{};
+  return {d:f.d.stringValue, h:f.h?f.h.stringValue:'', n:f.n?+f.n.integerValue:null};
 }
+async function fbLoad(id){ return (await fbGet(id)).d; }
+/* ── Código fijo de misión ──
+   Cada misión tiene UN código que se actualiza con cada guardado. Para que solo el master pueda actualizarlo,
+   el documento guarda h = sha256(k_n). Al guardar, el master manda k_n (que solo se puede calcular con su
+   contraseña) y el próximo candado h' = sha256(k_n+1). Las reglas de Firestore comprueban sha256(k) == h. */
+const hex=u8=>[...u8].map(b=>b.toString(16).padStart(2,'0')).join('');
+async function sha256hex(str){ return hex(new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(str)))); }
+async function chainKey(pw,code,n){
+  const km=await crypto.subtle.importKey('raw',new TextEncoder().encode(pw),'PBKDF2',false,['deriveBits']);
+  const bits=await crypto.subtle.deriveBits({name:'PBKDF2',salt:new TextEncoder().encode('PMA|'+code.toUpperCase()+'|'+n),iterations:60000,hash:'SHA-256'},km,256);
+  return hex(new Uint8Array(bits));
+}
+const fbFields=(long,extra)=>Object.assign({d:{stringValue:long},at:{integerValue:String(Date.now())},v:{integerValue:'2'}},extra);
+async function fbCreateMission(long,pw){
+  for(let tries=0;tries<5;tries++){
+    const id=shortId(), h=await sha256hex(await chainKey(pw,id,0));
+    const r=await fetch(`${FB_URL}?documentId=${id}&key=${FB.apiKey}`,{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({fields:fbFields(long,{h:{stringValue:h},n:{integerValue:'0'}})})});
+    if(r.ok) return id;
+    if(r.status===409) continue;
+    if(r.status===403) throw new Error('Firebase no aceptó el guardado: revisá que pegaste las reglas nuevas');
+    throw new Error('Firebase '+r.status);
+  }
+  throw new Error('No se pudo generar un código libre');
+}
+async function fbUpdateMission(id,long,pw){
+  const meta=await fbGet(id);
+  if(meta.n==null||!meta.h) throw Object.assign(new Error('Ese código es de la versión anterior (no se puede actualizar)'),{old:1});
+  const k=await chainKey(pw,id,meta.n);
+  if(await sha256hex(k)!==meta.h) throw Object.assign(new Error('Contraseña del master incorrecta para esta misión'),{pw:1});
+  const h2=await sha256hex(await chainKey(pw,id,meta.n+1));
+  const r=await fetch(`${FB_URL}/${id}?key=${FB.apiKey}&currentDocument.exists=true`,{method:'PATCH',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({fields:fbFields(long,{h:{stringValue:h2},n:{integerValue:String(meta.n+1)},k:{stringValue:k}})})});
+  if(r.status===403) throw Object.assign(new Error('Firebase no aceptó la actualización: revisá que pegaste las reglas nuevas'),{rules:1});
+  if(!r.ok) throw new Error('Firebase '+r.status);
+  return id;
+}
+async function checkMissionPw(id,pw){ const meta=await fbGet(id); if(!meta.h) return true; return await sha256hex(await chainKey(pw,id,meta.n))===meta.h; }
 /* acepta código corto, código largo o link completo */
 async function loadAny(input){
   let c=String(input||'').replace(/\s+/g,'');
   const h=c.match(/#([pc])=(.+)$/); if(h) c=h[2];
   if(/^AVK[01]\./.test(c)||/^AK\d{5}$/i.test(c)) throw new Error('Eso es un código de ficha: usalo en el panel de master → 📥 Importar ficha');
-  if(isShort(c)){ const long=await fbLoad(c); return {party:await decodeParty(long), code:c.toUpperCase(), long}; }
+  if(isShort(c)){ const g=await fbGet(c); const party=await decodeParty(g.d); if(g.h) party.mc=c.toUpperCase(); else delete party.mc; return {party, code:c.toUpperCase(), long:g.d, mission:!!g.h}; }
   return {party:await decodeParty(c), code:c, long:c};
 }
 const linkFor=code=>baseURL()+(isShort(code)?'#p=':'#c=')+code;
@@ -1296,11 +1337,13 @@ async function decLogs(rg,pw){ const pt=await crypto.subtle.decrypt({name:'AES-G
 const hasLogs=p=>p.tb.some(t=>(t.lg||[]).length);
 function pwModal(after){
   S.pwAfter=after||null;
-  modal(`<h3>Contraseña del registro</h3><div class="script">solo para el master</div>
-    <p class="muted">El registro de tiradas se guarda cifrado dentro del código de partida. Sin esta contraseña nadie puede leerlo (ni vos: si la olvidás, el registro de los guardados anteriores no se puede recuperar).</p>
+  const existe=!!(S.party&&(S.party.mc||S.party.rg));
+  modal(`<h3>Contraseña del master</h3><div class="script">${existe?'esta misión ya tiene una':'una sola para esta misión'}</div>
+    <p class="muted">${existe?'Escribí la contraseña de master de esta misión: con ella se actualiza su código y se abre el registro de tiradas.'
+      :'Con esta contraseña solo vos podés <b>actualizar el código de la misión</b> y leer el <b>registro de tiradas</b>. Anotala: si la olvidás, no se puede recuperar.'}</p>
     <label class="f">Contraseña</label><input class="in" type="password" id="pw1">
-    <label class="f" style="margin-top:8px">Repetila</label><input class="in" type="password" id="pw2">
-    <div class="row"><button class="btn prime" data-pwok="1">Guardar contraseña</button></div>`);
+    ${existe?'':`<label class="f" style="margin-top:8px">Repetila</label><input class="in" type="password" id="pw2">`}
+    <div class="row"><button class="btn prime" data-pwok="1">${existe?'Continuar':'Guardar contraseña'}</button></div>`);
   setTimeout(()=>document.getElementById('pw1')?.focus(),50);
 }
 
@@ -1852,7 +1895,7 @@ function rememberSeen(code,p){ const l=ls.get(LS_SEEN,[]).filter(x=>x.code!==cod
 const fmtD=t=>t?new Date(t).toLocaleDateString('es-AR',{day:'numeric',month:'short'}):'';
 function homeView(){
   const seen=ls.get(LS_SEEN,[]), hist=ls.get(LS_HIST,[]);
-  const byTitle=new Map(); hist.forEach(h=>{ if(!byTitle.has(h.title)) byTitle.set(h.title,h); });   // el último guardado de cada partida
+  const byTitle=new Map(); hist.forEach(h=>{ const k=isShort(h.code)?h.code:h.title; if(!byTitle.has(k)) byTitle.set(k,h); });   // el último guardado de cada misión
   const mine=[...byTitle.values()].slice(0,8);
   const draft=S.party&&(S.party.title||S.party.tb.some(t=>t.ch.some(c=>c.n)))?S.party:null;
   return `<div class="pma-q">¿Eres <b>master</b> o <b>jugador</b>?</div>
@@ -1862,7 +1905,7 @@ function homeView(){
       <h2>Soy master</h2><div class="script">llevar mis partidas</div>
       <div class="row" style="justify-content:center"><button class="btn prime" data-mode="master">🗝️ ${draft?'Seguir con '+esc(draft.title||'mi borrador'):'Abrir el panel de master'}</button></div>
       <div class="pma-list-h">Tus partidas</div>
-      ${mine.length?`<ul class="pma-list">${mine.map((h,i)=>`<li><button class="pma-item" data-hopen="${hist.indexOf(h)}"><b>${esc(h.title)}</b><span>guardado n.º ${h.sv} · ${fmtD(h.at)}</span></button></li>`).join('')}</ul>`
+      ${mine.length?`<ul class="pma-list">${mine.map((h,i)=>`<li><button class="pma-item" data-hopen="${hist.indexOf(h)}"><b>${esc(h.title)}</b><span>${isShort(h.code)?esc(h.code)+' · ':''}guardado n.º ${h.sv} · ${fmtD(h.at)}</span></button></li>`).join('')}</ul>`
         :`<p class="muted" style="text-align:center">Todavía no guardaste partidas en este navegador. Cuando toques “Guardar turno”, aparecen acá.</p>`}
       <div class="row" style="justify-content:center"><button class="btn sm ghost" data-mode="master" data-fresh="1">+ Nueva partida</button><button class="btn sm ghost" data-gomaster-load="1">📜 Cargar un código</button></div>
     </section>
@@ -1920,6 +1963,7 @@ function masterView(){
   const p=S.party, t=Math.min(S.tab,p.tb.length-1);
   return `<div class="mbar panel">
       <div class="grow"><label class="f">Nombre de la misión / partida</label>${fld(1,p.title,'title',{ph:'Ej: El Eco del Imperio'})}</div>
+      ${p.mc?`<span class="chip mc-chip" title="Código fijo de esta misión">🔑 ${esc(p.mc)}</span>`:''}
       <button class="btn sm" data-open="load">📜 Cargar código</button>
       <button class="btn sm" data-open="hist">⏳ Guardados</button>
       <button class="btn sm ghost" data-newparty="1">Nueva partida</button>
@@ -1967,13 +2011,18 @@ const baseURL=()=>location.href.split('#')[0];
 
 async function saveTurn(){
   const p=S.party;
-  if(hasLogs(p)&&!S.pw){ pwModal(()=>saveTurn()); toast('Primero poné una contraseña para el registro'); return; }
+  if(!S.pw){ pwModal(()=>saveTurn()); return; }
+  if(p.mc){ modal(`<h3>Guardando…</h3><div class="script">comprobando la llave de la misión</div>`);
+    try{ if(!await checkMissionPw(p.mc,S.pw)){ S.pw=null; closeModal(); toast('Esa no es la contraseña del master de esta misión'); pwModal(()=>saveTurn()); return; } }catch(e){ /* sin conexión: seguimos y se avisa abajo */ } }
   p.sv=(p.sv||0)+1; p.at=Date.now();
   let rg=null; try{ rg=p.rg?p.rg:(hasLogs(p)?await encLogs(p,S.pw):null); }catch(e){ toast('No se pudo cifrar el registro'); return; }
   const long=await encodeParty(p,rg);
   modal(`<h3>Guardando…</h3><div class="script">sellando el turno en la bóveda</div>`);
-  let short='', err='';
-  try{ short=await fbSave(long); }catch(e){ err=e.message; }
+  let short='', err='', nuevo=false;
+  try{
+    if(p.mc){ try{ short=await fbUpdateMission(p.mc,long,S.pw); }catch(e){ if(e.old){ p.mc=''; } else throw e; } }
+    if(!short){ short=await fbCreateMission(long,S.pw); p.mc=short; nuevo=true; }
+  }catch(e){ err=e.message; }
   const code=short||long;
   S.lastCode=code; dirty=false; draftSave();
   const h=ls.get(LS_HIST,[]); h.unshift({code,long,at:p.at,sv:p.sv,title:p.title||'Sin título'}); ls.set(LS_HIST,h.slice(0,40));
@@ -1981,7 +2030,7 @@ async function saveTurn(){
   const link=linkFor(code);
   const bb=`[center][b]✦ Código de partida · Guardado n.º ${p.sv} ✦[/b]\n[code]${code}[/code]\n[url=${link}]Ver la tablilla[/url][/center]`;
   modal(`<h3>Turno guardado</h3><div class="script">Guardado n.º ${p.sv}</div>
-    ${short?`<label class="f">Código de partida</label>
+    ${short?`<label class="f">Código de la misión ${nuevo?'<span class="pill gold">nuevo</span>':'<span class="pill">actualizado</span>'}</label>
       <div class="bigcode">${esc(short)}</div>`
     :`<div class="tip" style="background:rgba(var(--rosapolvo-rgb),.3)">No se pudo conectar con la base de datos (${esc(err)}). Te dejo el <b>código largo</b>, que funciona igual sin internet.</div>
       <label class="f">Código de partida (${long.length} caracteres)</label>`}
@@ -1994,7 +2043,7 @@ async function saveTurn(){
     ${short?`<details class="rules" style="margin-top:12px"><summary>Código largo de respaldo</summary>
       <textarea class="in code-box" readonly style="margin-top:8px">${esc(long)}</textarea>
       <div class="muted">Funciona aunque Firebase esté caído: lleva toda la partida adentro.</div></details>`:''}
-    <div class="tip">Cada guardado crea un código nuevo y <b>nadie puede modificarlo</b>. Si cambiás algo, guardá otra vez y publicá el código nuevo.</div>`);
+    <div class="tip">${short?(nuevo?'Este es el <b>código fijo de la misión</b>: publicalo una sola vez. Cada vez que guardes, se actualiza solo y los jugadores ven siempre lo último con el mismo código.':'Se actualizó el <b>mismo código</b>: no hace falta publicar nada nuevo, los jugadores ya ven este guardado.')+' Solo quien tenga la contraseña del master puede actualizarlo.':'Cuando vuelva la conexión, guardá otra vez para actualizar el código de la misión.'}</div>`);
 }
 function loadModal(){
   modal(`<h3>Cargar código</h3><div class="script">retomar desde un guardado</div>
@@ -2064,7 +2113,7 @@ document.addEventListener('click',async e=>{
   if(d.close){ closeModal(); return; }
   if(d.seen){ try{ const r=await loadAny(d.seen); S.view=r.party; S.lastViewCode=r.code; S.vtab=0; S.filter=''; S.mode='view'; rememberSeen(r.code,r.party); history.replaceState(null,'',linkFor(r.code)); render(); window.scrollTo(0,0); }catch(err){ toast('No se pudo abrir esa partida'); } return; }
   if(d.hopen!==undefined){ const x=ls.get(LS_HIST,[])[+d.hopen]; if(!x) return; if(dirty&&!confirmInline(b,'Tenés cambios sin guardar: tocá otra vez')) return;
-    S.pw=null; S.dice={}; S.party=await decodeParty(x.long||x.code); S.lastCode=x.code; S.tab=0; dirty=false; draftSave(); S.mode='master'; render(); window.scrollTo(0,0); toast('✦ '+(x.title||'Partida')+' abierta'); return; }
+    S.pw=null; S.dice={}; S.party=null; if(isShort(x.code)){ try{ S.party=(await loadAny(x.code)).party; }catch(e){} } if(!S.party){ S.party=await decodeParty(x.long||x.code); if(isShort(x.code)) S.party.mc=x.code; } S.lastCode=x.code; S.tab=0; dirty=false; draftSave(); S.mode='master'; render(); window.scrollTo(0,0); toast('✦ '+(x.title||'Partida')+' abierta'); return; }
   if(d.gomasterLoad){ S.mode='master'; render(); loadModal(); return; }
   if(d.fresh&&S.party&&(S.party.title||S.party.tb.some(t=>t.ch.some(c=>c.n)))){ if(!confirmInline(b,'Se reemplaza tu borrador: tocá otra vez')) return; S.pw=null; S.dice={}; S.party=newParty(); S.tab=0; dirty=false; draftSave(); }
   if(d.mode){ S.mode=d.mode; if(d.mode==='view'&&!S.view) S.filter=''; render(); window.scrollTo(0,0); return; }
@@ -2077,9 +2126,9 @@ document.addEventListener('click',async e=>{
   if(d.open==='hist'){ histModal(); return; }
   if(d.copy){ copy(document.getElementById(d.copy).value); return; }
   if(d.copytext){ copy(d.copytext); return; }
-  if(d.loadMaster){ try{ S.pw=null; S.dice={}; S.party=(await loadAny(document.getElementById(d.loadMaster).value)).party; S.tab=0; dirty=false; draftSave(); closeModal(); render(); toast('✦ Partida cargada'); }catch(err){ toast('Código no válido'); } return; }
+  if(d.loadMaster){ try{ S.pw=null; S.dice={}; S.party=(await loadAny(document.getElementById(d.loadMaster).value)).party; if(S.party.mc) S.lastCode=S.party.mc; S.tab=0; dirty=false; draftSave(); closeModal(); render(); toast('✦ Partida cargada'); }catch(err){ toast('Código no válido'); } return; }
   if(d.hcopy!==undefined){ copy(ls.get(LS_HIST,[])[d.hcopy].code); return; }
-  if(d.hload!==undefined){ const x=ls.get(LS_HIST,[])[d.hload]; S.party=await decodeParty(x.long||x.code); S.lastCode=x.code; S.tab=0; dirty=false; draftSave(); closeModal(); render(); toast('✦ Guardado n.º '+x.sv+' abierto'); return; }
+  if(d.hload!==undefined){ const x=ls.get(LS_HIST,[])[d.hload]; S.party=await decodeParty(x.long||x.code); if(isShort(x.code)) S.party.mc=x.code; S.lastCode=x.code; S.tab=0; dirty=false; draftSave(); closeModal(); render(); toast('✦ Guardado n.º '+x.sv+' abierto'); return; }
   if(d.newparty){ if(confirmInline(b,'¿Seguro? Toca otra vez')){ S.pw=null; S.dice={}; S.party=newParty(); S.tab=0; dirty=false; draftSave(); render(); } return; }
   if(S.mode!=='master') return;
   const p=S.party;
@@ -2119,7 +2168,7 @@ document.addEventListener('click',async e=>{
   if(d.copylog!==undefined){ const t=p.tb[+d.copylog]; copy(logText(t,S.logView[+d.copylog]||(t.ev?'pj':'turno'))); return; }
   if(d.dellog){ const [ti,i]=d.dellog.split('.').map(Number); if(confirmInline(b,'¿?')){ p.tb[ti].lg.splice(i,1); markDirty(); if(b.closest('.cr-lg')) render(); else refreshDice(ti); } return; }
   if(d.setpw){ pwModal(); return; }
-  if(d.pwok){ const a=document.getElementById('pw1').value, c2=document.getElementById('pw2').value;
+  if(d.pwok){ const a=document.getElementById('pw1').value, p2=document.getElementById('pw2'), c2=p2?p2.value:a;
     if(a.length<4){ toast('Usá al menos 4 caracteres'); return; } if(a!==c2){ toast('Las contraseñas no coinciden'); return; }
     S.pw=a; closeModal(); toast('🔑 Contraseña guardada'); render(); const f=S.pwAfter; S.pwAfter=null; if(f) f(); return; }
   if(d.unlock){ const pw=document.getElementById('unlockPw').value;
